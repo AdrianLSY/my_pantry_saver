@@ -1,12 +1,16 @@
 <h1>Recipes</h1>
+<a href="{% url 'new-recipe' %}">Add New Recipe</a>
 
 <table>
     <tr>
-        <th>Ingredients</th>
+        <th>Recipes</th>
     </tr>
     {% for recipe in recipes %}
     <tr>
         <td>{{recipe.name}}</td>
+        <td><a href="{% url 'recipe' recipe.id %}">View</a></td>
+        <td><a href="{% url 'edit-recipe' recipe.id %}">Edit</a></td>
+        <td><a href="{% url 'delete-recipe' recipe.id %}">Delete</a></td>
     </tr>
     {% empty %}
     <h3>No Recipes Available</h3>
