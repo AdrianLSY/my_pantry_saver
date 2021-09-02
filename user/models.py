@@ -1,13 +1,12 @@
 from django.db import models
+from django import forms
 from django.contrib.auth.models import User
 # Create your models here.
 
 
 class User(models.Model):
-    user=models.OneToOneField(User, on_delete=models.CASCADE)
-    id= models.IntegerField(primary_key=True)
-    recipe=models.ForeignKey('recipe')
-    ingredient=models.ForeignKey('ingredient')
+    user=models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    
 
 
     def __str__(self):
