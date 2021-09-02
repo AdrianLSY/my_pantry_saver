@@ -11,7 +11,9 @@ class IngredientList(ListView):
     context_object_name = 'ingredients'
 
 class IngredientDetail(DeleteView):
-    model = Ingredient  
+    model = Ingredient
+    context_object_name = 'ingredient'
+    template_name = 'ingredient/ingredient.html'
 
 class IngredientCreate(CreateView):
     model = Ingredient
