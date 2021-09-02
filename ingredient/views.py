@@ -8,7 +8,22 @@ from django.urls import reverse_lazy
 
 class IngredientList(ListView):
     model = Ingredient
+    context_object_name = 'ingredients'
 
 class IngredientDetail(DeleteView):
     model = Ingredient  
-    
+
+class IngredientCreate(CreateView):
+    model = Ingredient
+    fields = '__all__'
+    success_url = reverse_lazy('ingredients')
+
+class IngredientUpdate(UpdateView):
+    model = Ingredient
+    fields = '__all__'
+    success_url = reverse_lazy('ingredients')
+
+class IngredientDelete(DeleteView):
+    model = Ingredient
+    context_object_name = 'ingredient'
+    success_url = reverse_lazy('ingredients')
