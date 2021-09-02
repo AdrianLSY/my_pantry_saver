@@ -13,14 +13,16 @@ class UserLoginView(LoginView):
     template_name='user/login.html'
     field ='__all__ '
     redirect_authenticated_user = True
-   
     
-
+    
+    
 
 class UserRegister(FormView):
     template_name = 'user/register.html'
     form_class = UserCreationForm
     redirect_authenticated_user = True
+
+    
     
     
     
