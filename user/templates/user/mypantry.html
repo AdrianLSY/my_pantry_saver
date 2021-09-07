@@ -1,0 +1,45 @@
+
+{% if request.user.is_authenticated %}
+<p>{request.user}</p>
+<a href = "{% url 'logout' %}" >Logout </a>
+
+{% else %}
+<a href = "{% url 'login' %}" >Login</a>
+
+{% endif %}
+
+
+<h1>My Food Pantry</h1>
+<table>
+    <tr>
+        <th>Recipe</th>
+        <th><a href="{% url 'new-recipe' %}">Add</a></th>
+    </tr>
+     {% for recipe in recipes %}
+    <tr>
+        <td>{{recipe.name}}</td>
+        
+        <td><a href="{% url 'recipe' recipe.id %}">View</a></td>
+        <td><a href="{% url 'edit-recipe' recipe.id %}">Edit</a></td>
+        <td><a href="{% url 'delete-recipe' recipe.id %}">Delete</a></td>
+    </tr>
+    {% empty %}
+    <h3>No Recipes Available</h3>
+
+
+    <tr>
+        <th>Ingredient</th>
+        <th><a href="{% url 'new-ingredient' %}">Add</a></th>
+    </tr>
+    {% for ingredient in ingredients %}
+    <tr>
+        <td>{{ingredient.name}}</td>
+        <td><a href="{% url 'ingredient' ingredient.id %}">View</a></td>
+        <td><a href="{% url 'edit-ingredient' ingredient.id %}">Edit</a></td>
+        <td><a href="{% url 'delete-ingredient' ingredient.id %}">Delete</a></td>
+    </tr>
+    {% empty %}
+    <h3>No Ingredient Available</h3>
+    {% endfor %}
+
+</table>
