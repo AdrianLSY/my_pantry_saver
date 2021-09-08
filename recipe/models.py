@@ -6,7 +6,6 @@ from ingredient.models import Ingredient, Recipe_Ingredient
 class Recipe(models.Model):
     #id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    ingredients = models.ManyToManyField(Recipe_Ingredient)
     instructions = models.TextField(null=True, blank=True)
     rating = models.DecimalField(max_digits=2, decimal_places=1) # rating 1.0 - 5.0
 
