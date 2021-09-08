@@ -24,6 +24,7 @@ class User_Ingredient(models.Model):
 class Recipe_Ingredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete = models.CASCADE)
     ingredient= models.ForeignKey(Ingredient, on_delete = models.SET_NULL)
+    quantity = models.IntegerField(blank=False) 
 
     def __str__(self):
         return self.name
