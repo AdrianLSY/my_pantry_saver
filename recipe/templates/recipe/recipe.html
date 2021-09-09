@@ -1,4 +1,10 @@
 <h1>Recipe: {{recipe}}</h1>
 <h1>Recipe: {{set_recipe}}</h1>
+{% for entity in set_recipe %}
+    <h1>{{entity.ingredient.name}}</h1>
+{% endfor %}
+{% for name in ingredient %}
+    <h1>{{name.name}}</h1>
+{% endfor %}
 <h1>Recipe: {{ingredient}}</h1>
 <p>probs not gonna use this page, just the edit page</p>
