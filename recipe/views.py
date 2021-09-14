@@ -4,11 +4,29 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from ingredient.models import Ingredient
-from .models import Recipe, RecipeIngredient
+from .models import Recipe, RecipeIngredient, User, UserRecipe
 
 class RecipeList(ListView):
     model = Recipe
     context_object_name = 'recipes'
+
+class UserList(ListView):
+    model = User
+    context_object_name = 'users'
+
+class UserDetail(DetailView):
+    model = User
+    context_object_name = 'user'
+    template_name = 'recipe/user.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ingredients'] = []
+        context['set_recipe'] = UserRecipe.objects.values_list(user=context['user'])
+        for i in context['set_recipe']:
+            print(i)
+            context['ingredients'].append(RecipeIngredient.objects.all().filter(recipe=i))
+        return context
 
 class RecipeDetail(DetailView):
     model = Recipe
@@ -18,7 +36,6 @@ class RecipeDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['set_recipe'] = RecipeIngredient.objects.all().filter(recipe=context['recipe'])
-        context['ingredient'] = Ingredient.objects.filter(recipe=context['recipe']) # or whatever
         return context
 
 class RecipeCreate(CreateView):
