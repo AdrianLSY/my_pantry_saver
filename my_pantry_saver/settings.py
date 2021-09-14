@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ingredient.apps.IngredientConfig',
     'recipe.apps.RecipeConfig',
+    'landing.apps.LandingConfig'
 ]
 
 MIDDLEWARE = [
@@ -56,7 +57,9 @@ ROOT_URLCONF = 'my_pantry_saver.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            'templates/'
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
