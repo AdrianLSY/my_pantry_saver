@@ -4,6 +4,7 @@ from ingredient.models import Ingredient
 
 # Create your models here.
 
+
 class Recipe(models.Model):
     #id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=200)
@@ -27,6 +28,22 @@ class RecipeIngredient(models.Model):
             models.UniqueConstraint(fields=('recipe', 'ingredient'), name='Recipe_per_ingredien')
         ]
 
+    def get(self):
+        return self.recipe
 
+class User(models.Model):
+    name = models.CharField(max_length=200)
+    recipe = models.ManyToManyField(Recipe, through="UserRecipe")
 
+class UserRecipe(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete = models.CASCADE)
+    user = models.ForeignKey(User, on_delete = models.DO_NOTHING)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=('recipe', 'user'), name='Recipe_per_user')
+        ]
+
+    def get(self):
+        return self.recipe
 

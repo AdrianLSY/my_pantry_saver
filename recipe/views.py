@@ -5,6 +5,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from ingredient.models import Ingredient
 from .models import Recipe, RecipeIngredient, User, UserRecipe
+from django.forms.models import model_to_dict
 
 class RecipeList(ListView):
     model = Recipe
@@ -22,10 +23,10 @@ class UserDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['ingredients'] = []
-        context['set_recipe'] = UserRecipe.objects.values_list(user=context['user'])
-        for i in context['set_recipe']:
-            print(i)
-            context['ingredients'].append(RecipeIngredient.objects.all().filter(recipe=i))
+        context['set_recipe'] = UserRecipe.objects.all().filter(user=context['user'])
+        for entity in context['set_recipe'].iterator():
+            t = entity.recipe
+            context['ingredients'].append(RecipeIngredient.objects.all().filter(recipe=t))
         return context
 
 class RecipeDetail(DetailView):
