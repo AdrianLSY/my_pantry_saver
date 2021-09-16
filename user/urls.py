@@ -10,6 +10,6 @@ urlpatterns = [
     path('register/', UserRegister.as_view(), name='register'),
     path('mypantry', MyPantry.as_view(), name= 'mypantry'), 
     path('useringredient/new', UserIngredientCreate.as_view(), name='user-add-ingredient'), 
-    path('useringredient/edit/<int:pk>', UserIngredientUpdate.as_view(), name='user-edit-ingredient'), 
-    path('useringredient/delete/<int:pk>', UserIngredientDelete.as_view(), name='user-delete-ingredient'), 
+    path('user_ingredient/edit/<int:pk>', UserIngredientUpdate.as_view(), name='user-edit-ingredient'), 
+    path('user_ingredient/delete/<int:pk>', UserIngredientDelete.as_view(), name='user-delete-ingredient'), 
 ]

@@ -58,17 +58,23 @@ class MyPantry(LoginRequiredMixin, ListView):
 
 class UserIngredientCreate(CreateView):
     model = UserIngredient
-    fields = '__all__'
-    template_name = 'user_ingredients/ingredient_form.html'
+    fields = ['ingredients', 'expiry_date', 'quantity']
+    template_name = 'user/user_ingredient_form.html'
     success_url = reverse_lazy('mypantry')
     context_object_name = 'ingredient_list'
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(UserIngredientCreate, self).form_valid(form)
+
 class UserIngredientUpdate(UpdateView):
     model = UserIngredient
-    fields = '__all__'
+    fields = ['ingredients', 'expiry_date', 'quantity']
+    template_name = 'user/user_ingredient_form.html'
     success_url = reverse_lazy('mypantry')
 
 class UserIngredientDelete(DeleteView):
     model = UserIngredient
     context_object_name = 'ingredient'
+    template_name = 'user/user_ingredient_confirm_delete.html'
     success_url = reverse_lazy('mypantry')
