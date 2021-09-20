@@ -11,15 +11,18 @@
 <table>
     <tr>
         <th>Recipe</th>
-        <th><a href="">Add</a></th>
+        <th><a href="{% url 'user-add-recipe' %}">Add</a></th>
     </tr>
+    
+    {% for item in recipes %}
     <tr>
-        <td>Recipe</td>
+        <td>{{item.recipe}}</td>
         
         <td><a href="">View</a></td>
-        <td><a href="">Edit</a></td>
-        <td><a href="">Delete</a></td>
+        <td><a href="{% url 'user-edit-recipe' item.id %}">Edit</a></td>
+        <td><a href="{% url 'user-delete-recipe' item.id %}">Delete</a></td>
     </tr>
+    {% endfor %}
     <h3>No Recipes Available</h3>
 
 
