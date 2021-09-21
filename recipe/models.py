@@ -1,12 +1,14 @@
 from django.db import models
+from ingredient.models import Ingredient
+
 
 # Create your models here.
+
 
 class Recipe(models.Model):
     #id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=200)
-    ingredients = models.TextField(null=True, blank=True)
-    #ingredients = models.ForeignKey('ingredient', on_delete=models.CASCADE)
+    ingredients = models.ManyToManyField(Ingredient, through="RecipeIngredient")
     instructions = models.TextField(null=True, blank=True)
     rating = models.DecimalField(max_digits=2, decimal_places=1) # rating 1.0 - 5.0
 
@@ -16,4 +18,32 @@ class Recipe(models.Model):
     class Meta:
         ordering = ['name'] # May be order by rating
 
+class RecipeIngredient(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete = models.CASCADE)
+    ingredient = models.ForeignKey(Ingredient, on_delete = models.DO_NOTHING)
+    quantity = models.IntegerField(default=1)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=('recipe', 'ingredient'), name='Recipe_per_ingredien')
+        ]
+
+    def get(self):
+        return self.recipe
+
+class User(models.Model):
+    name = models.CharField(max_length=200)
+    recipe = models.ManyToManyField(Recipe, through="UserRecipe")
+
+class UserRecipe(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete = models.CASCADE)
+    user = models.ForeignKey(User, on_delete = models.DO_NOTHING)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=('recipe', 'user'), name='Recipe_per_user')
+        ]
+
+    def get(self):
+        return self.recipe
 
