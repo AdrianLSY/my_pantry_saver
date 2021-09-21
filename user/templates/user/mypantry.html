@@ -22,19 +22,19 @@
     </tr>
     <h3>No Recipes Available</h3>
 
+
     <tr>
         <th>Ingredient</th>
-        <th><a href="{% url 'user-add-ingredient' %}">Add</a></th>
+        <th><a href="">Add</a></th>
     </tr>
-    {% for item in ingredient %}
+    
     <tr>
-        <td>{{ item.ingredients }}</td>
-        <td>{{ item.quantity }}</td>
-        <td>{{ item.expiry_date }}</td>
-        <td><a href="{% url 'user-edit-ingredient' item.id %}">Edit</a></td>
-        <td><a href="{% url 'user-delete-ingredient' item.id %}">Delete</a></td>
+        <td>Some Ingredient</td>
+        <td><a href="">View</a></td>
+        <td><a href="">Edit</a></td>
+        <td><a href="">Delete</a></td>
     </tr>
-    {% endfor %}
+    
     <h3>No Ingredient Available</h3>
     
 
