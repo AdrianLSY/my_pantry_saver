@@ -1,13 +1,16 @@
-<h1>User: {{user.name}}</h1>
-<p>{{set_recipe}}</p>
-{% for recipe in set_recipe %}
-<p>{{ recipe.recipe_id}}</p>
-<p>{{ recipe.recipe.name}}</p>
-{% endfor %}
-<p>{{ingredients}}</p>
-{% for entity in ingredients %}
-{% for k in entity %}
-<p>{{ k.ingredient.name }}</p>
-{% endfor %}
+{% extends 'base.html' %}
 
-{% endfor %}
+{% block content %}
+    <h1>User: {{user.name}}</h1>
+    <p>{{set_recipe}}</p>
+    {% for recipe in set_recipe %}
+        <p>{{ recipe.recipe_id}}</p>
+        <p>{{ recipe.recipe.name}}</p>
+    {% endfor %}
+    <p>{{ingredients}}</p>
+    {% for entity in ingredients %}
+        {% for k in entity %}
+            <p>{{ k.ingredient.name }}</p>
+        {% endfor %}
+    {% endfor %}
+{% endblock content %}
