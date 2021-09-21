@@ -31,3 +31,18 @@ class UserRecipe(models.Model):
     def get(self):
         return self.recipe
 
+class UserIngredient(models.Model):
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    #recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    ingredients = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+    expiry_date = models.DateField(null=True, blank=True)
+    quantity = models.IntegerField(null=True)
+
+    class Meta:
+        # constraints = [
+        #     models.UniqueConstraint(fields=('user_id', 'ingredients_id'), name='user_ingredients')
+        # ]
+        ordering = ["ingredients"]
+
+    def get(self):
+        return self.ingredients

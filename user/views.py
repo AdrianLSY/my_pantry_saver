@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 #from django.contrib.auth.models import User
-from .models import UserRecipe
+from .models import UserRecipe, UserIngredient
 from django.views.generic.list import ListView 
 from django.contrib.auth.models import User
 
@@ -57,6 +57,7 @@ class MyPantry(LoginRequiredMixin, ListView):
         #filtering data to get user specific data
         #context ['recipe'] =context['recipe'].filter(user=self.request.user)
         context['recipes'] = UserRecipe.objects.all().filter(user=self.request.user)
+        context['ingredients'] = UserIngredient.objects.all().filter(user=self.request.user)
         #context ['ingredient'] =context['ingredient'].filter(user=self.request.user)
         return context 
     
@@ -82,3 +83,26 @@ class UserRecipeDelete(DeleteView):
     context_object_name = 'recipe'
     template_name = 'user/user_recipe_confirm_delete.html'
     success_url = reverse_lazy('mypantry')  
+
+class UserIngredientCreate(CreateView):
+    model = UserIngredient
+    fields = ['ingredients', 'expiry_date', 'quantity']
+    template_name = 'user/user_ingredient_form.html'
+    success_url = reverse_lazy('mypantry')
+    context_object_name = 'ingredient_list'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(UserIngredientCreate, self).form_valid(form)
+
+class UserIngredientUpdate(UpdateView):
+    model = UserIngredient
+    fields = ['ingredients', 'expiry_date', 'quantity']
+    template_name = 'user/user_ingredient_form.html'
+    success_url = reverse_lazy('mypantry')
+
+class UserIngredientDelete(DeleteView):
+    model = UserIngredient
+    context_object_name = 'ingredient'
+    template_name = 'user/user_ingredient_confirm_delete.html'
+    success_url = reverse_lazy('mypantry')

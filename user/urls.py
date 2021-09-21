@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import UserLoginView, UserRegister, MyPantry, UserRecipeCreate, UserRecipeUpdate, UserRecipeDelete
+from .views import *
 from django.contrib.auth.views import LogoutView 
 
 urlpatterns = [
@@ -10,5 +10,8 @@ urlpatterns = [
     path('mypantry', MyPantry.as_view(), name= 'mypantry'),
     path('userrecipe/new', UserRecipeCreate.as_view(), name='user-add-recipe'), 
     path('user_recipe/edit/<int:pk>', UserRecipeUpdate.as_view(), name='user-edit-recipe'), 
-    path('user_recipe/delete/<int:pk>', UserRecipeDelete.as_view(), name='user-delete-recipe'), 
+    path('user_recipe/delete/<int:pk>', UserRecipeDelete.as_view(), name='user-delete-recipe'),
+    path('useringredient/new', UserIngredientCreate.as_view(), name='user-add-ingredient'), 
+    path('user_ingredient/edit/<int:pk>', UserIngredientUpdate.as_view(), name='user-edit-ingredient'), 
+    path('user_ingredient/delete/<int:pk>', UserIngredientDelete.as_view(), name='user-delete-ingredient'), 
 ]
