@@ -1,18 +1,22 @@
-<h1>Ingredient</h1>
+{% extends 'base.html' %}
 
-<a href="{% url 'new-ingredient' %}">Add New Ingredient</a>
-<table>
-    <tr>
-        <th>Ingredient</th>
-    </tr>
-    {% for ingredient in ingredients %}
-    <tr>
-        <td>{{ingredient.name}}</td>
-        <td><a href="{% url 'ingredient' ingredient.id %}">View</a></td>
-        <td><a href="{% url 'edit-ingredient' ingredient.id %}">Edit</a></td>
-        <td><a href="{% url 'delete-ingredient' ingredient.id %}">Delete</a></td>
-    </tr>
-    {% empty %}
-    <h3>No Ingredient Available</h3>
-    {% endfor %}
-</table>
+{% block content %}
+    <h1>Ingredient</h1>
+    
+    <a href="{% url 'new-ingredient' %}">Add New Ingredient</a>
+    <table>
+        <tr>
+            <th>Ingredient</th>
+        </tr>
+        {% for ingredient in ingredients %}
+        <tr>
+            <td>{{ingredient.name}}</td>
+            <td><a href="{% url 'ingredient' ingredient.id %}">View</a></td>
+            <td><a href="{% url 'edit-ingredient' ingredient.id %}">Edit</a></td>
+            <td><a href="{% url 'delete-ingredient' ingredient.id %}">Delete</a></td>
+        </tr>
+        {% empty %}
+        <h3>No Ingredient Available</h3>
+        {% endfor %}
+    </table>
+{% endblock content %}

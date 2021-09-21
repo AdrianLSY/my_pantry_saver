@@ -1,9 +1,13 @@
-<h1>Recipe: {{recipe}}</h1>
-{% for entity in set_recipe %}
-    <h1>{{entity.ingredient.name}}</h1>
-    <h1>{{entity.quantity}}</h1>
-{% endfor %}
-{% for name in ingredient %}
-    <h1>{{name.name}}</h1>
-{% endfor %}
-<p>probs not gonna use this page, just the edit page</p>
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Recipe: {{recipe}}</h1>
+    {% for entity in set_recipe %}
+        <h1>{{entity.ingredient.name}}</h1>
+        <h1>{{entity.quantity}}</h1>
+    {% endfor %}
+    {% for name in ingredient %}
+        <h1>{{name.name}}</h1>
+    {% endfor %}
+    <p>probs not gonna use this page, just the edit page</p>
+{% endblock content %}

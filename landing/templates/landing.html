@@ -1,16 +1,20 @@
-<h1>Welcome to My Pantry Saver</h1>
-<button onclick="window.location.href='/recipes'">
-    Recipes
-</button>
-<br><br>
-<button onclick="window.location.href='/ingredients'">
-    Ingredients
-</button>
-<br><br>
-<button onclick="window.location.href='/login'">
-    Login
-</button>
-<br><br>
-<button onclick="window.location.href='/register'">
-    Register
-</button>
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Welcome to My Pantry Saver</h1>
+    <button onclick="window.location.href='/recipes'">
+        Recipes
+    </button>
+    <br><br>
+    <button onclick="window.location.href='/ingredients'">
+        Ingredients
+    </button>
+    <br><br>
+    <button onclick="window.location.href='/login'">
+        Login
+    </button>
+    <br><br>
+    <button onclick="window.location.href='/register'">
+        Register
+    </button>
+{% endblock content %}
