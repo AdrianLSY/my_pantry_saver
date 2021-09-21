@@ -1,5 +1,4 @@
 from django.db import models
-from ingredient.models import Ingredient
 
 # Create your models here.
 
@@ -18,15 +17,3 @@ class Recipe(models.Model):
         ordering = ['name'] # May be order by rating
 
 
-class RecipeIngredient(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete = models.CASCADE)
-    ingredient = models.ForeignKey(Ingredient, on_delete = models.DO_NOTHING)
-    quantity = models.IntegerField(default=1)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=('recipe', 'ingredient'), name='Recipe_per_ingredien')
-        ]
-
-    def get(self):
-        return self.recipe
