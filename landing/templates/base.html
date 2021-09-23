@@ -12,10 +12,13 @@
     </head>
 
     <body>
+        <div class="container-md">
         {% block content %}{% endblock content %}
+        </div>
 
         <!-- Bootstrap JS -->
         <script src="{% static 'js/jquery.js' %}"></script>
         <script src="{% static 'js/bootstrap.js' %}"></script>
+        <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
     </body>
 </html>
