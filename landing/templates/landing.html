@@ -2,6 +2,9 @@
 
 {% block content %}
     <h1>Welcome to My Pantry Saver</h1>
+    <p>This page is for development only. We can change this page to the 
+    logo page and then redirect user to login page after 3 seconds.
+    </p>
     <button onclick="window.location.href='/recipes'">
         Recipes
     </button>
@@ -17,5 +20,11 @@
     <button onclick="window.location.href='/register'">
         Register
     </button>
+    <script>
+    // redirect to mypantry after 3 seconds
+        window.setTimeout(function() {
+            window.location.href = 'mypantry';
+        }, 3000);
+    </script>
 {% include 'bottom_nav.html' %}
 {% endblock content %}
