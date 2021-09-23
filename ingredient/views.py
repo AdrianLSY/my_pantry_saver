@@ -5,27 +5,28 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class IngredientList(ListView):
+class IngredientList(LoginRequiredMixin, ListView):
     model = Ingredient
     context_object_name = 'ingredients'
 
-class IngredientDetail(DeleteView):
+class IngredientDetail(LoginRequiredMixin, DeleteView):
     model = Ingredient
     context_object_name = 'ingredient'
     template_name = 'ingredient/ingredient.html'
 
-class IngredientCreate(CreateView):
+class IngredientCreate(LoginRequiredMixin, CreateView):
     model = Ingredient
     fields = '__all__'
     success_url = reverse_lazy('ingredients')
 
-class IngredientUpdate(UpdateView):
+class IngredientUpdate(LoginRequiredMixin, UpdateView):
     model = Ingredient
     fields = '__all__'
     success_url = reverse_lazy('ingredients')
 
-class IngredientDelete(DeleteView):
+class IngredientDelete(LoginRequiredMixin, DeleteView):
     model = Ingredient
     context_object_name = 'ingredient'
     success_url = reverse_lazy('ingredients')
