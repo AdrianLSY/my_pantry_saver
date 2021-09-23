@@ -46,12 +46,10 @@ class UserRegister(FormView):
 
 
 class MyPantry(LoginRequiredMixin, ListView):
-#class MyPantry(LoginRequiredMixin, ListView): if we want login required for the main page.
     model = User
     template_name = 'user/mypantry.html'
     context_object_name = 'user'
     
-
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         #filtering data to get user specific data
@@ -61,7 +59,7 @@ class MyPantry(LoginRequiredMixin, ListView):
         #context ['ingredient'] =context['ingredient'].filter(user=self.request.user)
         return context 
     
-class UserRecipeCreate(CreateView):
+class UserRecipeCreate(LoginRequiredMixin, CreateView):
     model = UserRecipe
     fields = ['recipe']
     template_name = 'user/user_recipe_form.html'
@@ -72,19 +70,19 @@ class UserRecipeCreate(CreateView):
         form.instance.user = self.request.user
         return super(UserRecipeCreate, self).form_valid(form)
 
-class UserRecipeUpdate(UpdateView):
+class UserRecipeUpdate(LoginRequiredMixin, UpdateView):
     model = UserRecipe
     fields = ['recipe']
     template_name = 'user/user_recipe_form.html'
     success_url = reverse_lazy('mypantry')
 
-class UserRecipeDelete(DeleteView):
+class UserRecipeDelete(LoginRequiredMixin, DeleteView):
     model = UserRecipe
     context_object_name = 'recipe'
     template_name = 'user/user_recipe_confirm_delete.html'
     success_url = reverse_lazy('mypantry')  
 
-class UserIngredientCreate(CreateView):
+class UserIngredientCreate(LoginRequiredMixin, CreateView):
     model = UserIngredient
     fields = ['ingredients', 'expiry_date', 'quantity']
     template_name = 'user/user_ingredient_form.html'
@@ -95,13 +93,13 @@ class UserIngredientCreate(CreateView):
         form.instance.user = self.request.user
         return super(UserIngredientCreate, self).form_valid(form)
 
-class UserIngredientUpdate(UpdateView):
+class UserIngredientUpdate(LoginRequiredMixin, UpdateView):
     model = UserIngredient
     fields = ['ingredients', 'expiry_date', 'quantity']
     template_name = 'user/user_ingredient_form.html'
     success_url = reverse_lazy('mypantry')
 
-class UserIngredientDelete(DeleteView):
+class UserIngredientDelete(LoginRequiredMixin, DeleteView):
     model = UserIngredient
     context_object_name = 'ingredient'
     template_name = 'user/user_ingredient_confirm_delete.html'
