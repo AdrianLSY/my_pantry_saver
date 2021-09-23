@@ -3,7 +3,11 @@ from django.db.models.deletion import DO_NOTHING
 from ingredient.models import Ingredient
 
 
-# Create your models here.
+MEAL = (
+    ('BREAKFAST', 'breakfast'),
+    ('LUNCH', 'lunch'),
+    ('DINNER', 'dinner')
+)
 
 
 class Recipe(models.Model):
@@ -11,6 +15,7 @@ class Recipe(models.Model):
     name = models.CharField(max_length=200)
     ingredients = models.ManyToManyField(Ingredient, through="RecipeIngredient")
     instructions = models.TextField(null=True, blank=True)
+    meal = models.CharField(max_length = 255, choices = MEAL, default = 'BREAKFAST')
     rating = models.DecimalField(max_digits=2, decimal_places=1) # rating 1.0 - 5.0
 
     def __str__(self):
