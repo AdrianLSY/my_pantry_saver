@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.deletion import DO_NOTHING
 from ingredient.models import Ingredient
 
 
@@ -30,20 +31,3 @@ class RecipeIngredient(models.Model):
 
     def get(self):
         return self.recipe
-
-class User(models.Model):
-    name = models.CharField(max_length=200)
-    recipe = models.ManyToManyField(Recipe, through="UserRecipe")
-
-class UserRecipe(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete = models.CASCADE)
-    user = models.ForeignKey(User, on_delete = models.DO_NOTHING)
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=('recipe', 'user'), name='Recipe_per_user')
-        ]
-
-    def get(self):
-        return self.recipe
-

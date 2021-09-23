@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h3>New Recipe</h3>
+    <a href="{% url 'mypantry' %}">Go Back</a>
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type='submit' value='Submit'>
+    </form>
+{% endblock content %}

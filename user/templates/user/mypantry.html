@@ -2,43 +2,46 @@
 
 {% block content %}
     {% if request.user.is_authenticated %}
-    <p>{{ request.user }}</p>
-    <a href = "{% url 'logout' %}" >Logout </a>
-    {% else %}
-    <a href = "{% url 'login' %}" >Login</a>
-    {% endif %}
+        <p>{{ request.user }}</p>
+        <a href = "{% url 'logout' %}" >Logout </a>
+        {% else %}
+        <a href = "{% url 'login' %}" >Login</a>
+        {% endif %}
     
-    <!--Home page of pantry-->
-    <h1>My Food Pantry</h1>
-    <table>
-        <tr>
-            <th>Recipe</th>
-            <th><a href="">Add</a></th>
-        </tr>
-        <tr>
-            <td>Recipe</td>
-            
-            <td><a href="">View</a></td>
-            <td><a href="">Edit</a></td>
-            <td><a href="">Delete</a></td>
-        </tr>
-        <h3>No Recipes Available</h3>
+        <!--Home page of pantry-->
+        <h1>My Food Pantry</h1>
+        <table>
+            <tr>
+                <th>Recipe</th>
+                <th><a href="{% url 'user-add-recipe' %}">Add</a></th>
+            </tr>
+    
+            {% for item in recipes %}
+            <tr>
+                <td>{{item.recipe}}</td>
+    
+                <td><a href="">View</a></td>
+                <td><a href="{% url 'user-edit-recipe' item.id %}">Edit</a></td>
+                <td><a href="{% url 'user-delete-recipe' item.id %}">Delete</a></td>
+            </tr>
+            {% endfor %}
+            <h3>No Recipes Available</h3>
     
     
-        <tr>
-            <th>Ingredient</th>
-            <th><a href="">Add</a></th>
-        </tr>
-        
-        <tr>
-            <td>Some Ingredient</td>
-            <td><a href="">View</a></td>
-            <td><a href="">Edit</a></td>
-            <td><a href="">Delete</a></td>
-        </tr>
-        
-        <h3>No Ingredient Available</h3>
-        
+            <tr>
+                <th>Ingredient</th>
+                <th><a href="{% url 'user-add-ingredient' %}">Add</a></th>
+            </tr>
+            {% for item in ingredients %}
+            <tr>
+                <td>{{ item.ingredients }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.expiry_date }}</td>
+                <td><a href="{% url 'user-edit-ingredient' item.id %}">Edit</a></td>
+                <td><a href="{% url 'user-delete-ingredient' item.id %}">Delete</a></td>
+            </tr>
+            {% endfor %}
+            <h3>No Ingredient Available</h3>
     
-    </table>
+        </table>
 {% endblock content %}
