@@ -7,7 +7,7 @@
         {% else %}
         <a href = "{% url 'login' %}" >Login</a>
         {% endif %}
-    
+
         <!--Home page of pantry-->
         <h1>My Food Pantry</h1>
         <table>
@@ -15,19 +15,19 @@
                 <th>Recipe</th>
                 <th><a href="{% url 'user-add-recipe' %}">Add</a></th>
             </tr>
-    
+
             {% for item in recipes %}
             <tr>
                 <td>{{item.recipe}}</td>
-    
+
                 <td><a href="">View</a></td>
                 <td><a href="{% url 'user-edit-recipe' item.id %}">Edit</a></td>
                 <td><a href="{% url 'user-delete-recipe' item.id %}">Delete</a></td>
             </tr>
             {% endfor %}
             <h3>No Recipes Available</h3>
-    
-    
+
+
             <tr>
                 <th>Ingredient</th>
                 <th><a href="{% url 'user-add-ingredient' %}">Add</a></th>
@@ -42,6 +42,5 @@
             </tr>
             {% endfor %}
             <h3>No Ingredient Available</h3>
-    
         </table>
 {% endblock content %}

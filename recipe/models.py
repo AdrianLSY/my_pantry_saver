@@ -21,13 +21,13 @@ class Recipe(models.Model):
 
 class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete = models.CASCADE)
-    ingredient = models.ForeignKey(Ingredient, on_delete = models.DO_NOTHING)
+    ingredient = models.ForeignKey(Ingredient, on_delete = models.CASCADE)
     quantity = models.IntegerField(default=1)
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=('recipe', 'ingredient'), name='Recipe_per_ingredien')
-        ]
+    # class Meta:
+    #     constraints = [
+    #         models.UniqueConstraint(fields=('recipe', 'ingredient'), name='Recipe_per_ingredien')
+    #     ]
 
     def get(self):
         return self.recipe
