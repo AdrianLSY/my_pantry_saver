@@ -22,7 +22,7 @@ class UserLoginView(LoginView):
     
     def get_success_url(self):
         return reverse_lazy('mypantry')
-    
+
     
 
 class UserRegister(FormView):
@@ -39,19 +39,15 @@ class UserRegister(FormView):
         return super(UserRegister, self).form_valid(form)
 
     def get(self, *args, **kwargs):
-         if self.request.user.is_authenticated:
-             return redirect('mypantry')
-         return super(UserRegister, self).get(*args, **kwargs)
+        if self.request.user.is_authenticated:
+            return redirect('mypantry')
+        return super(UserRegister, self).get(*args, **kwargs)
     
-
-
 class MyPantry(LoginRequiredMixin, ListView):
-#class MyPantry(LoginRequiredMixin, ListView): if we want login required for the main page.
     model = User
     template_name = 'user/mypantry.html'
     context_object_name = 'user'
     
-
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         #filtering data to get user specific data
@@ -60,31 +56,8 @@ class MyPantry(LoginRequiredMixin, ListView):
         context['ingredients'] = UserIngredient.objects.all().filter(user=self.request.user)
         #context ['ingredient'] =context['ingredient'].filter(user=self.request.user)
         return context 
-    
-class UserRecipeCreate(CreateView):
-    model = UserRecipe
-    fields = ['recipe', 'meal']
-    template_name = 'user/user_recipe_form.html'
-    success_url = reverse_lazy('mypantry')
-    context_object_name = 'recipe_list'
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        return super(UserRecipeCreate, self).form_valid(form)
-
-class UserRecipeUpdate(UpdateView):
-    model = UserRecipe
-    fields = ['recipe', 'meal']
-    template_name = 'user/user_recipe_form.html'
-    success_url = reverse_lazy('mypantry')
-
-class UserRecipeDelete(DeleteView):
-    model = UserRecipe
-    context_object_name = 'recipe'
-    template_name = 'user/user_recipe_confirm_delete.html'
-    success_url = reverse_lazy('mypantry')  
-
-class UserIngredientCreate(CreateView):
+class UserIngredientCreate(LoginRequiredMixin, CreateView):
     model = UserIngredient
     fields = ['ingredients', 'expiry_date', 'quantity']
     template_name = 'user/user_ingredient_form.html'
@@ -95,14 +68,52 @@ class UserIngredientCreate(CreateView):
         form.instance.user = self.request.user
         return super(UserIngredientCreate, self).form_valid(form)
 
-class UserIngredientUpdate(UpdateView):
+class UserIngredientUpdate(LoginRequiredMixin, UpdateView):
     model = UserIngredient
     fields = ['ingredients', 'expiry_date', 'quantity']
     template_name = 'user/user_ingredient_form.html'
     success_url = reverse_lazy('mypantry')
 
-class UserIngredientDelete(DeleteView):
+class UserIngredientDelete(LoginRequiredMixin, DeleteView):
     model = UserIngredient
     context_object_name = 'ingredient'
     template_name = 'user/user_ingredient_confirm_delete.html'
     success_url = reverse_lazy('mypantry')
+
+
+class Pantry(LoginRequiredMixin, ListView):
+    model = User
+    template_name = 'user/pantry.html'
+    context_object_name = 'user'
+    
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        #filtering data to get user specific data
+        #context ['recipe'] =context['recipe'].filter(user=self.request.user)
+        context['recipes'] = UserRecipe.objects.all().filter(user=self.request.user)
+        context['ingredients'] = UserIngredient.objects.all().filter(user=self.request.user)
+        #context ['ingredient'] =context['ingredient'].filter(user=self.request.user)
+        return context 
+
+class UserRecipeCreate(LoginRequiredMixin, CreateView):
+    model = UserRecipe
+    fields = ['recipe']
+    template_name = 'user/user_recipe_form.html'
+    success_url = reverse_lazy('mypantry')
+    context_object_name = 'recipe_list'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super(UserRecipeCreate, self).form_valid(form)
+
+class UserRecipeUpdate(LoginRequiredMixin, UpdateView):
+    model = UserRecipe
+    fields = ['recipe']
+    template_name = 'user/user_recipe_form.html'
+    success_url = reverse_lazy('mypantry')
+
+class UserRecipeDelete(LoginRequiredMixin, DeleteView):
+    model = UserRecipe
+    context_object_name = 'recipe'
+    template_name = 'user/user_recipe_confirm_delete.html'
+    success_url = reverse_lazy('mypantry')  

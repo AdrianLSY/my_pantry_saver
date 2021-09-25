@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from ingredient.models import Ingredient
 from .models import Recipe, RecipeIngredient
 from django.forms.models import model_to_dict
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class RecipeList(ListView):
