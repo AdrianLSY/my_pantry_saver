@@ -63,7 +63,7 @@ class MyPantry(LoginRequiredMixin, ListView):
     
 class UserRecipeCreate(CreateView):
     model = UserRecipe
-    fields = ['recipe']
+    fields = ['recipe', 'meal']
     template_name = 'user/user_recipe_form.html'
     success_url = reverse_lazy('mypantry')
     context_object_name = 'recipe_list'
@@ -74,7 +74,7 @@ class UserRecipeCreate(CreateView):
 
 class UserRecipeUpdate(UpdateView):
     model = UserRecipe
-    fields = ['recipe']
+    fields = ['recipe', 'meal']
     template_name = 'user/user_recipe_form.html'
     success_url = reverse_lazy('mypantry')
 

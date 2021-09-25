@@ -19,17 +19,26 @@ from ingredient.models import Ingredient
       # ordering=['id']
 
 
+MEAL = (
+    ('BREAKFAST', 'breakfast'),
+    ('LUNCH', 'lunch'),
+    ('DINNER', 'dinner')
+)
+
 class UserRecipe(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete = models.CASCADE)
+    meal = models.CharField(max_length = 255, choices = MEAL, default = 'BREAKFAST')
 
     class Meta:
         #constraints = [
         #    models.UniqueConstraint(fields=('recipe', 'user'), name='Recipe_per_user')
         #]
         ordering = ['recipe']
+        
     def get(self):
         return self.recipe
+
 
 class UserIngredient(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
