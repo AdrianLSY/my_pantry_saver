@@ -4,11 +4,7 @@
     <h1>Recipe: {{recipe}}</h1>
     {% for recipe_ingredient in recipe_ingredients %}
         <p>{{recipe_ingredient.ingredient.name}}</p>
-        <p>relation id {{recipe_ingredient.id}}</p>
-        <p>relation id {{recipe_ingredient}}</p>
         <p>quantity {{recipe_ingredient.quantity}}</p>
-        <p>recipe id {{recipe_ingredient.recipe.id}}</p>
-        <p>ingredient id {{recipe_ingredient.ingredient.id}}</p>
         <td><a href="{% url 'edit-recipe-ingredient' recipe.id recipe_ingredient.id%}">Edit</a></td>
         <td><a href="{% url 'delete-recipe-ingredient' recipe.id recipe_ingredient.id%}">Delete</a></td>
 

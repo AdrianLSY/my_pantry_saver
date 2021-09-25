@@ -17,7 +17,7 @@ class RecipeList(ListView):
 class RecipeDetail(DetailView):
     model = Recipe
     context_object_name = 'recipe'
-    template_name = 'recipe/view_recipe.html'
+    template_name = 'recipe/recipe_view.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
