@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Recipe: {{recipe}}</h1>
+    {% for recipe_ingredient in recipe_ingredients %}
+        <p>{{recipe_ingredient.ingredient.name}}</p>
+        <p>quantity {{recipe_ingredient.quantity}}</p>
+        <td><a href="{% url 'edit-recipe-ingredient' recipe.id recipe_ingredient.id%}">Edit</a></td>
+        <td><a href="{% url 'delete-recipe-ingredient' recipe.id recipe_ingredient.id%}">Delete</a></td>
+
+<br><br>
+    {% endfor %}
+    <br><br>
+    <td><a href="{% url 'new-recipe-ingredient' recipe.id %}">Add Ingredient</a></td>
+{% endblock content %}
