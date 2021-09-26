@@ -8,31 +8,74 @@ from .models import Recipe, RecipeIngredient
 from django.forms.models import model_to_dict
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-class RecipeList(LoginRequiredMixin, ListView):
+
+class RecipeList(ListView):
     model = Recipe
     context_object_name = 'recipes'
 
-class RecipeDetail(LoginRequiredMixin, DetailView):
+
+class RecipeDetail(DetailView):
     model = Recipe
     context_object_name = 'recipe'
-    template_name = 'recipe/recipe.html'
+    template_name = 'recipe/recipe_view.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['set_recipe'] = RecipeIngredient.objects.all().filter(recipe=context['recipe'])
+        context['recipe_ingredients'] = RecipeIngredient.objects.all().filter(recipe=context['recipe'])
         return context
 
-class RecipeCreate(LoginRequiredMixin, CreateView):
+
+class RecipeCreate(CreateView):
     model = Recipe
-    fields = '__all__'
+    fields = 'name', 'instructions', 'rating'
     success_url = reverse_lazy('recipelist')
 
-class RecipeUpdate(LoginRequiredMixin, UpdateView):
+
+class RecipeUpdate(UpdateView):
     model = Recipe
-    fields = '__all__'
+    fields = 'name', 'instructions', 'rating'
     success_url = reverse_lazy('recipelist')
 
-class RecipeDelete(LoginRequiredMixin, DeleteView):
+
+class RecipeDelete(DeleteView):
     model = Recipe
     context_object_name = 'recipe'
     success_url = reverse_lazy('recipelist')
+
+
+class RecipeIngredientCreate(CreateView):
+    model = RecipeIngredient
+    fields = 'ingredient', 'quantity'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['parent_recipe'] = Recipe.objects.get(id=self.kwargs['pk'])
+        return context
+
+    def form_valid(self, form):
+        form.instance.recipe = Recipe.objects.get(id=self.kwargs['pk'])
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('recipe', kwargs={'pk': self.kwargs['pk']})
+
+
+class RecipeIngredientUpdate(UpdateView):
+    model = RecipeIngredient
+    fields = ('quantity',)
+
+    def get_object(self, *args, **kwargs):
+        return RecipeIngredient.objects.get(id=self.kwargs['RecipeIngredient_pk'])
+
+    def get_success_url(self):
+        return reverse_lazy('recipe', kwargs={'pk': self.kwargs['pk']})
+
+
+class RecipeIngredientDelete(DeleteView):
+    model = RecipeIngredient
+
+    def get_object(self, *args, **kwargs):
+        return RecipeIngredient.objects.get(id=self.kwargs['RecipeIngredient_pk'])
+
+    def get_success_url(self):
+        return reverse_lazy('recipe', kwargs={'pk': self.kwargs['pk']})
