@@ -3,3 +3,4 @@ db.sqlite3
 my_pantry_saver/settings.py
 venv
 migrations
+.idea
