@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 
@@ -41,7 +42,8 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'ingredient.apps.IngredientConfig',
     'recipe.apps.RecipeConfig',
-    'landing.apps.LandingConfig'
+    'landing.apps.LandingConfig',
+    'image_upload.apps.ImageUploadConfig',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +144,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 STATIC_URL = '/landing/static/'
+
+MEDIA_ROOT =  os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'

@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models.deletion import DO_NOTHING
 from ingredient.models import Ingredient
-
+from image_upload.models import Image
 MEAL = (
     ('BREAKFAST', 'breakfast'),
     ('LUNCH', 'lunch'),
@@ -16,6 +16,7 @@ class Recipe(models.Model):
     instructions = models.TextField(null=True, blank=True)
     meal = models.CharField(max_length=255, choices=MEAL, default='BREAKFAST')
     rating = models.DecimalField(max_digits=2, decimal_places=1)  # rating 1.0 - 5.0
+    image = models.ForeignKey(Image, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name

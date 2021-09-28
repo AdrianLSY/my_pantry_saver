@@ -27,7 +27,7 @@ class RecipeDetail(DetailView):
 
 class RecipeCreate(CreateView):
     model = Recipe
-    fields = 'name', 'instructions', 'rating'
+    fields = 'name', 'instructions', 'rating', 'image'
     success_url = reverse_lazy('recipelist')
 
 
