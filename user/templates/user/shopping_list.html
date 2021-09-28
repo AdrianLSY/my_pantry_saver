@@ -13,7 +13,7 @@
     {% for ingredient in ingredients %}
         <p>{{ingredient.ingredient.name}}</p>
         <p>quantity {{ingredient.quantity}}</p>
-
+        <td><a href="{% url 'user-pantry-ingredient' ingredient.id %}" >Add to Pantry</a></td>
 
     <br><br>
     {% endfor %}
