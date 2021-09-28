@@ -44,7 +44,7 @@ class UserRecipe(models.Model):
 
 class UserIngredient(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    user_recipe = models.ForeignKey(UserRecipe, on_delete=models.CASCADE)
+    user_recipe = models.ForeignKey(UserRecipe, on_delete=models.CASCADE, blank=True, null=True)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     expiry_date = models.DateField(null=True, blank=True)
     quantity = models.IntegerField(null=True)
