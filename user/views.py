@@ -15,6 +15,7 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 
 
+
 # Create your views here.
 
 
@@ -116,7 +117,6 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
         print(user_recipe.recipe)
         recipe_ingredients = RecipeIngredient.objects.all().filter(recipe=user_recipe.recipe)
         for recipe_ingredient in recipe_ingredients:
-            print(recipe_ingredient)
             user_ingredient = UserIngredient(
                 user=self.request.user,
                 user_recipe=user_recipe,
