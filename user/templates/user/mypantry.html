@@ -15,7 +15,7 @@
     <table>
         {% for item in recipes %}
         <tr>
-            <td>{{item.recipe}}</td>
+            <td>{{item.recipe}} {{item.meal}}</td>
             <td><a href="">View</a></td>
             <td><a href="{% url 'user-edit-recipe' item.id %}">Edit</a></td>
             <td><a href="{% url 'user-delete-recipe' item.id %}">Delete</a></td>

@@ -15,7 +15,7 @@
     <table>
         {% for item in ingredients %}
         <tr>
-            <td>{{ item.ingredients }}</td>
+            <td>{{ item.ingredient }}</td>
             <td>{{ item.quantity }}</td>
             <td>{{ item.expiry_date }}</td>
             <td><a href="{% url 'user-edit-ingredient' item.id %}">Edit</a></td>
