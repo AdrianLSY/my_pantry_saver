@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    {% if request.user.is_authenticated %}
+    {% comment %} {% if request.user.is_authenticated %}
         <p>Hello {{ request.user }}</p>
         <a href = "{% url 'logout' %}" >Logout </a>
     {% else %}
@@ -25,7 +26,94 @@
     </table>
     {% else %}
         <h3>No Ingredient Available</h3>
-    {% endif %}
+    {% endif %} {% endcomment %}
 
-{% include 'bottom_nav.html' %}
+    <section id="welcomePage" class="containerControl">
+        <div class="container" id="screenBg">
+            <div class="homepageBody homepageBodyReducePadding text-center">
+                <div class="homeText">
+                    <img src={% static "images/logoSingle.png" %} alt="logoSingle" class="img-fluid homeLogo">
+                    <h3 class="homeBannerTitle text-center pt-4 black">Pantry</h3>
+
+                    <!-- --------------------- PantryMOnitor Start -------------------- -->
+                    <div class="pantryMonitor px-5 pt-5">
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex countCtrl">
+                                <p class="">All</p>
+                                <p class="ml- count active">{{ingredients.count}}</p>
+                            </div>
+                            <div class=" d-flex countCtrl">
+                                <p class="">Fridge</p>
+                                <p class="ml- count">{{ingredients.count}}</p>
+                            </div>
+                            <div class=" d-flex countCtrl">
+                                <p class="">Freezer</p>
+                                <p class="ml- count">{{ingredients.count}}</p>
+                            </div>
+                            <div class=" d-flex countCtrl">
+                                <p class="">Pantry</p>
+                                <p class="ml- count">{{ingredients.count}}</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- --------------------- PantryMonitor End ----------------- -->
+
+                    <!-- ----------------- Search Bar ---------------- -->
+                    <div class="form-inline searchBar px-5">
+                        <input type="text" class="form-control mb-2 mr-sm-2" id="" placeholder="Search for ingredient">
+                        <a href="{% url 'user-add-ingredient' %}">
+                            <button type="submit" class="btn"><img src={% static "images/plus.png" %} alt="" class="img-fluid">
+                                Add</button>
+                        </a>
+                    </div>
+                    <!-- ------------------------ SearchBar End---------------- -->
+
+                    <!-- ------------------- userProductCard Start ------------------- -->
+
+                    <div class="userProductCard pl-5 pr-4">
+                        <div class="singleUserCard pr-3">
+                            {% if ingredients.count > 0 %}
+                            {% for item in ingredients %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row text-left">
+                                        <div class="col-sm-6">
+                                            <h1 class="card-title">{{item.ingredient}}</h1>
+                                            <p class="card-text">Use by {{item.expiry_date}}</p>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h1 class="bold amountKg">{{item.quantity}} unit</h1>
+                                        </div>
+                                        <div class="col-sm-2 actionDot">
+                                            <!-- ------------- Dropdown Menu ---------- -->
+                                            <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item" href="{% url 'user-edit-ingredient' item.id %}">Edit</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="{% url 'user-delete-ingredient' item.id %}">Delete</a>
+                                            </div>
+
+                                            <!-- ----------- Action Menu Btn---------- -->
+                                            <img src={% static "images/threeDot.png" %} alt="threeDot"
+                                                class="img-fluid dropdown-toggle" role="button" id="dropdownMenuLink"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    <!-- ------------------- userProductCard End ------------------- -->
+
+                    {% else %}
+                        <h3>No Ingredient Available</h3>
+                    {% endif %}
+                    <!-- ------------ Bootom Navigation Btn ---------------- -->
+                    {% include 'bottom_nav.html' %}
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock content %}

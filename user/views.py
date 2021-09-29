@@ -66,7 +66,7 @@ class UserIngredientCreate(LoginRequiredMixin, CreateView):
     model = UserIngredient
     fields = ['ingredient', 'expiry_date', 'quantity']
     template_name = 'user/user_ingredient_form.html'
-    success_url = reverse_lazy('mypantry')
+    success_url = reverse_lazy('pantry')
     context_object_name = 'ingredient_list'
 
     def form_valid(self, form):
@@ -79,14 +79,14 @@ class UserIngredientUpdate(LoginRequiredMixin, UpdateView):
     model = UserIngredient
     fields = ['ingredient', 'expiry_date', 'quantity']
     template_name = 'user/user_ingredient_form.html'
-    success_url = reverse_lazy('mypantry')
+    success_url = reverse_lazy('pantry')
 
 
 class UserIngredientDelete(LoginRequiredMixin, DeleteView):
     model = UserIngredient
     context_object_name = 'ingredient'
     template_name = 'user/user_ingredient_confirm_delete.html'
-    success_url = reverse_lazy('mypantry')
+    success_url = reverse_lazy('pantry')
 
 
 class Pantry(LoginRequiredMixin, ListView):
@@ -127,6 +127,7 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
             print(user_ingredient)
 
         # return reverse_lazy('mypantry')
+        return super(UserRecipeCreate, self).form_valid(form)
 
 
 class UserRecipeUpdate(LoginRequiredMixin, UpdateView):
