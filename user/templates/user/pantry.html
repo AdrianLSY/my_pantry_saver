@@ -102,14 +102,15 @@
                                 </div>
                             </div>
                             {% endfor %}
+                            {% else %}
+                                <h3>No Ingredient Available</h3>
+                            {% endif %}
                         </div>
                     </div>
                     
                     <!-- ------------------- userProductCard End ------------------- -->
 
-                    {% else %}
-                        <h3>No Ingredient Available</h3>
-                    {% endif %}
+
                     <!-- ------------ Bootom Navigation Btn ---------------- -->
                     {% include 'bottom_nav.html' %}
                 </div>

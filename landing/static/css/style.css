@@ -489,3 +489,9 @@ a:hover {
     display: inline-block;
     visibility: visible;
     border: 1px solid rgba(54, 56, 83, 0.246); }
+
+.dynamicDivFoodControl .tabContentFood {
+  min-height: 40rem;
+  overflow: scroll;
+  overflow-x: hidden;
+  padding-right: 1rem; }
