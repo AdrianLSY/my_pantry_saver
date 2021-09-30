@@ -1,9 +1,39 @@
-<table>
+{% load static %}
+{% comment %} <table>
     <tr>
         <td><a href="{% url 'pantry' %}">Pantry</a></td>
         <td><pre>           </pre></td>
         <td><a href="{% url 'mypantry' %}">Meal Plan</a></td>
         <td><pre>           </pre></td>
-        <td><a href="{%url 'shopping-list' %}">Shopping List</a></td>
+        <td><a href="">Shopping List</a></td>
     </tr>
-</table>
+</table> {% endcomment %}
+
+<div class="bottomNav">
+    <div class="row">
+        <div class="col btmNamBtn d-flex align-items-end justify-content-center">
+            <a href="{% url 'pantry' %}">
+                <div>
+                    <img src={% static "images/fridge.png" %} alt="frdge" class="img-fluid">
+                    <p class="">Pantry</p>
+                </div>
+            </a>
+        </div>
+        <div class="col btmNamBtn d-flex align-items-end justify-content-center">
+            <a href="{% url 'mypantry' %}">
+                <div>
+                    <img src={% static "images/mealPlan.png" %} alt="mealPlan" class="img-fluid">
+                    <p class="bold" style="color: #FF5440;">Meal Plan</p>
+                </div>
+            </a>
+        </div>
+        <div class="col btmNamBtn d-flex align-items-end justify-content-center">
+            <a href="{% url 'shopping-list' %}">
+                <div>
+                    <img src={% static "images/list.png" %} alt="list" class="img-fluid">
+                    <p>List</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

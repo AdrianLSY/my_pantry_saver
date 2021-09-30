@@ -1,12 +1,33 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <h3>New Ingredient</h3>
-    <a href="{% url 'mypantry' %}">Go Back</a>
+    {% comment %} <h3>New Ingredient</h3>
+    <a href="{% url 'pantry' %}">Go Back</a>
     <form method="POST" action="">
         {% csrf_token %}
         {{form.as_p}}
         <input type='submit' value='Submit'>
-    </form>
-{% include 'bottom_nav.html' %}
+    </form> {% endcomment %}
+
+    <section id="welcomePage" class="containerControl">
+        <div class="container " id="screenBg">
+            <div class="homepageBody homepageBodyReducePadding text-center">
+                <div class="homeText">
+                    <img src={% static "images/logoSingle.png" %} alt="logoSingle" class="img-fluid homeLogo">
+                    <h3 class="homeBannerTitle text-center pt-4 black">Pantry</h3>
+
+                    <a href="{% url 'pantry' %}">Go Back</a>
+                    <form method='POST' action=''>
+                        {% csrf_token %}
+                        <h3>New Ingredient</h3>
+                        {{form.as_p}}
+                        <input type="submit" value='Confirm'>
+                    </form>
+                    <!-- ------------------------- Bootom Navigation -------------- -->
+                    {% include 'bottom_nav.html' %}
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock content %}
