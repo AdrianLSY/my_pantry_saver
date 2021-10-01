@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <h1>Welcome to My Pantry Saver</h1>
+    {% comment %} <h1>Welcome to My Pantry Saver</h1>
     <p>This page is for development only. We can change this page to the 
     logo page and then redirect user to login page after 3 seconds.
     </p>
@@ -19,12 +20,20 @@
     <br><br>
     <button onclick="window.location.href='/register'">
         Register
-    </button>
+    </button> {% endcomment %}
+    <section id="welcomePage" class="containerControl">
+        <div class="container">
+            <div class="homepageBody homePageBodyMain d-flex justify-content-center align-items-center">
+                <div class="homeText">
+                    <img src={% static "images/logo.png" %} alt="logo" class="img-fluid homeLogo">
+                    <h3 class="homeBannerTitle text-center pt-4">Let’s cook today!</h3>
+                </div>
+            </div>
+    </section>
     <script>
     // redirect to mypantry after 3 seconds
         window.setTimeout(function() {
             window.location.href = 'mypantry';
         }, 3000);
     </script>
-{% include 'bottom_nav.html' %}
 {% endblock content %}

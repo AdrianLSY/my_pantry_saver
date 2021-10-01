@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <h1>Login</h1>
+    {% comment %} <h1>Login</h1>
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
@@ -11,5 +12,38 @@
 
     </form>
 
-    <a href = "{% url 'register' %}"> Have't Register? Join now!</a>
+    <a href = "{% url 'register' %}"> Have't Register? Join now!</a> {% endcomment %}
+
+    <section id="welcomePage" class="containerControl">
+        <div class="container">
+            <div class="homepageBody text-center">
+                <div class="homeText">
+                    <img src={% static "images/logo.png" %} alt="logo" class="img-fluid homeLogo">
+                    <h3 class="homeBannerTitle text-center pt-4">Let’s cook today!</h3>
+                    <div class="signInForm">
+                        <h3>Sign In</h3>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {% comment %} <input type="text" class="form-control" id="userNamee" placeholder="Enter username"> {% endcomment %}
+                                <label>Enter Username: {{ form.username }}</label>
+                                
+                            </div>
+                            <div class="form-group pt-4">
+                                {% comment %} <input type="password" class="form-control" id="" placeholder="Enter password"> {% endcomment %}
+                                <label>Enter Password: {{ form.password }}</label>
+                            </div>
+                            <div class="text-center"> <button type="submit" class="btn button mt-5">Login</button></div>
+                            </form>
+                            <div class="loginWarning">
+                                <p class="loginWarningText">Don’t have an a count?<a href="{% url 'register' %}" class="bold green">
+                                    Register</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
 {% endblock content %}
