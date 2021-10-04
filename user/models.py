@@ -57,4 +57,4 @@ class UserIngredient(models.Model):
         ordering = ["ingredient"]
 
     def get(self):
-        return self.ingredients
+        return self.ingredient

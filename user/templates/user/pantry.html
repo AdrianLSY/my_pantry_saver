@@ -44,15 +44,15 @@
                             </div>
                             <div class=" d-flex countCtrl">
                                 <p class="">Fridge</p>
-                                <p class="ml- count">{{ingredients.count}}</p>
+                                <p class="ml- count">{{fridge.count}}</p>
                             </div>
                             <div class=" d-flex countCtrl">
                                 <p class="">Freezer</p>
-                                <p class="ml- count">{{ingredients.count}}</p>
+                                <p class="ml- count">{{freezer.count}}</p>
                             </div>
                             <div class=" d-flex countCtrl">
                                 <p class="">Pantry</p>
-                                <p class="ml- count">{{ingredients.count}}</p>
+                                <p class="ml- count">{{pantry.count}}</p>
                             </div>
 
                         </div>
@@ -83,7 +83,7 @@
                                             <p class="card-text">Use by {{item.expiry_date}}</p>
                                         </div>
                                         <div class="col-sm-4">
-                                            <h1 class="bold amountKg">{{item.quantity}} unit</h1>
+                                            <h1 class="bold amountKg">{{item.quantity}} {{item.ingredient.unit}}</h1>
                                         </div>
                                         <div class="col-sm-2 actionDot">
                                             <!-- ------------- Dropdown Menu ---------- -->
