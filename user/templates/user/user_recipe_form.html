@@ -127,12 +127,16 @@
 
                                                     <div class="missingItem">
                                                         <p class="py-3" style="opacity: 0.8;">Missing</p>
-                                                        <div class="missed">
+                                                        {% comment %} <div class="missed">
                                                             <p>0.25 tsp cinnamon powder</p>
                                                             <p>0.5 tsp vanilla extract</p>
                                                             <p>Maple syrup</p>
-                                                        </div> 
-
+                                                        </div>  {% endcomment %}
+                                                        <form method='POST' action=''>
+                                                            {% csrf_token %}
+                                                            {{ form.as_p }}
+                                                            <input type="submit" value='Confirm'>
+                                                        </form>
                                                     </div>
 
                                                     <div class="addRemoveBtnGrp pb-3 pt-3 text-center">
@@ -145,7 +149,7 @@
                                                         <form method='POST' action=''>
                                                             {% csrf_token %}
                                                             <input type="hidden" name="recipe" value="{{ id }}">
-                                                            <input type="hidden" name="meal" value="BREAKFAST"> 
+                                                            <input type="hidden" name="meal" value="BREAKFAST">
                                                             <button type="submit" class="btn addToMealPlan button px-4 mt-3 py-1"><img
                                                                 src={% static "images/plus.png" %} alt="plus" class="img-fluid"> Add to meal
                                                             plan</button>
