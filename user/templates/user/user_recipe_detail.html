@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <section id="welcomePage" class="containerControl">
+        <div class="container " id="screenBg">
+            <div class="leftarrow breadCrumb px-5 pt-4">
+                <a href={% url 'mypantry' %} class="text-dark"><img src={% static "images/leftArrow.png" %} alt="leftarrow"
+                        class="img-fluid pr-2"> Meal Plan</a>
+            </div>
+
+            <div class="homepageBody homepageBodyReducePadding text-center">
+                <div class="homeText">
+                    <img src={% static "images/logoSingle.png" %} alt="logoSingle" class="img-fluid homeLogo">
+
+
+                    <div class="foodReviewControl px-5 mt-5">
+                        <div class="dynamicDiv text-center px-4 pt-5 foodReview">
+
+                            <!-- --------------- Selected food --------------- -->
+                            <div class="card mb-3 foodCard" style="box-shadow: none;">
+                                <div class="row no-gutters">
+                                    <div class="col-md-4 p-3">
+                                        <img src={% static "images/food-1.png" %} class="card-img" alt="food">
+                                    </div>
+                                    <div class="col-md-8 ">
+                                        <div class="card-body text-left">
+
+                                            <div class="titleAndBtn actionDot">
+                                                <h5 class="card-title">{{ recipe.recipe.name }} </h5>
+                                                <h4>Rating: {{ recipe.recipe.rating }}</h6>
+                                            </div>
+                                            <p class="card-text mt-4"><img src={% static "images/clock.png" %} alt="clock"
+                                                    class="img-fluid"> 10 min</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- -------------- Swapping Menu ---------------- -->
+                            <ul class="nav nav-pills mb-3 mr-auto pl-3" id="pills-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home"
+                                        role="tab" aria-controls="pills-home" aria-selected="true">Ingredients</a>
+                                </li>
+                                <li class="nav-item pl-2">
+                                    <a class="nav-link pl-3" id="pills-profile-tab" data-toggle="pill"
+                                        href="#pills-profile" role="tab" aria-controls="pills-profile"
+                                        aria-selected="false">Instructions</a>
+                                </li>
+                            </ul>
+
+                            <!-- ---------- Details of Menu Action -------- -->
+                            <div class="tab-content detailTabContent" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                                    aria-labelledby="pills-home-tab">
+                                    {% comment %} <div class="row">
+                                        <div class="col-sm-6 text-left">
+                                            <p>3 slices of white </p>
+                                            <p>sandwich bread </p>
+                                            <p class="pt-2">1 large egg</p>
+                                        </div>
+                                        <div class="col-sm-6 text-left">
+                                            <p>15 – 20g / 1 – </p>
+                                            <p>1.5 tbsp butter</p>
+                                            <p class="pt-3"> 62.5 ml milk</p>
+                                        </div>
+                                    </div>
+                                    <div class="missingItem pt-2">
+                                        <div class="missed text-left">
+                                            <p>0.25 tsp cinnamon powder</p>
+                                            <p>0.5 tsp vanilla extract</p>
+                                            <p>Maple syrup</p>
+                                        </div>
+                                    </div> {% endcomment %}
+                                    <div>
+                                    
+                                    
+                                    {% for item in recipe_ingredients %}
+                                    <p>{{ item.ingredient }}</p>
+                                    {% endfor %}
+                                    
+                                        
+                                    
+                                    </div>
+                                </div>
+                                <div class="tab-pane instractions fade d-flex justify-content-center align-items-center"
+                                    id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+
+                                    <div class="text-left">
+                                        <p>{{ recipe.recipe.instructions }}</p>
+                                        {% comment %} <ol>
+                                            <li>Whisk together Egg Mixture in a bowl.</li>
+                                            <li>Melt 15g / 1 tbsp butter in a non stick skillet over medium heat.</li>
+                                            <li>Dunk a piece of bread quickly into the egg mixture, coating both sides.
+                                                Place in pan. Repeat with more slices to fill the pan, but don’t crowd
+                                                it (do 2 or 3 at a time).</li>
+                                        </ol> {% endcomment %}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ------------------------- Bootom Navigation -------------- -->
+                    {% include 'bottom_nav.html' %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}
