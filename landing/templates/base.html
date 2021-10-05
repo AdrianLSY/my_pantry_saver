@@ -64,12 +64,26 @@
 $(document).ready(function(){
     var type = ['all', 'fridge', 'freezer', 'pantry'];
     var types = ['allIngredients', 'fridgeIngredients', 'freezerIngredients', 'pantryIngredients'];
+    var ds = ["Mons", "Tues", "Weds", "Thus", "Fris", "Sats", "Suns"];
+    var contentdays = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
    // one of tables will be hidden on default
    $('.place-ingredients').click(function() {
        for (let i = 0; i < type.length; i++) {
            var s = this.id+"Ingredients";
            var temp = document.getElementById(types[i]);
            if (this.id === type[i]){
+               temp.style.setProperty('display', 'block', 'important');
+           } else {
+               temp.style.setProperty('display', 'none', 'important');
+           }
+       }
+      
+    });
+
+     $('.day').click(function() {
+       for (let i = 0; i < ds.length; i++) {
+           var temp = document.getElementById(contentdays[i]);
+           if (this.id === ds[i]){
                temp.style.setProperty('display', 'block', 'important');
            } else {
                temp.style.setProperty('display', 'none', 'important');
