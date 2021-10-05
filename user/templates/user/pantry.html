@@ -39,19 +39,19 @@
                     <div class="pantryMonitor px-5 pt-5">
                         <div class="d-flex justify-content-between">
                             <div class="d-flex countCtrl">
-                                <p class="">All</p>
+                                <a href="#" id="all" class="place-ingredients">All</a>
                                 <p class="ml- count active">{{ingredients.count}}</p>
                             </div>
                             <div class=" d-flex countCtrl">
-                                <p class="">Fridge</p>
+                                <a href="#" id="fridge" class="place-ingredients">Fridge</a>
                                 <p class="ml- count">{{fridge.count}}</p>
                             </div>
                             <div class=" d-flex countCtrl">
-                                <p class="">Freezer</p>
+                                <a href="#" id="freezer" class="place-ingredients">Freezer</a>
                                 <p class="ml- count">{{freezer.count}}</p>
                             </div>
                             <div class=" d-flex countCtrl">
-                                <p class="">Pantry</p>
+                                <a href="#" id="pantry" class="place-ingredients">Pantry</a>
                                 <p class="ml- count">{{pantry.count}}</p>
                             </div>
 
@@ -71,7 +71,7 @@
 
                     <!-- ------------------- userProductCard Start ------------------- -->
 
-                    <div class="userProductCard pl-5 pr-4">
+                    <div class="userProductCard pl-5 pr-4" id="allIngredients">
                         <div class="singleUserCard pr-3">
                             {% if ingredients.count > 0 %}
                             {% for item in ingredients %}
@@ -107,8 +107,120 @@
                             {% endif %}
                         </div>
                     </div>
-                    
-                    <!-- ------------------- userProductCard End ------------------- -->
+                    <!-- ------------------- Fridge ------------------- -->
+                    <div class="userProductCard pl-5 pr-4" id="fridgeIngredients" style="display:none;">
+                    <div class="singleUserCard pr-3">
+                            {% if fridge.count > 0 %}
+                            {% for item in fridge %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row text-left">
+                                        <div class="col-sm-6">
+                                            <h1 class="card-title">{{item.ingredient}}</h1>
+                                            <p class="card-text">Use by {{item.expiry_date}}</p>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h1 class="bold amountKg">{{item.quantity}} {{item.ingredient.unit}}</h1>
+                                        </div>
+                                        <div class="col-sm-2 actionDot">
+                                            <!-- ------------- Dropdown Menu ---------- -->
+                                            <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item" href="{% url 'user-edit-ingredient' item.id %}">Edit</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="{% url 'user-delete-ingredient' item.id %}">Delete</a>
+                                            </div>
+
+                                            <!-- ----------- Action Menu Btn---------- -->
+                                            <img src={% static "images/threeDot.png" %} alt="threeDot"
+                                                class="img-fluid dropdown-toggle" role="button" id="dropdownMenuLink"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% else %}
+                                <h3>No Ingredient Available</h3>
+                            {% endif %}
+                        </div>
+                        </div>
+                    <!-- ------------------- Fridge End ------------------- -->
+                    <!-- ------------------- Freezer ------------------- -->
+                    <div class="userProductCard pl-5 pr-4" id="freezerIngredients" style="display:none;">
+                    <div class="singleUserCard pr-3">
+                            {% if freezer.count > 0 %}
+                            {% for item in freezer %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row text-left">
+                                        <div class="col-sm-6">
+                                            <h1 class="card-title">{{item.ingredient}}</h1>
+                                            <p class="card-text">Use by {{item.expiry_date}}</p>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h1 class="bold amountKg">{{item.quantity}} {{item.ingredient.unit}}</h1>
+                                        </div>
+                                        <div class="col-sm-2 actionDot">
+                                            <!-- ------------- Dropdown Menu ---------- -->
+                                            <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item" href="{% url 'user-edit-ingredient' item.id %}">Edit</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="{% url 'user-delete-ingredient' item.id %}">Delete</a>
+                                            </div>
+
+                                            <!-- ----------- Action Menu Btn---------- -->
+                                            <img src={% static "images/threeDot.png" %} alt="threeDot"
+                                                class="img-fluid dropdown-toggle" role="button" id="dropdownMenuLink"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% else %}
+                                <h3>No Ingredient Available</h3>
+                            {% endif %}
+                        </div>
+                        </div>
+                    <!-- ------------------- Freezer End ------------------- -->
+                    <!-- ------------------- Pantry ------------------- -->
+                    <div class="userProductCard pl-5 pr-4" id="pantryIngredients" style="display:none;">
+                    <div class="singleUserCard pr-3">
+                            {% if pantry.count > 0 %}
+                            {% for item in pantry %}
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row text-left">
+                                        <div class="col-sm-6">
+                                            <h1 class="card-title">{{item.ingredient}}</h1>
+                                            <p class="card-text">Use by {{item.expiry_date}}</p>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <h1 class="bold amountKg">{{item.quantity}} {{item.ingredient.unit}}</h1>
+                                        </div>
+                                        <div class="col-sm-2 actionDot">
+                                            <!-- ------------- Dropdown Menu ---------- -->
+                                            <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink">
+                                                <a class="dropdown-item" href="{% url 'user-edit-ingredient' item.id %}">Edit</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="{% url 'user-delete-ingredient' item.id %}">Delete</a>
+                                            </div>
+
+                                            <!-- ----------- Action Menu Btn---------- -->
+                                            <img src={% static "images/threeDot.png" %} alt="threeDot"
+                                                class="img-fluid dropdown-toggle" role="button" id="dropdownMenuLink"
+                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            {% else %}
+                                <h3>No Ingredient Available</h3>
+                            {% endif %}
+                        </div>
+                        </div>
+                    <!-- ------------------- Pantry ------------------- -->
 
 
                     <!-- ------------ Bootom Navigation Btn ---------------- -->
@@ -117,4 +229,5 @@
             </div>
         </div>
     </section>
+
 {% endblock content %}

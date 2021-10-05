@@ -47,7 +47,7 @@
         {% comment %} <script src="{% static 'js/jquery.js' %}"></script>
         <script src="{% static 'js/bootstrap.js' %}"></script>
         <script src="{% static 'js/bootstrap.bundle.js' %}"></script> {% endcomment %}
-
+        
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
         </script>
@@ -59,4 +59,29 @@
         </script>
 
     </body>
+<script>
+
+$(document).ready(function(){
+    var type = ['all', 'fridge', 'freezer', 'pantry'];
+    var types = ['allIngredients', 'fridgeIngredients', 'freezerIngredients', 'pantryIngredients'];
+   // one of tables will be hidden on default
+   $('.place-ingredients').click(function() {
+       for (let i = 0; i < type.length; i++) {
+           var s = this.id+"Ingredients";
+           var temp = document.getElementById(types[i]);
+           if (this.id === type[i]){
+               temp.style.setProperty('display', 'block', 'important');
+           } else {
+               temp.style.setProperty('display', 'none', 'important');
+           }
+       }
+      
+    });
+   
+   
+
+});
+
+
+</script>
 </html>
