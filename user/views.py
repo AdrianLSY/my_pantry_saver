@@ -106,7 +106,7 @@ class Pantry(LoginRequiredMixin, ListView):
 
 class UserRecipeCreate(LoginRequiredMixin, CreateView):
     model = UserRecipe
-    fields = ['recipe', 'meal']
+    fields = ['recipe', 'meal', 'day']
     template_name = 'user/user_recipe_form.html'
     success_url = reverse_lazy('mypantry')
     context_object_name = 'recipe_list'
@@ -132,7 +132,7 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
 
 class UserRecipeUpdate(LoginRequiredMixin, UpdateView):
     model = UserRecipe
-    fields = ['recipe']
+    fields = ['meal', 'day']
     template_name = 'user/user_recipe_form.html'
     success_url = reverse_lazy('mypantry')
 
@@ -153,6 +153,7 @@ class ShoppingList(LoginRequiredMixin, ListView):
         context['ingredients'] = UserIngredient.objects.all().filter(user=self.request.user, in_pantry=False)
 
         return context
+
 
 def shopping_list_item_to_pantry(request, pk):
     ingredient = UserIngredient.objects.get(id=pk)
