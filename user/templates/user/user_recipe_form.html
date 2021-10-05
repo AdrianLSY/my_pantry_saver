@@ -60,166 +60,137 @@
                         </ul>
 
                         <div class="tab-content foodCardOverlayParent" id="pills-tabContent">
-
-                            <!-- after click right arrow of food show this -->
-                            <div class="toastOverlay">
-
-                                <!-- ------------ Mising Item Overlay start-------- -->
-                                <div class="misingItemOverlay">
-                                    <div class="closeInnterOvelay text-right">
-                                        <img src={% static "images/close.png" %} alt="close"
-                                            class="img-fluid closeMissingItem pr-2 pt-2">
-                                    </div>
-                                    <h1>Missing items have been added to the list!</h1>
-                                </div>
-                                <!-- ------------ Mising Item Overlay End-------- -->
-
-                                <!-- ------------ Mising Item Overlay start-------- -->
-                                <div class="addToMealPlanOverlay">
-                                    <div class="closeInnterOvelay2 text-right">
-                                        <img src={% static "images/close.png" %} alt="close"
-                                            class="img-fluid closeMissingItem2 pr-2 pt-2">
-                                    </div>
-                                    <h1>Recipe has been added to the meal plan!</h1>
-                                </div>
-                                <!-- ------------ Mising Item Overlay End-------- -->
-
-                                <div class="closeBtn text-right p-3">
-                                    <img src={% static "images/close.png" %} alt="close" class="img-fluid">
-                                </div>
-
-                                <div class="px-4">
-                                    <div class="card mb-3 foodCard" style="box-shadow: none;">
-                                        <div class="row no-gutters">
-                                            <div class="col-md-4 p-3">
-                                                <img src={% static "images/food-1.png" %} class="card-img" alt="food">
-                                            </div>
-                                            <div class="col-md-8 ">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">French Toast</h5>
-                                                    <p class="card-text"><img src={% static "images/clock.png" %} alt="clock"
-                                                            class="img-fluid"> 10 min</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- overlay product detail information -->
-                                    <div class="productInfo text-left">
-                                        <p class="py-3" style="opacity: 0.8;">Ingredients</p>
-                                        <div class="row">
-                                            <div class="col-sm-6 text-left">
-                                                <p>3 slices of white </p>
-                                                <p>sandwich bread </p>
-                                                <p class="pt-3">1 large egg</p>
-                                            </div>
-                                            <div class="col-sm-6 text-left">
-                                                <p>15 – 20g / 1 – </p>
-                                                <p>1.5 tbsp butter</p>
-                                                <p class="pt-3"> 62.5 ml milk</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="missingItem">
-                                            <p class="py-3" style="opacity: 0.8;">Missing</p>
-                                            <div class="missed">
-                                                <p>0.25 tsp cinnamon powder</p>
-                                                <p>0.5 tsp vanilla extract</p>
-                                                <p>Maple syrup</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="addRemoveBtnGrp pb-3 pt-3 text-center">
-                                            <button class="btn addToMissingList button px-3 py-1"><img
-                                                    src={% static "images/plus.png" %} alt="plus" class="img-fluid"> Add missing to
-                                                list</button>
-                                            <button class="btn addToMealPlan button px-4 mt-3 py-1"><img
-                                                    src={% static "images/plus.png" %} alt="plus" class="img-fluid"> Add to meal
-                                                plan</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                                 aria-labelledby="pills-home-tab">
+                                {% for id, option in form.recipe.field.choices %}
+                                    {% if id %}
+                                    
 
-                                <div class="card mb-3 foodCard pt-4">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-4 p-3">
-                                            <img src={% static "images/food-1.png" %} class="card-img" alt="food">
-                                        </div>
-                                        <div class="col-md-8 ">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-sm-9">
-                                                        <h5 class="card-title">French Toast</h5>
-                                                        <p class="card-text"><img src={% static "images/clock.png" %} alt="clock"
-                                                                class="img-fluid"> 10 min</p>
+                                        <!-- after click right arrow of food show this -->
+                                        <div class="toastOverlay">
+
+                                            <!-- ------------ Mising Item Overlay start-------- -->
+                                            <div class="misingItemOverlay">
+                                                <div class="closeInnterOvelay text-right">
+                                                    <img src={% static "images/close.png" %} alt="close"
+                                                        class="img-fluid closeMissingItem pr-2 pt-2">
+                                                </div>
+                                                <h1>Missing items have been added to the list!</h1>
+                                            </div>
+                                            <!-- ------------ Mising Item Overlay End-------- -->
+
+                                            <!-- ------------ Mising Item Overlay start-------- -->
+                                            <div class="addToMealPlanOverlay">
+                                                <div class="closeInnterOvelay2 text-right">
+                                                    <img src={% static "images/close.png" %} alt="close"
+                                                        class="img-fluid closeMissingItem2 pr-2 pt-2">
+                                                </div>
+                                                <h1>Recipe has been added to the meal plan!</h1>
+                                            </div>
+                                            <!-- ------------ Mising Item Overlay End-------- -->
+
+                                            <div class="closeBtn text-right p-3">
+                                                <img src={% static "images/close.png" %} alt="close" class="img-fluid">
+                                            </div>
+
+                                            <div class="px-4">
+                                                <div class="card mb-3 foodCard" style="box-shadow: none;">
+                                                    <div class="row no-gutters">
+                                                        <div class="col-md-4 p-3">
+                                                            <img src={% static "images/food-1.png" %} class="card-img" alt="food">
+                                                        </div>
+                                                        <div class="col-md-8 ">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">{{ option }}</h5>
+                                                                <p class="card-text"><img src={% static "images/clock.png" %} alt="clock"
+                                                                        class="img-fluid"> 10 min</p>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-sm-3 d-flex align-items-center pt-4">
-                                                        <a href="#">
-                                                            <img src={% static "images/rightArrow.png" %} alt="rightArrow"
-                                                                class="img-fluid rightArrow">
-                                                        </a>
+                                                </div>
+
+                                                <!-- overlay product detail information -->
+                                                <div class="productInfo text-left">
+                                                    <p class="py-3" style="opacity: 0.8;">Ingredients</p>
+                                                    <div class="row">
+                                                        <div class="col-sm-6 text-left">
+                                                            <p>3 slices of white </p>
+                                                            <p>sandwich bread </p>
+                                                            <p class="pt-3">1 large egg</p>
+                                                        </div>
+                                                        <div class="col-sm-6 text-left">
+                                                            <p>15 – 20g / 1 – </p>
+                                                            <p>1.5 tbsp butter</p>
+                                                            <p class="pt-3"> 62.5 ml milk</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="missingItem">
+                                                        <p class="py-3" style="opacity: 0.8;">Missing</p>
+                                                        {% comment %} <div class="missed">
+                                                            <p>0.25 tsp cinnamon powder</p>
+                                                            <p>0.5 tsp vanilla extract</p>
+                                                            <p>Maple syrup</p>
+                                                        </div>  {% endcomment %}
+                                                        <form method='POST' action=''>
+                                                            {% csrf_token %}
+                                                            {{ form.as_p }}
+                                                            <input type="submit" value='Confirm'>
+                                                        </form>
+                                                    </div>
+
+                                                    <div class="addRemoveBtnGrp pb-3 pt-3 text-center">
+                                                        <button class="btn addToMissingList button px-3 py-1"><img
+                                                                src={% static "images/plus.png" %} alt="plus" class="img-fluid"> Add missing to
+                                                            list</button>
+                                                        {% comment %} <button type="submit" class="btn addToMealPlan button px-4 mt-3 py-1"><img
+                                                                src={% static "images/plus.png" %} alt="plus" class="img-fluid"> Add to meal
+                                                            plan</button> {% endcomment %}
+                                                        <form method='POST' action=''>
+                                                            {% csrf_token %}
+                                                            <input type="hidden" name="recipe" value="{{ id }}">
+                                                            <input type="hidden" name="meal" value="BREAKFAST">
+                                                            <button type="submit" class="btn addToMealPlan button px-4 mt-3 py-1"><img
+                                                                src={% static "images/plus.png" %} alt="plus" class="img-fluid"> Add to meal
+                                                            plan</button>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
 
-                                <div class="card mb-3 foodCard pt-4">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-4 p-3">
-                                            <img src={% static "images/food-2.png" %} class="card-img" alt="food">
-                                        </div>
-                                        <div class="col-md-8 ">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-sm-9">
-                                                        <h5 class="card-title">Prosciutto Frittata</h5>
-                                                        <p class="card-text"><img src={% static "images/clock.png" %} alt="clock"
-                                                                class="img-fluid"> 30 min</p>
-                                                    </div>
-                                                    <div class="col-sm-3 d-flex align-items-center pt-4">
-                                                        <a href="#">
-                                                            <img src={% static "images/rightArrow.png" %} alt="rightArrow"
-                                                                class="img-fluid rightArrow">
-                                                        </a>
+                                        <div class="card mb-3 foodCard pt-4">
+                                            <div class="row no-gutters">
+                                                <div class="col-md-4 p-3">
+                                                    <img src={% static "images/food-1.png" %} class="card-img" alt="food">
+                                                </div>
+                                                <div class="col-md-8 ">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-sm-9">
+                                                                <h5 class="card-title">{{ option }}</h5>
+                                                                <p class="card-text"><img src={% static "images/clock.png" %} alt="clock"
+                                                                        class="img-fluid"> 10 min</p>
+                                                            </div>
+                                                            <div class="col-sm-3 d-flex align-items-center pt-4">
+                                                                <a href="#">
+                                                                    <img src={% static "images/rightArrow.png" %} alt="rightArrow"
+                                                                        class="img-fluid rightArrow">
+                                                                </a>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    
+                                    {% endif %}
+                                {% endfor %}
+
 
                                 <!-- breakfast content -->
 
-                                <div class="card mb-3 foodCard pt-4">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-4 p-3">
-                                            <img src={% static "images/food-3.png" %} class="card-img" alt="food">
-                                        </div>
-                                        <div class="col-md-8 ">
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-sm-9">
-                                                        <h5 class="card-title">Pancakes</h5>
-                                                        <p class="card-text"><img src={% static "images/clock.png" %} alt="clock"
-                                                                class="img-fluid"> 15 min</p>
-                                                    </div>
-                                                    <div class="col-sm-3 d-flex align-items-center pt-4">
-                                                        <a href="#">
-                                                            <img src={% static "images/rightArrow.png" %} alt="rightArrow"
-                                                                class="img-fluid rightArrow">
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
 
                             <div class="tab-pane fade d-flex justify-content-center align-items-center"
