@@ -117,6 +117,12 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('mypantry')
     context_object_name = 'recipe_list'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        a = set(UserRecipe.objects.all())
+        context['recipes'] = a
+        return context
+        
     def form_valid(self, form):
         form.instance.user = self.request.user
         user_recipe = form.save()

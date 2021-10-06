@@ -32,6 +32,9 @@
 
                     <!-- --------------- Calender -------- -->
                     <div class="calender px-5 pt-3">
+                    <div class="row">
+                     <h4>{% now "D" %}</h4>
+                    </div>
                         <div class="row">
                             <div class="col dateDay" id="mons" style="background-color:#DDF9D9;">
                                 <a href="#" class="day" id="Mons">Mon</a>
@@ -105,7 +108,7 @@
                                 aria-labelledby="pills-home-tab">
                                 {% for item in recipes %}
                                 {% if item.meal == "BREAKFAST" %}
-                                <div class="card mb-3 foodCard pt-4">
+                                <div class="card mb-3 foodCard pt-4 {{d}}">
                                     <div class="row no-gutters">
                                         <div class="col-md-4 p-3">
                                             <img src={% static "images/food-1.png" %} class="card-img" alt="food">

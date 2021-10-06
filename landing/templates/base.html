@@ -87,6 +87,10 @@ $(document).ready(function(){
     });
 
      $('.day').click(function() {
+         //var p = "."+this.id;
+         //$(p).hide();
+         
+        
        for (let i = 0; i < ds.length; i++) {
            var temp = document.getElementById(contentdays[i]);
            var link = document.getElementById(dsDiv[i]);
@@ -95,7 +99,9 @@ $(document).ready(function(){
            var din = document.getElementById(dinner[i]);
            var content = document.getElementById(mealcontent[i]);
            var div = document.getElementById(divDays[i]);
+           //var tes = document.getElementsByClassName('tes');
            if (this.id === ds[i]){
+               
                temp.style.setProperty('display', 'block', 'important');
                brea.style.setProperty('display', 'block', 'important');
                lun.style.setProperty('display', 'block', 'important');
