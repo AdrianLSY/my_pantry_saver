@@ -26,11 +26,22 @@ MEAL = (
     ('DINNER', 'dinner')
 )
 
+DAY = (
+    ('MONDAY', 'monday'),
+    ('TUESDAY', 'tuesday'),
+    ('WEDNESDAY', 'wednesday'),
+    ('THURSDAY', 'thursday'),
+    ('FRIDAY', 'friday'),
+    ('SATURDAY', 'saturday'),
+    ('SUNDAY', 'sunday')
+)
+
 
 class UserRecipe(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     meal = models.CharField(max_length=255, choices=MEAL, default='BREAKFAST')
+    day = models.CharField(max_length=255, choices=DAY, default='MONDAY')
 
     class Meta:
         # constraints = [

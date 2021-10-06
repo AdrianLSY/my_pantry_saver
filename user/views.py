@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views import View
@@ -112,7 +113,7 @@ class Pantry(LoginRequiredMixin, ListView):
 
 class UserRecipeCreate(LoginRequiredMixin, CreateView):
     model = UserRecipe
-    fields = ['recipe', 'meal']
+    fields = ['recipe', 'meal', 'day']
     template_name = 'user/user_recipe_form.html'
     success_url = reverse_lazy('mypantry')
     context_object_name = 'recipe_list'
@@ -141,10 +142,19 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
         # return reverse_lazy('mypantry')
         return super(UserRecipeCreate, self).form_valid(form)
 
+class UserRecipeDetail(LoginRequiredMixin, DetailView):
+    model = UserRecipe
+    context_object_name = 'recipe'
+    template_name = 'user/user_recipe_detail.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['recipe_ingredients'] = RecipeIngredient.objects.all().filter()
+        return context
 
 class UserRecipeUpdate(LoginRequiredMixin, UpdateView):
     model = UserRecipe
-    fields = ['recipe']
+    fields = ['meal', 'day']
     template_name = 'user/user_recipe_form.html'
     success_url = reverse_lazy('mypantry')
 
@@ -165,6 +175,7 @@ class ShoppingList(LoginRequiredMixin, ListView):
         context['ingredients'] = UserIngredient.objects.all().filter(user=self.request.user, in_pantry=False)
 
         return context
+
 
 def shopping_list_item_to_pantry(request, pk):
     ingredient = UserIngredient.objects.get(id=pk)

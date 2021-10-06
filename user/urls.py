@@ -11,11 +11,11 @@ urlpatterns = [
     path('mypantry/pantry/', Pantry.as_view(), name='pantry'),
     path('mypantry/shopping-list/', ShoppingList.as_view(), name='shopping-list'),
     path('mypantry/recipe/new/', UserRecipeCreate.as_view(), name='user-add-recipe'), 
+    path('mypantry/recipe/<int:pk>/view/', UserRecipeDetail.as_view(), name='user-view-recipe'),
     path('mypantry/recipe/<int:pk>/edit/', UserRecipeUpdate.as_view(), name='user-edit-recipe'),
     path('mypantry/recipe/<int:pk>/delete/', UserRecipeDelete.as_view(), name='user-delete-recipe'),
     path('mypantry/ingredient/new/', UserIngredientCreate.as_view(), name='user-add-ingredient'), 
     path('mypantry/ingredient/<int:pk>/edit/', UserIngredientUpdate.as_view(), name='user-edit-ingredient'),
-    path('mypantry/ingredient/<int:pk>/delete/', UserIngredientDelete.as_view(), name='user-delete-ingredient'),
     path('mypantry/ingredient/<int:pk>/delete/', UserIngredientDelete.as_view(), name='user-delete-ingredient'),
     path('mypantry/ingredient/<int:pk>/pantry/', shopping_list_item_to_pantry, name='user-pantry-ingredient')
 ]

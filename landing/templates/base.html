@@ -73,24 +73,20 @@ $(document).ready(function(){
     var dinner = ["pills-contact-tab-mon", "pills-contact-tab-tue", "pills-contact-tab-wed", "pills-contact-tab-thu", "pills-contact-tab-fri", "pills-contact-tab-sat", "pills-contact-tab-sun"];
     var divDays = ["div-mon", "div-tue", "div-wed", "div-thu", "div-fri", "div-sat", "div-sun"];
    // one of tables will be hidden on default
-   $('.place-ingredients').click(function() {
-       for (let i = 0; i < type.length; i++) {
-           var s = this.id+"Ingredients";
-           var temp = document.getElementById(types[i]);
-           if (this.id === type[i]){
-               temp.style.setProperty('display', 'block', 'important');
-           } else {
-               temp.style.setProperty('display', 'none', 'important');
-           }
-       }
+    $('.place-ingredients').click(function() {
+        for (let i = 0; i < type.length; i++) {
+            var s = this.id+"Ingredients";
+            var temp = document.getElementById(types[i]);
+            if (this.id === type[i]){
+                temp.style.setProperty('display', 'block', 'important');
+            } else {
+                temp.style.setProperty('display', 'none', 'important');
+            }
+        }
       
     });
 
-     $('.day').click(function() {
-         //var p = "."+this.id;
-         //$(p).hide();
-         
-        
+    $('.day').click(function() {
        for (let i = 0; i < ds.length; i++) {
            var temp = document.getElementById(contentdays[i]);
            var link = document.getElementById(dsDiv[i]);
@@ -99,9 +95,7 @@ $(document).ready(function(){
            var din = document.getElementById(dinner[i]);
            var content = document.getElementById(mealcontent[i]);
            var div = document.getElementById(divDays[i]);
-           //var tes = document.getElementsByClassName('tes');
            if (this.id === ds[i]){
-               
                temp.style.setProperty('display', 'block', 'important');
                brea.style.setProperty('display', 'block', 'important');
                lun.style.setProperty('display', 'block', 'important');
@@ -121,9 +115,12 @@ $(document).ready(function(){
        }
       
     });
+    
+    $('.countCtrl').click(function() {
+        $('.countCtrl .count').removeClass('active');
+        $(this).children('.count').addClass('active');
+    });
    
-   
-
 });
 
 

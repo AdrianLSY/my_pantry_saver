@@ -122,8 +122,8 @@ a:hover {
   text-align: center;
   padding-bottom: 1rem; }
 
-.signInForm label {
-  padding: 1.5rem 2rem;
+.signInForm .form-control {
+  padding: 2rem 2rem;
   font-size: 1.4rem;
   text-align: center;
   letter-spacing: 0.02rem;
