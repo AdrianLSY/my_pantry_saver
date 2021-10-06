@@ -12,7 +12,7 @@ from django.contrib.auth import login
 from ingredient.models import Ingredient
 # from django.contrib.auth.models import User
 from .models import UserRecipe, UserIngredient
-from recipe.models import RecipeIngredient
+from recipe.models import RecipeIngredient, Recipe
 from django.views.generic.list import ListView
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
@@ -120,7 +120,7 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        a = set(UserRecipe.objects.all())
+        a = set(Recipe.objects.all())
         context['recipes'] = a
         return context
         
