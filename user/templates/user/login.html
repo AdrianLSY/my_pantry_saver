@@ -25,13 +25,16 @@
                         <form method="POST">
                             {% csrf_token %}
                             <div class="form-group">
-                                {% comment %} <input type="text" class="form-control" id="userNamee" placeholder="Enter username"> {% endcomment %}
-                                <label>Enter Username: {{ form.username }}</label>
+                                <input type="text" name="username" class="form-control" id="userNamee" placeholder="Enter username"> 
+                                {% comment %} <label>Enter Username: {{ form.username }}</label> {% endcomment %}
                                 
                             </div>
                             <div class="form-group pt-4">
-                                {% comment %} <input type="password" class="form-control" id="" placeholder="Enter password"> {% endcomment %}
-                                <label>Enter Password: {{ form.password }}</label>
+                                <input type="password" name="password" class="form-control" id="" placeholder="Enter password"> 
+                                {% comment %} <label>Enter Password: {{ form.password }}</label> {% endcomment %}
+                            </div>
+                            <div class="form-group px-5">
+                                {{ form.non_field_errors.as_text }}
                             </div>
                             <div class="text-center"> <button type="submit" class="btn button mt-5">Login</button></div>
                             </form>

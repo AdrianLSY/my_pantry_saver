@@ -27,13 +27,13 @@ class RecipeDetail(DetailView):
 
 class RecipeCreate(CreateView):
     model = Recipe
-    fields = 'name', 'instructions', 'rating'
+    fields = 'name', 'instructions', 'meal','rating'
     success_url = reverse_lazy('recipelist')
 
 
 class RecipeUpdate(UpdateView):
     model = Recipe
-    fields = 'name', 'instructions', 'rating'
+    fields = 'name', 'instructions', 'meal','rating'
     success_url = reverse_lazy('recipelist')
 
 

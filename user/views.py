@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views import View
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+
+from ingredient.models import Ingredient
 # from django.contrib.auth.models import User
 from .models import UserRecipe, UserIngredient
 from recipe.models import RecipeIngredient
@@ -58,6 +61,7 @@ class MyPantry(LoginRequiredMixin, ListView):
         # context ['recipe'] =context['recipe'].filter(user=self.request.user)
         context['recipes'] = UserRecipe.objects.all().filter(user=self.request.user)
         context['ingredients'] = UserIngredient.objects.all().filter(user=self.request.user)
+        context['days'] = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
         # context ['ingredient'] =context['ingredient'].filter(user=self.request.user)
         return context
 
@@ -90,7 +94,7 @@ class UserIngredientDelete(LoginRequiredMixin, DeleteView):
 
 
 class Pantry(LoginRequiredMixin, ListView):
-    model = User
+    model = UserIngredient
     template_name = 'user/pantry.html'
     context_object_name = 'user'
 
@@ -100,6 +104,9 @@ class Pantry(LoginRequiredMixin, ListView):
         # context ['recipe'] =context['recipe'].filter(user=self.request.user)
         context['recipes'] = UserRecipe.objects.all().filter(user=self.request.user)
         context['ingredients'] = UserIngredient.objects.all().filter(user=self.request.user, in_pantry=True)
+        context['fridge'] = UserIngredient.objects.all().filter(user=self.request.user, ingredient__place_in='FRIDGE')
+        context['pantry'] = UserIngredient.objects.all().filter(user=self.request.user, ingredient__place_in='PANTRY')
+        context['freezer'] = UserIngredient.objects.all().filter(user=self.request.user, ingredient__place_in='FREEZER')
         # context ['ingredient'] =context['ingredient'].filter(user=self.request.user)
         return context
 
@@ -129,6 +136,15 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
         # return reverse_lazy('mypantry')
         return super(UserRecipeCreate, self).form_valid(form)
 
+class UserRecipeDetail(LoginRequiredMixin, DetailView):
+    model = UserRecipe
+    context_object_name = 'recipe'
+    template_name = 'user/user_recipe_detail.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['recipe_ingredients'] = RecipeIngredient.objects.all().filter()
+        return context
 
 class UserRecipeUpdate(LoginRequiredMixin, UpdateView):
     model = UserRecipe
