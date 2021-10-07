@@ -69,7 +69,7 @@ class MyPantry(LoginRequiredMixin, ListView):
 
 class UserIngredientCreate(LoginRequiredMixin, CreateView):
     model = UserIngredient
-    fields = ['ingredient', 'expiry_date', 'quantity']
+    fields = ['ingredient', 'expiry_date', 'quantity', 'unit']
     template_name = 'user/user_ingredient_form.html'
     success_url = reverse_lazy('pantry')
     context_object_name = 'ingredient_list'
