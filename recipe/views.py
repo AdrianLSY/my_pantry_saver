@@ -62,7 +62,7 @@ class RecipeIngredientCreate(CreateView):
 
 class RecipeIngredientUpdate(UpdateView):
     model = RecipeIngredient
-    fields = ('quantity',)
+    fields = 'quantity', 'unit'
 
     def get_object(self, *args, **kwargs):
         return RecipeIngredient.objects.get(id=self.kwargs['RecipeIngredient_pk'])
