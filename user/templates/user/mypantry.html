@@ -33,7 +33,6 @@
                     <!-- --------------- Calender -------- -->
                     <div class="calender px-5 pt-3">
                     <div class="row">
-                     <h4>{% now "D" %}</h4>
                     </div>
                         <div class="row">
                             <div class="col dateDay" id="mons" style="background-color:#DDF9D9;">
@@ -62,60 +61,56 @@
 
                     <!-- ------------------ DynamicSlider ------------------- -->
                     {% for d in days %}
-                    {% if d == 'mon' %}
+                    
+                    {% if d == 'MONDAY' %}
                     <div class="dynamicDiv dynamicDivFoodControl text-center px-5 pt-3" id="div-{{d}}">
                     {% else %}
                     <div class="dynamicDiv dynamicDivFoodControl text-center px-5 pt-3" id="div-{{d}}" style="display:none;">
                     {% endif %}
-                        <ul class="nav nav-pills mb-3 mr-auto" id="pills-tab" role="tablist">
-                        {% if d != 'mon' %}
+                        <ul class="nav nav-pills mb-3 mr-auto" id="pills-tab-{{d}}" role="tablist">
+                       
                             <li class="nav-item">
-                                <a class="nav-link active" id="pills-home-tab-{{d}}" data-toggle="pill" href="#pills-home-{{d}}"
-                                    role="tab" aria-controls="pills-home" aria-selected="true" style="display:none;">Breakfast</a>
+                                <a class="nav-link active" id="pills-home-tab-{{d}}-BREAKFAST" data-toggle="pill" href="#pills-home-{{d}}-BREAKFAST"
+                                    role="tab" aria-controls="pills-home" aria-selected="true" style="display:inline;">Breakfast</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="pills-profile-tab-{{d}}" data-toggle="pill" href="#pills-profile-{{d}}"
-                                    role="tab" aria-controls="pills-profile" aria-selected="false" style="display:none;">Lunch</a>
+                                <a class="nav-link" id="pills-home-tab-{{d}}-LUNCH" data-toggle="pill" href="#pills-home-{{d}}-LUNCH"
+                                    role="tab" aria-controls="pills-profile" aria-selected="false" style="display:inline;">Lunch</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="pills-contact-tab-{{d}}" data-toggle="pill" href="#pills-contact-{{d}}"
-                                    role="tab" aria-controls="pills-contact" aria-selected="false" style="display:none;">Dinner</a>
+                                <a class="nav-link" id="pills-home-tab-{{d}}-DINNER" data-toggle="pill" href="#pills-home-{{d}}-DINNER"
+                                    role="tab" aria-controls="pills-contact" aria-selected="false" style="display:inline;">Dinner</a>
                             </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link active" id="pills-home-tab-{{d}}" data-toggle="pill" href="#pills-home-{{d}}"
-                                    role="tab" aria-controls="pills-home" aria-selected="true">Breakfast</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="pills-profile-tab-{{d}}" data-toggle="pill" href="#pills-profile-{{d}}"
-                                    role="tab" aria-controls="pills-profile" aria-selected="false">Lunch</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="pills-contact-tab-{{d}}" data-toggle="pill" href="#pills-contact-{{d}}"
-                                    role="tab" aria-controls="pills-contact" aria-selected="false">Dinner</a>
-                            </li>
-                        {% endif %}
+                       
                         </ul>
                         
-                        {% if d != 'mon' %}
+                        {% if d != 'MONDAY' %}
                         <div class="tab-content tabContentFood" id="{{d}}" style="display:none;">
                         {% else %}
                         <div class="tab-content tabContentFood" id="{{d}}">
                         {% endif %}
                             {% if recipes.count > 0 %}
-                            
-                            <div class="tab-pane fade show active francyFoodCardControll" id="pills-home-{{d}}" role="tabpanel"
-                                aria-labelledby="pills-home-tab">
+                            {% for m in meals %}
+                            {% if m == 'BREAKFAST' %}
+                            <div class="tab-pane fade show active francyFoodCardControll" id="pills-home-{{d}}-{{m}}" role="tabpanel"
+                                aria-labelledby="pills-home-tab-{{d}}-{{m}}">
+                            {% else %}
+                            <div class="tab-pane fadefrancyFoodCardControll" id="pills-home-{{d}}-{{m}}" role="tabpanel"
+                                aria-labelledby="pills-home-tab-{{d}}-{{m}}">
+                            {% endif %}
+                                
                                 {% for item in recipes %}
-                                {% if item.meal == "BREAKFAST" %}
-                                <div class="card mb-3 foodCard pt-4 {{d}}">
+                                {% if item.day == d%}
+                                {%if item.meal == m %}
+                                <div class="card mb-3 foodCard pt-4 {{d}}" id="pills-home-tab-{{d}}-{{m}}">
+                                
                                     <div class="row no-gutters">
                                         <div class="col-md-4 p-3">
                                             <img src={% static "images/food-1.png" %} class="card-img" alt="food">
                                         </div>
                                         <div class="col-md-8 ">
                                             <div class="card-body text-left">
-
+                                                
                                                 <div class="titleAndBtn actionDot d-flex justify-content-between">
                                                     <h5 class="card-title">{{item.recipe}} {{item.meal}}</h5>
 
@@ -151,108 +146,13 @@
                                     </div>
                                 </div>
                                 {% endif %}
-                                {% endfor %}
-                            </div>
-
-                            <div class="tab-pane fade francyFoodCardControll" id="pills-profile-{{d}}" role="tabpanel"
-                                aria-labelledby="pills-profile-tab">
-                                {% for item in recipes %}
-                                {% if item.meal == "LUNCH" %}
-                                <div class="card mb-3 foodCard pt-4">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-4 p-3">
-                                            <img src={% static "images/food-1.png" %} class="card-img" alt="food">
-                                        </div>
-                                        <div class="col-md-8 ">
-                                            <div class="card-body text-left">
-
-                                                <div class="titleAndBtn actionDot d-flex justify-content-between">
-                                                    <h5 class="card-title">{{item.recipe}} {{item.meal}}</h5>
-
-                                                    <!-- ------------- Dropdown Menu ---------- -->
-                                                    <div class="dropdown-menu text-center"
-                                                        aria-labelledby="dropdownMenuLink">
-                                                        <a class="dropdown-item" href="{% url 'user-edit-recipe' item.id %}">Replace</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item" href="{% url 'user-delete-recipe' item.id %}">Delete</a>
-                                                    </div>
-
-                                                    <!-- ----------- Action Menu Btn---------- -->
-                                                    <img src={% static "images/threeDot.png" %} alt="threeDot"
-                                                        class="img-fluid dropdown-toggle" role="button"
-                                                        id="dropdownMenuLink" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false" style="height: 2rem">
-
-                                                </div>
-                                                <div class="timeAndBtn d-flex justify-content-between mt-3">
-                                                    <p class="card-text mt-4"><img src={% static "images/clock.png" %} alt="clock"
-                                                            class="img-fluid"> 10 min</p>
-                                                    <a href={% url 'user-view-recipe' item.id %}>
-                                                        <button class="btn btn-sm text-light" style="font-size: 1.5rem;
-                                                    padding: 1rem 3rem;
-                                                    border-radius: 1rem;
-                                                    background: #F7B4FF;
-                                                    ">Start</button>
-                                                    </a>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 {% endif %}
-                                {% endfor %}
+                                 {% endfor %}
+                                
+                                
                             </div>
-
-                            <div class="tab-pane fade francyFoodCardControll" id="pills-contact-{{d}}" role="tabpanel"
-                                aria-labelledby="pills-contact-tab">
-                                {% for item in recipes %}
-                                {% if item.meal == "DINNER" %}
-                                <div class="card mb-3 foodCard pt-4">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-4 p-3">
-                                            <img src={% static "images/food-1.png" %} class="card-img" alt="food">
-                                        </div>
-                                        <div class="col-md-8 ">
-                                            <div class="card-body text-left">
-
-                                                <div class="titleAndBtn actionDot d-flex justify-content-between">
-                                                    <h5 class="card-title">{{item.recipe}} {{item.meal}}</h5>
-
-                                                    <!-- ------------- Dropdown Menu ---------- -->
-                                                    <div class="dropdown-menu text-center"
-                                                        aria-labelledby="dropdownMenuLink">
-                                                        <a class="dropdown-item" href="{% url 'user-edit-recipe' item.id %}">Replace</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item" href="{% url 'user-delete-recipe' item.id %}">Delete</a>
-                                                    </div>
-
-                                                    <!-- ----------- Action Menu Btn---------- -->
-                                                    <img src={% static "images/threeDot.png" %} alt="threeDot"
-                                                        class="img-fluid dropdown-toggle" role="button"
-                                                        id="dropdownMenuLink" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false" style="height: 2rem">
-
-                                                </div>
-                                                <div class="timeAndBtn d-flex justify-content-between mt-3">
-                                                    <p class="card-text mt-4"><img src={% static "images/clock.png" %} alt="clock"
-                                                            class="img-fluid"> 10 min</p>
-                                                    <a href={% url 'user-view-recipe' item.id %}>
-                                                        <button class="btn btn-sm text-light" style="font-size: 1.5rem;
-                                                    padding: 1rem 3rem;
-                                                    border-radius: 1rem;
-                                                    background: #F7B4FF;
-                                                    ">Start</button>
-                                                    </a>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endif %}
-                                {% endfor %}
-                            </div>
+                            {% endfor %}
+    
                             
                             {% else %}
                             <div class="tab-content" id="pills-tabContent">
@@ -260,32 +160,16 @@
                                     id="pills-home-{{d}}" role="tabpanel" aria-labelledby="pills-home-tab">
                                     <span style="margin-top: 8rem;"> No recipes selected </span>
                                 </div>
-                                <div class="tab-pane fade d-flex justify-content-center align-items-center"
-                                    id="pills-profile-{{d}}" role="tabpanel" aria-labelledby="pills-profile-tab">
-                                    <span style="margin-top: 0rem;"> No recipes selected </span>
-                                </div>
-                                <div class="tab-pane fade d-flex justify-content-center align-items-center"
-                                    id="pills-contact-{{d}}" role="tabpanel" aria-labelledby="pills-contact-tab">
-                                    <span style="margin-top: 0rem;"> No recipes selected </span>    
-                                </div>
                             </div>
                             {% endif %}
                         
 
 
-                            <div class="tab-pane fade d-flex justify-content-center align-items-center"
-                                id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                                <!-- dynamic slider content -->
-                            </div>
-
-                            <div class="tab-pane fade d-flex justify-content-center align-items-center"
-                                id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                                <!-- dynami slider content -->
-                            </div>
                         </div>
 
-                    
+                   
                     </div>
+                  
                     {% endfor %}
                     <div class="form-inline searchBar pt-4 px-5">
                         <a href="{% url 'user-add-recipe' %}">

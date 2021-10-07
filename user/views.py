@@ -61,7 +61,8 @@ class MyPantry(LoginRequiredMixin, ListView):
         # context ['recipe'] =context['recipe'].filter(user=self.request.user)
         context['recipes'] = UserRecipe.objects.all().filter(user=self.request.user)
         context['ingredients'] = UserIngredient.objects.all().filter(user=self.request.user)
-        context['days'] = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+        context['days'] = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+        context['meals'] = ["BREAKFAST", "LUNCH", "DINNER"]
         # context ['ingredient'] =context['ingredient'].filter(user=self.request.user)
         return context
 
@@ -121,6 +122,7 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         a = set(Recipe.objects.all())
+        context['meals'] = ["BREAKFAST", "LUNCH", "DINNER"]
         context['recipes'] = a
         return context
         
