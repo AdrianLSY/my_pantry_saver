@@ -51,7 +51,7 @@
                                 <p class="ml- count">{{freezer.count}}</p>
                             </div>
                             <div class=" d-flex countCtrl">
-                                <a href="#" id="pantry" class="place-ingredients"><p>Pantry</p></a>
+                                <a href="#" id="pantry" class="place-ingredients"><p>Cupboard</p></a>
                                 <p class="ml- count">{{pantry.count}}</p>
                             </div>
 
@@ -61,7 +61,6 @@
 
                     <!-- ----------------- Search Bar ---------------- -->
                     <div class="form-inline searchBar px-5">
-                        <input type="text" class="form-control mb-2 mr-sm-2" id="" placeholder="Search for ingredient">
                         <a href="{% url 'user-add-ingredient' %}">
                             <button type="submit" class="btn"><img src={% static "images/plus.png" %} alt="" class="img-fluid">
                                 Add</button>
@@ -103,7 +102,7 @@
                             </div>
                             {% endfor %}
                             {% else %}
-                                <h3>No Ingredient Available</h3>
+                                <h3 class="mt-5">No Ingredient Available</h3>
                             {% endif %}
                         </div>
                     </div>
@@ -140,7 +139,7 @@
                             </div>
                             {% endfor %}
                             {% else %}
-                                <h3>No Ingredient Available</h3>
+                                <h3 class="mt-5">No Ingredient Available</h3>
                             {% endif %}
                         </div>
                         </div>
@@ -178,7 +177,7 @@
                             </div>
                             {% endfor %}
                             {% else %}
-                                <h3>No Ingredient Available</h3>
+                                <h3 class="mt-5">No Ingredient Available</h3>
                             {% endif %}
                         </div>
                         </div>
@@ -216,7 +215,7 @@
                             </div>
                             {% endfor %}
                             {% else %}
-                                <h3>No Ingredient Available</h3>
+                                <h3 class="mt-5">No Ingredient Available</h3>
                             {% endif %}
                         </div>
                         </div>
@@ -230,13 +229,34 @@
         </div>
     </section>
     <script>
-
-    $(document).ready(function(){
-        $('.countCtrl').click(function() {
-            $('.countCtrl .count').removeClass('active');
-            $(this).children('.count').addClass('active');
+        $(document).ready(function(){
+            var type = ['all', 'fridge', 'freezer', 'pantry'];
+            var types = ['allIngredients', 'fridgeIngredients', 'freezerIngredients', 'pantryIngredients'];
+            var ds = ["Mons", "Tues", "Weds", "Thus", "Fris", "Sats", "Suns"];
+            var dsDiv = ["mons", "tues", "weds", "thus", "fris", "sats", "suns"];
+            var contentdays = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
+            var mealcontent = ["pills-home-mon", "pills-home-tue", "pills-home-wed", "pills-home-thu", "pills-home-fri", "pills-home-sat", "pills-home-sun"];
+            var mealtab = ["pills-home-tab-mon", "pills-home-tab-tue", "pills-home-tab-wed", "pills-home-tab-thu", "pills-home-tab-fri", "pills-home-tab-sat", "pills-home-tab-sun"];
+            var breakfirst = ["pills-tab-mon", "pills-tab-tue", "pills-tab-wed", "pills-tab-thu", "pills-tab-fri", "pills-tab-sat", "pills-tab-sun"];
+            var meals = ["BREAKFAST", "LUNCH", "DINNER"]
+            var realmeal = []
+            var divDays = ["div-MONDAY", "div-TUESDAY", "div-WEDNESDAY", "div-THURSDAY", "div-FRIDAY", "div-SATURDAY", "div-SUNDAY"];
+            // one of tables will be hidden on default
+            $('.place-ingredients').click(function() {
+                for (let i = 0; i < type.length; i++) {
+                    var s = this.id+"Ingredients";
+                    var temp = document.getElementById(types[i]);
+                    if (this.id === type[i]){
+                        temp.style.setProperty('display', 'block', 'important');
+                    } else {
+                        temp.style.setProperty('display', 'none', 'important');
+                    }
+                }
+            });
+            $('.countCtrl').click(function() {
+                $('.countCtrl .count').removeClass('active');
+                $(this).children('.count').addClass('active');
+            });
         });
-    })
     </script>
-
 {% endblock content %}

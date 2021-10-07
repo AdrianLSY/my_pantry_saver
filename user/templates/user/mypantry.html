@@ -147,13 +147,9 @@
                                 </div>
                                 {% endif %}
                                 {% endif %}
-                                 {% endfor %}
-                                
-                                
+                                {% endfor %}
                             </div>
                             {% endfor %}
-    
-                            
                             {% else %}
                             <div class="tab-content" id="pills-tabContent">
                                 <div class="tab-pane d-flex justify-content-center align-items-center fade show active"
@@ -162,14 +158,8 @@
                                 </div>
                             </div>
                             {% endif %}
-                        
-
-
                         </div>
-
-                   
                     </div>
-                  
                     {% endfor %}
                     <div class="form-inline searchBar pt-4 px-5">
                         <a href="{% url 'user-add-recipe' %}">
@@ -188,67 +178,60 @@
     <script>
 
     $(document).ready(function(){
-       var type = ['all', 'fridge', 'freezer', 'pantry'];
-    var types = ['allIngredients', 'fridgeIngredients', 'freezerIngredients', 'pantryIngredients'];
-    var ds = ["Mons", "Tues", "Weds", "Thus", "Fris", "Sats", "Suns"];
-    var dsDiv = ["mons", "tues", "weds", "thus", "fris", "sats", "suns"];
-    var contentdays = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
-    var mealcontent = ["pills-home-mon", "pills-home-tue", "pills-home-wed", "pills-home-thu", "pills-home-fri", "pills-home-sat", "pills-home-sun"];
-    var mealtab = ["pills-home-tab-mon", "pills-home-tab-tue", "pills-home-tab-wed", "pills-home-tab-thu", "pills-home-tab-fri", "pills-home-tab-sat", "pills-home-tab-sun"];
-    var breakfirst = ["pills-tab-mon", "pills-tab-tue", "pills-tab-wed", "pills-tab-thu", "pills-tab-fri", "pills-tab-sat", "pills-tab-sun"];
-    var meals = ["BREAKFAST", "LUNCH", "DINNER"]
-    var realmeal = []
-    var divDays = ["div-MONDAY", "div-TUESDAY", "div-WEDNESDAY", "div-THURSDAY", "div-FRIDAY", "div-SATURDAY", "div-SUNDAY"];
-   // one of tables will be hidden on default
-    $('.place-ingredients').click(function() {
-        for (let i = 0; i < type.length; i++) {
-            var s = this.id+"Ingredients";
-            var temp = document.getElementById(types[i]);
-            if (this.id === type[i]){
-                temp.style.setProperty('display', 'block', 'important');
-            } else {
-                temp.style.setProperty('display', 'none', 'important');
+        var type = ['all', 'fridge', 'freezer', 'pantry'];
+        var types = ['allIngredients', 'fridgeIngredients', 'freezerIngredients', 'pantryIngredients'];
+        var ds = ["Mons", "Tues", "Weds", "Thus", "Fris", "Sats", "Suns"];
+        var dsDiv = ["mons", "tues", "weds", "thus", "fris", "sats", "suns"];
+        var contentdays = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
+        var mealcontent = ["pills-home-mon", "pills-home-tue", "pills-home-wed", "pills-home-thu", "pills-home-fri", "pills-home-sat", "pills-home-sun"];
+        var mealtab = ["pills-home-tab-mon", "pills-home-tab-tue", "pills-home-tab-wed", "pills-home-tab-thu", "pills-home-tab-fri", "pills-home-tab-sat", "pills-home-tab-sun"];
+        var breakfirst = ["pills-tab-mon", "pills-tab-tue", "pills-tab-wed", "pills-tab-thu", "pills-tab-fri", "pills-tab-sat", "pills-tab-sun"];
+        var meals = ["BREAKFAST", "LUNCH", "DINNER"]
+        var realmeal = []
+        var divDays = ["div-MONDAY", "div-TUESDAY", "div-WEDNESDAY", "div-THURSDAY", "div-FRIDAY", "div-SATURDAY", "div-SUNDAY"];
+        // one of tables will be hidden on default
+        $('.place-ingredients').click(function() {
+            for (let i = 0; i < type.length; i++) {
+                var s = this.id+"Ingredients";
+                var temp = document.getElementById(types[i]);
+                if (this.id === type[i]){
+                    temp.style.setProperty('display', 'block', 'important');
+                } else {
+                    temp.style.setProperty('display', 'none', 'important');
+                }
             }
-        }
-      
-    });
+        
+        });
 
-    $('.day').click(function() {
-        //var p = "."+this.id;
-         //$(p).hide();
-       for (let i = 0; i < ds.length; i++) {
-           var temp = document.getElementById(contentdays[i]);
-           var link = document.getElementById(dsDiv[i]);
-           var brea = document.getElementById(breakfirst[i]);
-           var div = document.getElementById(divDays[i]);
-           
-           if (this.id === ds[i]){
-               temp.style.setProperty('display', 'block', 'important');
-               div.style.setProperty('display', 'block', 'important');
-               link.style.setProperty('background-color', '#DDF9D9', 'important');
+        $('.day').click(function() {
+            //var p = "."+this.id;
+            //$(p).hide();
+        for (let i = 0; i < ds.length; i++) {
+            var temp = document.getElementById(contentdays[i]);
+            var link = document.getElementById(dsDiv[i]);
+            var brea = document.getElementById(breakfirst[i]);
+            var div = document.getElementById(divDays[i]);
+            
+            if (this.id === ds[i]){
+                temp.style.setProperty('display', 'block', 'important');
+                div.style.setProperty('display', 'block', 'important');
+                link.style.setProperty('background-color', '#DDF9D9', 'important');
+                    for (let j = 0; j < meals.lenght; j++){
+                    var s = mealtab[i] + meals[j];
+                    $(s).show();
+                }
+            } else {
                 for (let j = 0; j < meals.lenght; j++){
                 var s = mealtab[i] + meals[j];
-                $(s).show();
+                    $(s).hide();
             }
-           } else {
-               for (let j = 0; j < meals.lenght; j++){
-               var s = mealtab[i] + meals[j];
-                $(s).hide();
-           }
-               temp.style.setProperty('display', 'none', 'important');
-               div.style.setProperty('display', 'none', 'important');
-               link.style.setProperty('background-color', '', 'important');
-              
-           }
-       }
-      
-    });
-    
-    $('.countCtrl').click(function() {
-        $('.countCtrl .count').removeClass('active');
-        $(this).children('.count').addClass('active');
-    });
-   
+                temp.style.setProperty('display', 'none', 'important');
+                div.style.setProperty('display', 'none', 'important');
+                link.style.setProperty('background-color', '', 'important');
+                
+            }
+        }
+        });
     });
 
 
