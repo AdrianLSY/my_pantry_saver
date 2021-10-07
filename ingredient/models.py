@@ -8,10 +8,9 @@ LOCATION = (
 
 # Create your models here.
 class Ingredient(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=255)
     # recipe = models.ForeignKey('recipe')
     place_in = models.CharField(max_length = 255, choices = LOCATION, default = 'PANTRY')
-    unit = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name

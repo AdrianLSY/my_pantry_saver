@@ -28,6 +28,7 @@ class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
+    unit = models.CharField(max_length=255, null=True, blank=True)
 
     def get(self):
         return self.recipe
