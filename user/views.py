@@ -124,6 +124,7 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
         a = set(Recipe.objects.all())
         context['meals'] = ["BREAKFAST", "LUNCH", "DINNER"]
         context['recipes'] = a
+        context['recipe_ingredients'] = RecipeIngredient.objects.all().filter()
         return context
         
     def form_valid(self, form):
