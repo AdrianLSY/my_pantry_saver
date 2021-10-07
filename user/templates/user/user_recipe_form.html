@@ -153,8 +153,13 @@
                                                     <div class="row">
                                                         <div class="col-sm-9">
                                                             <h5 class="card-title">{{ option }}</h5>
-                                                            <p class="card-text"><img src={% static "images/clock.png" %} alt="clock"
-                                                                    class="img-fluid"> 10 min</p>
+                                                            <p class="card-text"><img src={% static "images/clock.png" %} alt="clock" class="img-fluid">
+                                                            {% for item in recipes %}
+                                                            {% if item.name == option %}
+                                                            {{ item.time }} min
+                                                            {% endif %}
+                                                            {% endfor %}
+                                                            </p>
                                                         </div>
                                                         <div class="col-sm-3 d-flex align-items-center pt-4">
                                                             <a href="#" id="arrow{{id}}">
