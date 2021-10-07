@@ -45,7 +45,7 @@ class RecipeDelete(DeleteView):
 
 class RecipeIngredientCreate(CreateView):
     model = RecipeIngredient
-    fields = 'ingredient', 'quantity'
+    fields = 'ingredient', 'quantity', 'unit'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -62,7 +62,7 @@ class RecipeIngredientCreate(CreateView):
 
 class RecipeIngredientUpdate(UpdateView):
     model = RecipeIngredient
-    fields = ('quantity',)
+    fields = 'quantity', 'unit'
 
     def get_object(self, *args, **kwargs):
         return RecipeIngredient.objects.get(id=self.kwargs['RecipeIngredient_pk'])
