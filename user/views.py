@@ -136,7 +136,8 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
                 user=self.request.user,
                 user_recipe=user_recipe,
                 ingredient=recipe_ingredient.ingredient,
-                quantity=recipe_ingredient.quantity
+                quantity=recipe_ingredient.quantity,
+                unit=recipe_ingredient.unit
             )
             user_ingredient.save()
             print(user_ingredient)
