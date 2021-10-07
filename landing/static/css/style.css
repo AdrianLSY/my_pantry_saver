@@ -171,6 +171,9 @@ a:hover {
 .dateDay:hover {
   background: #DDF9D9; }
 
+ul li{
+  display: inline;
+}
 .dynamicDiv {
   min-height: 30rem; }
   .dynamicDiv .nav {

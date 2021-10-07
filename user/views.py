@@ -12,7 +12,7 @@ from django.contrib.auth import login
 from ingredient.models import Ingredient
 # from django.contrib.auth.models import User
 from .models import UserRecipe, UserIngredient
-from recipe.models import RecipeIngredient
+from recipe.models import RecipeIngredient, Recipe
 from django.views.generic.list import ListView
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
@@ -61,7 +61,8 @@ class MyPantry(LoginRequiredMixin, ListView):
         # context ['recipe'] =context['recipe'].filter(user=self.request.user)
         context['recipes'] = UserRecipe.objects.all().filter(user=self.request.user)
         context['ingredients'] = UserIngredient.objects.all().filter(user=self.request.user)
-        context['days'] = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+        context['days'] = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"]
+        context['meals'] = ["BREAKFAST", "LUNCH", "DINNER"]
         # context ['ingredient'] =context['ingredient'].filter(user=self.request.user)
         return context
 
@@ -118,6 +119,13 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('mypantry')
     context_object_name = 'recipe_list'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        a = set(Recipe.objects.all())
+        context['meals'] = ["BREAKFAST", "LUNCH", "DINNER"]
+        context['recipes'] = a
+        return context
+        
     def form_valid(self, form):
         form.instance.user = self.request.user
         user_recipe = form.save()
@@ -128,7 +136,8 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
                 user=self.request.user,
                 user_recipe=user_recipe,
                 ingredient=recipe_ingredient.ingredient,
-                quantity=recipe_ingredient.quantity
+                quantity=recipe_ingredient.quantity,
+                unit=recipe_ingredient.unit
             )
             user_ingredient.save()
             print(user_ingredient)

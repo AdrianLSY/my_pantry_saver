@@ -32,6 +32,8 @@
 
                     <!-- --------------- Calender -------- -->
                     <div class="calender px-5 pt-3">
+                    <div class="row">
+                    </div>
                         <div class="row">
                             <div class="col dateDay" id="mons" style="background-color:#DDF9D9;">
                                 <a href="#" class="day" id="Mons">Mon</a>
@@ -59,62 +61,58 @@
 
                     <!-- ------------------ DynamicSlider ------------------- -->
                     {% for d in days %}
-                    {% if d == 'mon' %}
+                    
+                    {% if d == 'MONDAY' %}
                     <div class="dynamicDiv dynamicDivFoodControl text-center px-5 pt-3" id="div-{{d}}">
                     {% else %}
                     <div class="dynamicDiv dynamicDivFoodControl text-center px-5 pt-3" id="div-{{d}}" style="display:none;">
                     {% endif %}
-                        <ul class="nav nav-pills mb-3 mr-auto" id="pills-tab" role="tablist">
-                        {% if d != 'mon' %}
+                        <ul class="nav nav-pills mb-3 mr-auto" id="pills-tab-{{d}}" role="tablist">
+                       
                             <li class="nav-item">
-                                <a class="nav-link active" id="pills-home-tab-{{d}}" data-toggle="pill" href="#pills-home-{{d}}"
-                                    role="tab" aria-controls="pills-home" aria-selected="true" style="display:none;">Breakfast</a>
+                                <a class="nav-link active" id="pills-home-tab-{{d}}-BREAKFAST" data-toggle="pill" href="#pills-home-{{d}}-BREAKFAST"
+                                    role="tab" aria-controls="pills-home" aria-selected="true" style="display:inline;">Breakfast</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="pills-profile-tab-{{d}}" data-toggle="pill" href="#pills-profile-{{d}}"
-                                    role="tab" aria-controls="pills-profile" aria-selected="false" style="display:none;">Lunch</a>
+                                <a class="nav-link" id="pills-home-tab-{{d}}-LUNCH" data-toggle="pill" href="#pills-home-{{d}}-LUNCH"
+                                    role="tab" aria-controls="pills-profile" aria-selected="false" style="display:inline;">Lunch</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="pills-contact-tab-{{d}}" data-toggle="pill" href="#pills-contact-{{d}}"
-                                    role="tab" aria-controls="pills-contact" aria-selected="false" style="display:none;">Dinner</a>
+                                <a class="nav-link" id="pills-home-tab-{{d}}-DINNER" data-toggle="pill" href="#pills-home-{{d}}-DINNER"
+                                    role="tab" aria-controls="pills-contact" aria-selected="false" style="display:inline;">Dinner</a>
                             </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link active" id="pills-home-tab-{{d}}" data-toggle="pill" href="#pills-home-{{d}}"
-                                    role="tab" aria-controls="pills-home" aria-selected="true">Breakfast</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="pills-profile-tab-{{d}}" data-toggle="pill" href="#pills-profile-{{d}}"
-                                    role="tab" aria-controls="pills-profile" aria-selected="false">Lunch</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="pills-contact-tab-{{d}}" data-toggle="pill" href="#pills-contact-{{d}}"
-                                    role="tab" aria-controls="pills-contact" aria-selected="false">Dinner</a>
-                            </li>
-                        {% endif %}
+                       
                         </ul>
                         
-                        {% if d != 'mon' %}
+                        {% if d != 'MONDAY' %}
                         <div class="tab-content tabContentFood" id="{{d}}" style="display:none;">
                         {% else %}
                         <div class="tab-content tabContentFood" id="{{d}}">
                         {% endif %}
                             {% if recipes.count > 0 %}
-                            
-                            <div class="tab-pane fade show active francyFoodCardControll" id="pills-home-{{d}}" role="tabpanel"
-                                aria-labelledby="pills-home-tab">
+                            {% for m in meals %}
+                            {% if m == 'BREAKFAST' %}
+                            <div class="tab-pane fade show active francyFoodCardControll" id="pills-home-{{d}}-{{m}}" role="tabpanel"
+                                aria-labelledby="pills-home-tab-{{d}}-{{m}}">
+                            {% else %}
+                            <div class="tab-pane fadefrancyFoodCardControll" id="pills-home-{{d}}-{{m}}" role="tabpanel"
+                                aria-labelledby="pills-home-tab-{{d}}-{{m}}">
+                            {% endif %}
+                                
                                 {% for item in recipes %}
-                                {% if item.meal == "BREAKFAST" %}
-                                <div class="card mb-3 foodCard pt-4">
+                                {% if item.day == d%}
+                                {%if item.meal == m %}
+                                <div class="card mb-3 foodCard pt-4 {{d}}" id="pills-home-tab-{{d}}-{{m}}">
+                                
                                     <div class="row no-gutters">
                                         <div class="col-md-4 p-3">
                                             <img src={% static "images/food-1.png" %} class="card-img" alt="food">
                                         </div>
                                         <div class="col-md-8 ">
                                             <div class="card-body text-left">
-
+                                                
                                                 <div class="titleAndBtn actionDot d-flex justify-content-between">
-                                                    <h5 class="card-title">{{item.recipe}} {{item.meal}} {{item.day}}</h5>
+                                                    <h5 class="card-title">{{item.recipe}} {{item.meal}}</h5>
 
                                                     <!-- ------------- Dropdown Menu ---------- -->
                                                     <div class="dropdown-menu text-center"
@@ -148,108 +146,13 @@
                                     </div>
                                 </div>
                                 {% endif %}
-                                {% endfor %}
-                            </div>
-
-                            <div class="tab-pane fade francyFoodCardControll" id="pills-profile-{{d}}" role="tabpanel"
-                                aria-labelledby="pills-profile-tab">
-                                {% for item in recipes %}
-                                {% if item.meal == "LUNCH" %}
-                                <div class="card mb-3 foodCard pt-4">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-4 p-3">
-                                            <img src={% static "images/food-1.png" %} class="card-img" alt="food">
-                                        </div>
-                                        <div class="col-md-8 ">
-                                            <div class="card-body text-left">
-
-                                                <div class="titleAndBtn actionDot d-flex justify-content-between">
-                                                    <h5 class="card-title">{{item.recipe}} {{item.meal}} {{item.day}}</h5>
-
-                                                    <!-- ------------- Dropdown Menu ---------- -->
-                                                    <div class="dropdown-menu text-center"
-                                                        aria-labelledby="dropdownMenuLink">
-                                                        <a class="dropdown-item" href="{% url 'user-edit-recipe' item.id %}">Replace</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item" href="{% url 'user-delete-recipe' item.id %}">Delete</a>
-                                                    </div>
-
-                                                    <!-- ----------- Action Menu Btn---------- -->
-                                                    <img src={% static "images/threeDot.png" %} alt="threeDot"
-                                                        class="img-fluid dropdown-toggle" role="button"
-                                                        id="dropdownMenuLink" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false" style="height: 2rem">
-
-                                                </div>
-                                                <div class="timeAndBtn d-flex justify-content-between mt-3">
-                                                    <p class="card-text mt-4"><img src={% static "images/clock.png" %} alt="clock"
-                                                            class="img-fluid"> 10 min</p>
-                                                    <a href={% url 'user-view-recipe' item.id %}>
-                                                        <button class="btn btn-sm text-light" style="font-size: 1.5rem;
-                                                    padding: 1rem 3rem;
-                                                    border-radius: 1rem;
-                                                    background: #F7B4FF;
-                                                    ">Start</button>
-                                                    </a>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                                 {% endif %}
-                                {% endfor %}
+                                 {% endfor %}
+                                
+                                
                             </div>
-
-                            <div class="tab-pane fade francyFoodCardControll" id="pills-contact-{{d}}" role="tabpanel"
-                                aria-labelledby="pills-contact-tab">
-                                {% for item in recipes %}
-                                {% if item.meal == "DINNER" %}
-                                <div class="card mb-3 foodCard pt-4">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-4 p-3">
-                                            <img src={% static "images/food-1.png" %} class="card-img" alt="food">
-                                        </div>
-                                        <div class="col-md-8 ">
-                                            <div class="card-body text-left">
-
-                                                <div class="titleAndBtn actionDot d-flex justify-content-between">
-                                                    <h5 class="card-title">{{item.recipe}} {{item.meal}} {{item.day}}</h5>
-
-                                                    <!-- ------------- Dropdown Menu ---------- -->
-                                                    <div class="dropdown-menu text-center"
-                                                        aria-labelledby="dropdownMenuLink">
-                                                        <a class="dropdown-item" href="{% url 'user-edit-recipe' item.id %}">Replace</a>
-                                                        <div class="dropdown-divider"></div>
-                                                        <a class="dropdown-item" href="{% url 'user-delete-recipe' item.id %}">Delete</a>
-                                                    </div>
-
-                                                    <!-- ----------- Action Menu Btn---------- -->
-                                                    <img src={% static "images/threeDot.png" %} alt="threeDot"
-                                                        class="img-fluid dropdown-toggle" role="button"
-                                                        id="dropdownMenuLink" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false" style="height: 2rem">
-
-                                                </div>
-                                                <div class="timeAndBtn d-flex justify-content-between mt-3">
-                                                    <p class="card-text mt-4"><img src={% static "images/clock.png" %} alt="clock"
-                                                            class="img-fluid"> 10 min</p>
-                                                    <a href={% url 'user-view-recipe' item.id %}>
-                                                        <button class="btn btn-sm text-light" style="font-size: 1.5rem;
-                                                    padding: 1rem 3rem;
-                                                    border-radius: 1rem;
-                                                    background: #F7B4FF;
-                                                    ">Start</button>
-                                                    </a>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {% endif %}
-                                {% endfor %}
-                            </div>
+                            {% endfor %}
+    
                             
                             {% else %}
                             <div class="tab-content" id="pills-tabContent">
@@ -257,32 +160,16 @@
                                     id="pills-home-{{d}}" role="tabpanel" aria-labelledby="pills-home-tab">
                                     <span style="margin-top: 8rem;"> No recipes selected </span>
                                 </div>
-                                <div class="tab-pane fade d-flex justify-content-center align-items-center"
-                                    id="pills-profile-{{d}}" role="tabpanel" aria-labelledby="pills-profile-tab">
-                                    <span style="margin-top: 0rem;"> No recipes selected </span>
-                                </div>
-                                <div class="tab-pane fade d-flex justify-content-center align-items-center"
-                                    id="pills-contact-{{d}}" role="tabpanel" aria-labelledby="pills-contact-tab">
-                                    <span style="margin-top: 0rem;"> No recipes selected </span>    
-                                </div>
                             </div>
                             {% endif %}
                         
 
 
-                            <div class="tab-pane fade d-flex justify-content-center align-items-center"
-                                id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                                <!-- dynamic slider content -->
-                            </div>
-
-                            <div class="tab-pane fade d-flex justify-content-center align-items-center"
-                                id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                                <!-- dynami slider content -->
-                            </div>
                         </div>
 
-                    
+                   
                     </div>
+                  
                     {% endfor %}
                     <div class="form-inline searchBar pt-4 px-5">
                         <a href="{% url 'user-add-recipe' %}">
@@ -297,60 +184,71 @@
             </div>
         </div>
     </section>
+
     <script>
 
     $(document).ready(function(){
-        var type = ['all', 'fridge', 'freezer', 'pantry'];
-        var types = ['allIngredients', 'fridgeIngredients', 'freezerIngredients', 'pantryIngredients'];
-        var ds = ["Mons", "Tues", "Weds", "Thus", "Fris", "Sats", "Suns"];
-        var dsDiv = ["mons", "tues", "weds", "thus", "fris", "sats", "suns"];
-        var contentdays = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
-        var mealcontent = ["pills-home-mon", "pills-home-tue", "pills-home-wed", "pills-home-thu", "pills-home-fri", "pills-home-sat", "pills-home-sun"];
-        var breakfirst = ["pills-home-tab-mon", "pills-home-tab-tue", "pills-home-tab-wed", "pills-home-tab-thu", "pills-home-tab-fri", "pills-home-tab-sat", "pills-home-tab-sun"];
-        var lunch = ["pills-profile-tab-mon", "pills-profile-tab-tue", "pills-profile-tab-wed", "pills-profile-tab-thu", "pills-profile-tab-fri", "pills-profile-tab-sat", "pills-profile-tab-sun"];
-        var dinner = ["pills-contact-tab-mon", "pills-contact-tab-tue", "pills-contact-tab-wed", "pills-contact-tab-thu", "pills-contact-tab-fri", "pills-contact-tab-sat", "pills-contact-tab-sun"];
-        var divDays = ["div-mon", "div-tue", "div-wed", "div-thu", "div-fri", "div-sat", "div-sun"];
-    // one of tables will be hidden on default
-        $('.place-ingredients').click(function() {
-            for (let i = 0; i < type.length; i++) {
-                var s = this.id+"Ingredients";
-                var temp = document.getElementById(types[i]);
-                if (this.id === type[i]){
-                    temp.style.setProperty('display', 'block', 'important');
-                } else {
-                    temp.style.setProperty('display', 'none', 'important');
-                }
-            }
-        });
-
-        $('.day').click(function() {
-        for (let i = 0; i < ds.length; i++) {
-            var temp = document.getElementById(contentdays[i]);
-            var link = document.getElementById(dsDiv[i]);
-            var brea = document.getElementById(breakfirst[i]);
-            var lun = document.getElementById(lunch[i]);
-            var din = document.getElementById(dinner[i]);
-            var content = document.getElementById(mealcontent[i]);
-            var div = document.getElementById(divDays[i]);
-            if (this.id === ds[i]){
+       var type = ['all', 'fridge', 'freezer', 'pantry'];
+    var types = ['allIngredients', 'fridgeIngredients', 'freezerIngredients', 'pantryIngredients'];
+    var ds = ["Mons", "Tues", "Weds", "Thus", "Fris", "Sats", "Suns"];
+    var dsDiv = ["mons", "tues", "weds", "thus", "fris", "sats", "suns"];
+    var contentdays = ["MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY", "SUNDAY"];
+    var mealcontent = ["pills-home-mon", "pills-home-tue", "pills-home-wed", "pills-home-thu", "pills-home-fri", "pills-home-sat", "pills-home-sun"];
+    var mealtab = ["pills-home-tab-mon", "pills-home-tab-tue", "pills-home-tab-wed", "pills-home-tab-thu", "pills-home-tab-fri", "pills-home-tab-sat", "pills-home-tab-sun"];
+    var breakfirst = ["pills-tab-mon", "pills-tab-tue", "pills-tab-wed", "pills-tab-thu", "pills-tab-fri", "pills-tab-sat", "pills-tab-sun"];
+    var meals = ["BREAKFAST", "LUNCH", "DINNER"]
+    var realmeal = []
+    var divDays = ["div-MONDAY", "div-TUESDAY", "div-WEDNESDAY", "div-THURSDAY", "div-FRIDAY", "div-SATURDAY", "div-SUNDAY"];
+   // one of tables will be hidden on default
+    $('.place-ingredients').click(function() {
+        for (let i = 0; i < type.length; i++) {
+            var s = this.id+"Ingredients";
+            var temp = document.getElementById(types[i]);
+            if (this.id === type[i]){
                 temp.style.setProperty('display', 'block', 'important');
-                brea.style.setProperty('display', 'block', 'important');
-                lun.style.setProperty('display', 'block', 'important');
-                din.style.setProperty('display', 'block', 'important');
-                content.style.setProperty('display', 'block', 'important');
-                div.style.setProperty('display', 'block', 'important');
-                link.style.setProperty('background-color', '#DDF9D9', 'important');
             } else {
                 temp.style.setProperty('display', 'none', 'important');
-                brea.style.setProperty('display', 'none', 'important');
-                lun.style.setProperty('display', 'block', 'important');
-                din.style.setProperty('display', 'block', 'important');
-                div.style.setProperty('display', 'none', 'important');
-                content.style.setProperty('display', 'none', 'important');
-                link.style.setProperty('background-color', '', 'important');
             }
         }
-        });
+      
+    });
+
+    $('.day').click(function() {
+        //var p = "."+this.id;
+         //$(p).hide();
+       for (let i = 0; i < ds.length; i++) {
+           var temp = document.getElementById(contentdays[i]);
+           var link = document.getElementById(dsDiv[i]);
+           var brea = document.getElementById(breakfirst[i]);
+           var div = document.getElementById(divDays[i]);
+           
+           if (this.id === ds[i]){
+               temp.style.setProperty('display', 'block', 'important');
+               div.style.setProperty('display', 'block', 'important');
+               link.style.setProperty('background-color', '#DDF9D9', 'important');
+                for (let j = 0; j < meals.lenght; j++){
+                var s = mealtab[i] + meals[j];
+                $(s).show();
+            }
+           } else {
+               for (let j = 0; j < meals.lenght; j++){
+               var s = mealtab[i] + meals[j];
+                $(s).hide();
+           }
+               temp.style.setProperty('display', 'none', 'important');
+               div.style.setProperty('display', 'none', 'important');
+               link.style.setProperty('background-color', '', 'important');
+              
+           }
+       }
+      
+    });
+    
+    $('.countCtrl').click(function() {
+        $('.countCtrl .count').removeClass('active');
+        $(this).children('.count').addClass('active');
+    });
+   
     });
 
 

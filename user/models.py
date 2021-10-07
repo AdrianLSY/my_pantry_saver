@@ -59,6 +59,7 @@ class UserIngredient(models.Model):
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     expiry_date = models.DateField(null=True, blank=True)
     quantity = models.IntegerField(null=True)
+    unit = models.CharField(max_length=255, blank=True, null=True)
     in_pantry = models.BooleanField(default=False)
 
     class Meta:
