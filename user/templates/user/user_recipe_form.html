@@ -83,8 +83,13 @@
                                             <div class="col-md-8 ">
                                                 <div class="card-body">
                                                     <h5 class="card-title">{{ option }}</h5>
-                                                    <p class="card-text"><img src={% static "images/clock.png" %} alt="clock"
-                                                            class="img-fluid"> 10 min</p>
+                                                    <p class="card-text"><img src={% static "images/clock.png" %} alt="clock" class="img-fluid">
+                                                    {% for item in recipes %}
+                                                    {% if item.name == option %}
+                                                    {{ item.time }} min
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -95,14 +100,11 @@
                                         <p class="py-3" style="opacity: 0.8;">Ingredients</p>
                                         <div class="row">
                                             <div class="col-sm-6 text-left">
-                                                <p>3 slices of white </p>
-                                                <p>sandwich bread </p>
-                                                <p class="pt-3">1 large egg</p>
-                                            </div>
-                                            <div class="col-sm-6 text-left">
-                                                <p>15 – 20g / 1 – </p>
-                                                <p>1.5 tbsp butter</p>
-                                                <p class="pt-3"> 62.5 ml milk</p>
+                                            {% for item in recipe_ingredients %}
+                                            {% if item.recipe.name == option %}
+                                            <p>{{ item.ingredient.name }}: {{ item.quantity }} {% if item.unit %}{{ item.unit }}{% endif %}</p>
+                                            {% endif %}
+                                            {% endfor %} 
                                             </div>
                                         </div>
 
@@ -153,8 +155,13 @@
                                                     <div class="row">
                                                         <div class="col-sm-9">
                                                             <h5 class="card-title">{{ option }}</h5>
-                                                            <p class="card-text"><img src={% static "images/clock.png" %} alt="clock"
-                                                                    class="img-fluid"> 10 min</p>
+                                                            <p class="card-text"><img src={% static "images/clock.png" %} alt="clock" class="img-fluid">
+                                                            {% for item in recipes %}
+                                                            {% if item.name == option %}
+                                                            {{ item.time }} min
+                                                            {% endif %}
+                                                            {% endfor %}
+                                                            </p>
                                                         </div>
                                                         <div class="col-sm-3 d-flex align-items-center pt-4">
                                                             <a href="#" id="arrow{{id}}">

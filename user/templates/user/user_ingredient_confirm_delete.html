@@ -19,7 +19,7 @@
                     <a href="{% url 'pantry' %}">Go Back</a>
                     <form method='POST' action=''>
                         {% csrf_token %}
-                        <h3>Are you sure you want to delete this Ingredient "{{ ingredient.ingredients }}" expiring at "{{ ingredient.expiry_date }}"?</h3>
+                        <h3>Are you sure you want to delete this Ingredient "{{ ingredient.ingredient }}" expiring at "{{ ingredient.expiry_date }}"?</h3>
                         <input type="submit" value='Delete'>
                     </form>
                     <!-- ------------------------- Bootom Navigation -------------- -->

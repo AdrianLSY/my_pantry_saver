@@ -31,7 +31,7 @@
                                                 <h4>Rating: {{ recipe.recipe.rating }}</h6>
                                             </div>
                                             <p class="card-text mt-4"><img src={% static "images/clock.png" %} alt="clock"
-                                                    class="img-fluid"> 10 min</p>
+                                                    class="img-fluid"> {{ recipe.recipe.time }} min</p>
                                         </div>
                                     </div>
                                 </div>
@@ -73,16 +73,13 @@
                                             <p>Maple syrup</p>
                                         </div>
                                     </div> {% endcomment %}
-                                    <div>
-                                    
                                     
                                     {% for item in recipe_ingredients %}
-                                    <p>{{ item.ingredient }}</p>
-                                    {% endfor %}
+                                    {% if item.recipe.name == recipe.recipe.name %}
+                                    <p>{{ item.ingredient.name }}: {{ item.quantity }} {% if item.unit %}{{ item.unit }}{% endif %}</p>
+                                    {% endif %}
+                                    {% endfor %} 
                                     
-                                        
-                                    
-                                    </div>
                                 </div>
                                 <div class="tab-pane instractions fade d-flex justify-content-center align-items-center"
                                     id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
@@ -100,6 +97,16 @@
 
                                 </div>
                             </div>
+                            
+                        </div>
+                        <div class="mt-5">
+                            <a href="">
+                                <button class="btn btn-sm text-light" style="font-size: 1.5rem;
+                                padding: 1rem 3rem;
+                                border-radius: 1rem;
+                                background: #F7B4FF;
+                                ">Complete</button>
+                            </a>
                         </div>
                     </div>
 
