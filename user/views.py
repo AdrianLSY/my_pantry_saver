@@ -105,9 +105,9 @@ class Pantry(LoginRequiredMixin, ListView):
         # context ['recipe'] =context['recipe'].filter(user=self.request.user)
         context['recipes'] = UserRecipe.objects.all().filter(user=self.request.user)
         context['ingredients'] = UserIngredient.objects.all().filter(user=self.request.user, in_pantry=True)
-        context['fridge'] = UserIngredient.objects.all().filter(user=self.request.user, ingredient__place_in='FRIDGE')
-        context['pantry'] = UserIngredient.objects.all().filter(user=self.request.user, ingredient__place_in='PANTRY')
-        context['freezer'] = UserIngredient.objects.all().filter(user=self.request.user, ingredient__place_in='FREEZER')
+        context['fridge'] = UserIngredient.objects.all().filter(user=self.request.user, ingredient__place_in='FRIDGE', in_pantry=True)
+        context['pantry'] = UserIngredient.objects.all().filter(user=self.request.user, ingredient__place_in='PANTRY', in_pantry=True)
+        context['freezer'] = UserIngredient.objects.all().filter(user=self.request.user, ingredient__place_in='FREEZER', in_pantry=True)
         # context ['ingredient'] =context['ingredient'].filter(user=self.request.user)
         return context
 
