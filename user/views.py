@@ -204,9 +204,10 @@ class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
+        context['ingredient'] = RecipeIngredient.objects.all().filter(ingredient_id=self.kwargs['ingredientName'])[0].ingredient
+        context['quantity'] = self.kwargs['quantity']
+        context['unit'] = self.kwargs['unit']
         self.a.append(RecipeIngredient.objects.all().filter(ingredient_id=self.kwargs['ingredientName'])[0])
-        
         self.a.append(self.kwargs['quantity'])
         self.a.append(self.kwargs['unit'])
         
@@ -214,6 +215,7 @@ class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         t = UserIngredient(user=self.request.user, ingredient=self.a[0].ingredient, quantity=self.a[1], unit=self.a[2], in_pantry=True)
+        t.save()
         form.instance.user = self.request.user
         form.instance.ingredient = self.a[0].ingredient
         form.instance.quantity = self.a[1]
@@ -224,6 +226,7 @@ class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
 
     def form_invalid(self, form):
         # This method is called when invalid form data has been POSTed.
-        t = UserIngredient(user=self.request.user, ingredient=self.a[0].ingredient, quantity=self.a[1], unit=self.a[2], in_pantry=True)
+        y = self.request.POST.get('expiry_date')
+        t = UserIngredient(user=self.request.user, ingredient=self.a[0].ingredient, expiry_date=y, quantity=self.a[1], unit=self.a[2], in_pantry=True)
         t.save()
         return HttpResponseRedirect('shopping-list')
