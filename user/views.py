@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls.base import is_valid_path
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
@@ -15,7 +16,7 @@ from .models import UserRecipe, UserIngredient
 from recipe.models import RecipeIngredient, Recipe
 from django.views.generic.list import ListView
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, request
 
 
 
@@ -176,8 +177,12 @@ class ShoppingList(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['ingredients'] = UserIngredient.objects.all().filter(user=self.request.user, in_pantry=False)
-
+        recipes = UserRecipe.objects.all().filter(user=self.request.user)
+        ingredients = []
+        for r in recipes.iterator():
+            recipe_ingredient = RecipeIngredient.objects.all().filter(recipe_id=r.recipe.id)
+            ingredients.append(recipe_ingredient)
+        context['recipe_ingredients'] = ingredients
         return context
 
 
@@ -187,3 +192,6 @@ def shopping_list_item_to_pantry(request, pk):
     ingredient.save()
 
     return HttpResponseRedirect(reverse_lazy('shopping-list'))
+
+
+
