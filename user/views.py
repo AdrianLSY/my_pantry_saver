@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls.base import is_valid_path
+from django.urls.base import is_valid_path, reverse
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
@@ -18,7 +18,7 @@ from django.views.generic.list import ListView
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, request
 
-
+from django.http import HttpResponse
 
 # Create your views here.
 
@@ -194,4 +194,36 @@ def shopping_list_item_to_pantry(request, pk):
     return HttpResponseRedirect(reverse_lazy('shopping-list'))
 
 
+class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
+    model = UserIngredient
+    fields = ['ingredient', 'expiry_date', 'quantity', 'unit']
+    template_name = 'user/test_form.html'
+    success_url = reverse_lazy('pantry')
+    context_object_name = 'ingredient_list'
+    a = []
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        self.a.append(RecipeIngredient.objects.all().filter(ingredient_id=self.kwargs['ingredientName'])[0])
+        
+        self.a.append(self.kwargs['quantity'])
+        self.a.append(self.kwargs['unit'])
+        
+        return context
+
+    def form_valid(self, form):
+        t = UserIngredient(user=self.request.user, ingredient=self.a[0].ingredient, quantity=self.a[1], unit=self.a[2], in_pantry=True)
+        form.instance.user = self.request.user
+        form.instance.ingredient = self.a[0].ingredient
+        form.instance.quantity = self.a[1]
+        form.instance.unit = self.a[2]
+        form.instance.in_pantry = True
+
+        return super(UserIngredientShoppingCreate, self).form_valid(form)
+
+    def form_invalid(self, form):
+        # This method is called when invalid form data has been POSTed.
+        t = UserIngredient(user=self.request.user, ingredient=self.a[0].ingredient, quantity=self.a[1], unit=self.a[2], in_pantry=True)
+        t.save()
+        return HttpResponseRedirect('shopping-list')

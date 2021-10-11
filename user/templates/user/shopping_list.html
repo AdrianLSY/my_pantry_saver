@@ -42,7 +42,7 @@
 
                                     <div class="actionDot">
                                         <div class="form-inline searchBar pt-4">
-                                            <a href="{% url 'user-pantry-ingredient' r.ingredient.id %}">
+                                            <a href="{% url 'user-pantry-shopping-ingredient' r.recipe.id r.ingredient.id r.quantity r.unit %}">
                                                 <button type="submit" class="btn">Add</button>
                                             </a>
                                         </div>
