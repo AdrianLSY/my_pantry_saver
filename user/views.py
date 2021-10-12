@@ -18,7 +18,7 @@ from django.views.generic.list import ListView
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, request
 
-from django.http import HttpResponse
+
 
 
 li = []
@@ -178,15 +178,20 @@ class ShoppingList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         global li
         context = super().get_context_data(**kwargs)
+        
         i = UserIngredient.objects.all().filter(user=self.request.user)
-        o = []
-        for k in i.iterator():
-            o.append(k.ingredient.id)
+        
         recipes = UserRecipe.objects.all().filter(user=self.request.user)
         ingredients = []
         for r in recipes.iterator():
-            recipe_ingredient = RecipeIngredient.objects.all().filter(recipe_id=r.recipe.id).exclude(ingredient_id__in=[pp for pp in o])
+            recipe_ingredient = RecipeIngredient.objects.all().filter(recipe_id=r.recipe.id)
+            for all in recipe_ingredient.iterator():
+                for aa in i.iterator():
+                    if r.id == aa.user_recipe.id and all.ingredient.id == aa.ingredient.id and all.quantity == aa.quantity and all.unit == aa.unit: 
+                        recipe_ingredient = RecipeIngredient.objects.all().filter(recipe_id=r.recipe.id).exclude(ingredient_id=all.ingredient.id)
+                    
             ingredients.append(recipe_ingredient)
+       
         context['recipe_ingredients'] = ingredients
         return context
 
@@ -201,7 +206,7 @@ def shopping_list_item_to_pantry(request, pk):
 
 class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
     model = UserIngredient
-    fields = ['ingredient', 'expiry_date', 'quantity', 'unit']
+    fields = ['user_recipe', 'ingredient', 'expiry_date', 'quantity', 'unit']
     template_name = 'user/test_form.html'
     success_url = reverse_lazy('shopping-list')
     context_object_name = 'ingredient_list'
@@ -226,6 +231,8 @@ class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         global li
+        recipeId = w = self.request.POST.get('recipe')
+        recipe = UserRecipe.objects.all().filter(recipe_id=recipeId, user=self.request.user)[0]
         y = self.request.POST.get('expiry_date')
         x = self.request.POST.get('quantity')
         z = self.request.POST.get('unit')
@@ -235,6 +242,7 @@ class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
         li.append(w)
         
         form.instance.user = self.request.user
+        form.instance.user_recipe = recipe
         form.instance.ingredient = u
         form.instance.quantity = x
         form.instance.unit = z
