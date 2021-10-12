@@ -178,11 +178,14 @@ class ShoppingList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         global li
         context = super().get_context_data(**kwargs)
+        i = UserIngredient.objects.all().filter(user=self.request.user)
+        o = []
+        for k in i.iterator():
+            o.append(k.ingredient.id)
         recipes = UserRecipe.objects.all().filter(user=self.request.user)
         ingredients = []
         for r in recipes.iterator():
-            recipe_ingredient = RecipeIngredient.objects.all().filter(recipe_id=r.recipe.id).exclude(ingredient_id__in=[pp for pp in li])
-            
+            recipe_ingredient = RecipeIngredient.objects.all().filter(recipe_id=r.recipe.id).exclude(ingredient_id__in=[pp for pp in o])
             ingredients.append(recipe_ingredient)
         context['recipe_ingredients'] = ingredients
         return context
