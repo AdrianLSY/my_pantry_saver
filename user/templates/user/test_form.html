@@ -49,20 +49,26 @@
                         <div class="addAnItem signInForm px-5">
                             <div class="addItemForm text-center pt-2">
                                 
-
+                                <div class="form-group mt-5">
+                                    <label class='hidden'><input type="text" name="ingredient" class="form-control" id="userNamee" placeholder="Enter Quantity: " value={{ingredient.id}}></label>
+                                    <label class='hidden'><input type="text" name="quantity" class="form-control" id="userNamee" placeholder="Enter Quantity: " value={{quantity}}></label>
+                                    <label class='hidden'><input type="text" name="unit" class="form-control" placeholder="Unit: " value={{unit}}></label>
+                                    
+                                   
+                                </div>
                                
 
                                 <div class="form-group mt-4 pb-4">
                                     <label><input type="text" name="expiry_date" class="form-control" id="expiry_date"
-                                        placeholder="Enter expiry date">{{form.expire_day}}</label>
+                                        placeholder="Enter expiry date"></label>
                                     <p id="userNameHelp" class="form-text pt-2 text-center ">DD/MM/YYYY</p>
                                 </div>
-
+                                
                                 
 
                             </div>
                             <div class="text-center"> 
-                                <button type="submit" value="submit" class="btn button mt-3">Add to Pantry</button>
+                                <button type="submit" value="submit" class="btn button mt-3 addToPantry" id="addToPantry-{{recipe}}-{{ingredient.id}}">Add to Pantry</button>
                             </div>
                                 
                         </div>
@@ -75,4 +81,18 @@
             </div>
         </div>
     </section>
+    <script>
+
+    $('.addToPantry').submit(function(e) {
+        e.preventDefault();
+        var i = $(this).attr('id');
+        var k = i.split('-');
+        var s = '.'+k[1]+'-'+k[2];
+        $(s).remove();
+        $(s).hide();
+        $(s).addClass("hidden");
+        return false;
+        
+    });
+    </script>
 {% endblock content %}
