@@ -188,6 +188,7 @@ def shopping_list_item_to_pantry(request, pk):
 
     return HttpResponseRedirect(reverse_lazy('shopping-list'))
 
+
 def user_complete_recipe(request, pk):
     user_recipe = UserRecipe.objects.get(id=pk)
     user_ingredients = UserIngredient.objects.all().filter(user_recipe_id=pk)
