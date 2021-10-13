@@ -153,7 +153,7 @@ class UserRecipeDetail(LoginRequiredMixin, DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['recipe_ingredients'] = RecipeIngredient.objects.all().filter()
+        context['recipe_ingredients'] = RecipeIngredient.objects.all()
         return context
 
 class UserRecipeUpdate(LoginRequiredMixin, UpdateView):
@@ -187,3 +187,14 @@ def shopping_list_item_to_pantry(request, pk):
     ingredient.save()
 
     return HttpResponseRedirect(reverse_lazy('shopping-list'))
+
+def user_complete_recipe(request, pk):
+    user_recipe = UserRecipe.objects.get(id=pk)
+    user_ingredients = UserIngredient.objects.all().filter(user_recipe_id=pk)
+
+    user_recipe.delete()
+
+    for ingredient in user_ingredients:
+        ingredient.delete()
+
+    return HttpResponseRedirect(reverse_lazy('mypantry'))
