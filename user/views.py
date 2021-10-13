@@ -192,3 +192,9 @@ def user_complete_recipe(request, pk):
     user_recipe = UserRecipe.objects.get(id=pk)
     user_ingredients = UserIngredient.objects.all().filter(user_recipe_id=pk)
 
+    user_recipe.delete()
+
+    for ingredient in user_ingredients:
+        ingredient.delete()
+
+    return HttpResponseRedirect(reverse_lazy('mypantry'))
