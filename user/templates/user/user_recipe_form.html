@@ -32,6 +32,7 @@
     </section> {% endcomment %}
     <section id="welcomePage" class="containerControl">
         <div class="container " id="screenBg">
+        
             <div class="leftarrow breadCrumb px-5 pt-4">
                 <a href="{% url 'mypantry' %}" class="text-dark"><img src={% static "images/leftArrow.png" %} alt="leftarrow"
                         class="img-fluid pr-2"> Meal Plan</a>
@@ -107,11 +108,20 @@
                                             {% endfor %} 
                                             </div>
                                         </div>
-
+                                        
                                         <div class="missingItem">
                                             <p class="py-3" style="opacity: 0.8;">Missing</p>
                                             <div class="missed">
-                                                <p>Maple syrup</p>
+                                                {% for temp in result%}
+                                                
+                                                {%if temp.recipe.name == option %}
+                                                {% for mi in temp.missing%}
+                                                
+                                                <p>{{mi.ingredient.name}}: {{mi.quantity}} {{mi.unit}}</p>
+                                                {%endfor%}
+                                                {%endif%}
+                                                {%endfor%}
+
                                             </div>  
                                             {% comment %} <form method='POST' action=''>
                                                 {% csrf_token %}
