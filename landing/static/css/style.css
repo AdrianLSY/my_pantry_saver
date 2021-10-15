@@ -175,7 +175,10 @@ ul li{
   display: inline;
 }
 .dynamicDiv {
-  min-height: 30rem; }
+  min-height: 30rem; 
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;}
   .dynamicDiv .nav {
     padding-left: 4rem; }
   .dynamicDiv .nav-item {
@@ -216,6 +219,7 @@ ul li{
   padding-top: 5rem; }
 
 .foodCard {
+  min-height: auto;
   border: none;
   background: #FFFFFF;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08);
@@ -232,7 +236,8 @@ ul li{
   cursor: pointer; }
 
 .foodCardOverlayParent {
-  position: relative; }
+  position: relative; 
+}
   .foodCardOverlayParent .toastOverlay {
     width: 100%;
     background: #a0e28c;
@@ -325,6 +330,8 @@ ul li{
   .shopingList .singleRadioItem {
     padding-bottom: 2rem; }
   .shopingList .shopingItems {
+    overflow: scroll;
+    overflow-x: hidden;
     background: #FFFFFF;
     box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.08);
     border-radius: 10px; }

@@ -179,20 +179,39 @@ class ShoppingList(LoginRequiredMixin, ListView):
         global li
         context = super().get_context_data(**kwargs)
         
-        i = UserIngredient.objects.all().filter(user=self.request.user)
+        user_i = UserIngredient.objects.all().filter(user=self.request.user)
         
         recipes = UserRecipe.objects.all().filter(user=self.request.user)
-        ingredients = []
+        result = []
+        id_list = []
+
         for r in recipes.iterator():
             recipe_ingredient = RecipeIngredient.objects.all().filter(recipe_id=r.recipe.id)
-            for all in recipe_ingredient.iterator():
-                for aa in i.iterator():
-                    if r.id == aa.user_recipe.id and all.ingredient.id == aa.ingredient.id and all.quantity == aa.quantity and all.unit == aa.unit: 
-                        recipe_ingredient = RecipeIngredient.objects.all().filter(recipe_id=r.recipe.id).exclude(ingredient_id=all.ingredient.id)
-                    
-            ingredients.append(recipe_ingredient)
-       
-        context['recipe_ingredients'] = ingredients
+            for i in recipe_ingredient.iterator():
+                if len(result) != 0:
+                    for ingredient_each in result:
+                        if i.ingredient.id == ingredient_each["ingredient"].id and i.unit == ingredient_each['unit']:
+                            ingredient_each["quantity"] += i.quantity
+                        elif i.ingredient.id not in id_list:
+                            temp = {'ingredient':i.ingredient, "quantity":i.quantity, 'unit':i.unit}
+                            id_list.append(i.ingredient.id)
+                            result.append(temp)
+                            break               
+                else:
+                    temp = {'ingredient':recipe_ingredient[0].ingredient, "quantity":recipe_ingredient[0].quantity, 'unit':recipe_ingredient[0].unit}
+                    id_list.append(recipe_ingredient[0].ingredient.id)
+                    result.append(temp)
+
+        for all in result[:]:
+            for user_ingredient in user_i.iterator():
+                if all['ingredient'].id == user_ingredient.ingredient.id and all['unit'] == user_ingredient.unit:
+                    temp = all['quantity'] - user_ingredient.quantity
+                    if temp <= 0:
+                        result.remove(all)
+                    else:
+                        result[result.index(all)]['quantity'] = temp
+
+        context['result'] = result 
         return context
 
 
@@ -221,18 +240,14 @@ class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
         
         context['quantity'] = self.kwargs['quantity']
         context['unit'] = self.kwargs['unit']
-        context['recipe'] = self.kwargs['recipeName']
-        context['test'] = str(self.kwargs['recipeName']) + '-' + str(self.kwargs['ingredientName'])
+        
         self.a.append(RecipeIngredient.objects.all().filter(ingredient_id=self.kwargs['ingredientName'])[0])
         self.a.append(self.kwargs['quantity'])
         self.a.append(self.kwargs['unit'])
-        self.a.append(self.kwargs['recipeName'])
         return context
 
     def form_valid(self, form):
-        global li
-        recipeId = w = self.request.POST.get('recipe')
-        recipe = UserRecipe.objects.all().filter(recipe_id=recipeId, user=self.request.user)[0]
+        
         y = self.request.POST.get('expiry_date')
         x = self.request.POST.get('quantity')
         z = self.request.POST.get('unit')
@@ -242,7 +257,7 @@ class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
         li.append(w)
         
         form.instance.user = self.request.user
-        form.instance.user_recipe = recipe
+        
         form.instance.ingredient = u
         form.instance.quantity = x
         form.instance.unit = z
