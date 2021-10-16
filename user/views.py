@@ -150,7 +150,7 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
                     ingre['missing'].append({"ingredient":ing['ingredient'], "quantity":abs(ing['quantity']), "unit":ing['unit']})
 
                 added = False
-   
+
         context['result'] = all_result
         context['meals'] = ["BREAKFAST", "LUNCH", "DINNER"]
         context['recipes'] = a
