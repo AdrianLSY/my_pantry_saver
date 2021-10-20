@@ -35,8 +35,8 @@
     <section id="welcomePage" class="containerControl">
         <div class="container " id="screenBg">
             <div class="leftarrow breadCrumb px-5 pt-4">
-                <a href="{% url 'pantry' %}" class="text-dark"><img src={% static "images/leftArrow.png" %} alt="leftarrow"
-                        class="img-fluid pr-2"> Pantry</a>
+                <a href="{% url 'shopping-list' %}" class="text-dark"><img src={% static "images/leftArrow.png" %} alt="leftarrow"
+                        class="img-fluid pr-2"> Shopping List</a>
             </div>
             <div class="homepageBody homepageBodyReducePadding text-center">
                 <div class="homeText">
@@ -49,28 +49,27 @@
                         <div class="addAnItem signInForm px-5">
                             <div class="addItemForm text-center pt-2">
                                 
-                                <div class="form-group">
-                                    <label>Choose an Item: {{ form.ingredient }}</label>
-                                </div>
-
                                 <div class="form-group mt-5">
-                                    <label><input type="text" name="quantity" class="form-control" id="userNamee" placeholder="Enter Quantity: "></label>
-                                    <label><input type="text" name="unit" class="form-control" placeholder="Unit: "></label>
+                                <label class='hidden'><input type="hidden" name="recipe" class="form-control" id="userNamee" placeholder="Enter Quantity: " value={{recipe}}></label>
+                                    <label class='hidden'><input type="hidden" name="ingredient" class="form-control" id="userNamee" placeholder="Enter Quantity: " value={{ingredient.id}}></label>
+                                    <label class='hidden'><input type="hidden" name="quantity" class="form-control" id="userNamee" placeholder="Enter Quantity: " value={{quantity}}></label>
+                                    <label class='hidden'><input type="hidden" name="unit" class="form-control" placeholder="Unit: " value={{unit}}></label>
                                     
-                                    <p id="userNameHelp" class="form-text pt-2 text-center ">eg. 100 G</p>
+                                   
                                 </div>
+                               
 
                                 <div class="form-group mt-4 pb-4">
-                                    <label><input type="text" name="expiry_date" class="form-control" id="userNamee"
+                                    <label><input type="text" name="expiry_date" class="form-control" id="expiry_date"
                                         placeholder="Enter expiry date"></label>
                                     <p id="userNameHelp" class="form-text pt-2 text-center ">YYYY-MM-DD</p>
                                 </div>
-
+                                
                                 
 
                             </div>
                             <div class="text-center"> 
-                                <button type="submit" class="btn button mt-3">Add to Pantry</button>
+                                <button type="submit" value="submit" class="btn button mt-3 addToPantry" id="addToPantry-{{recipe}}-{{ingredient.id}}">Add to Pantry</button>
                             </div>
                                 
                         </div>
@@ -83,4 +82,18 @@
             </div>
         </div>
     </section>
+    <script>
+
+    $('.addToPantry').submit(function(e) {
+        e.preventDefault();
+        var i = $(this).attr('id');
+        var k = i.split('-');
+        var s = '.'+k[1]+'-'+k[2];
+        $(s).remove();
+        $(s).hide();
+        $(s).addClass("hidden");
+        return false;
+        
+    });
+    </script>
 {% endblock content %}

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls.base import is_valid_path, reverse
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
@@ -15,12 +16,12 @@ from .models import UserRecipe, UserIngredient
 from recipe.models import RecipeIngredient, Recipe
 from django.views.generic.list import ListView
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, request
 
 
 
-# Create your views here.
 
+li = []
 
 class UserLoginView(LoginView):
     template_name = 'user/login.html'
@@ -118,10 +119,39 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
     template_name = 'user/user_recipe_form.html'
     success_url = reverse_lazy('mypantry')
     context_object_name = 'recipe_list'
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         a = set(Recipe.objects.all())
+        recipe_ingredients = RecipeIngredient.objects.all().filter()
+        user_ingredients = UserIngredient.objects.all().filter(user=self.request.user, in_pantry=True)
+        all_result = []
+        recipe_id = []
+        added = False
+        for item in recipe_ingredients.iterator():
+            if item.recipe.id not in recipe_id:
+                temp = {'recipe':item.recipe, 'all_ingredient':[], 'missing':[]}
+                recipe_id.append(item.recipe.id)
+                all_result.append(temp)
+
+            all_result[recipe_id.index(item.recipe.id)]['all_ingredient'].append({"ingredient":item.ingredient, "quantity":item.quantity, "unit":item.unit})
+                
+
+        for ingre in all_result:
+            for ing in ingre['all_ingredient']:
+                for kk in user_ingredients.iterator():
+                    if kk.ingredient.id == ing['ingredient'].id and kk.unit == ing['unit']:
+                        q = ing['quantity']-kk.quantity
+                        if q > 0:
+                            ingre['missing'].append({"ingredient":ing['ingredient'], "quantity":abs(ing['quantity']-kk.quantity), "unit":ing['unit']})
+                        added = True
+                            
+                if not added:
+                    ingre['missing'].append({"ingredient":ing['ingredient'], "quantity":abs(ing['quantity']), "unit":ing['unit']})
+
+                added = False
+
+        context['result'] = all_result
         context['meals'] = ["BREAKFAST", "LUNCH", "DINNER"]
         context['recipes'] = a
         context['recipe_ingredients'] = RecipeIngredient.objects.all().filter()
@@ -161,6 +191,7 @@ class UserRecipeUpdate(LoginRequiredMixin, UpdateView):
     fields = ['meal', 'day']
     template_name = 'user/user_recipe_form.html'
     success_url = reverse_lazy('mypantry')
+    
 
 
 class UserRecipeDelete(LoginRequiredMixin, DeleteView):
@@ -175,9 +206,42 @@ class ShoppingList(LoginRequiredMixin, ListView):
     template_name = 'user/shopping_list.html'
 
     def get_context_data(self, **kwargs):
+        global li
         context = super().get_context_data(**kwargs)
-        context['ingredients'] = UserIngredient.objects.all().filter(user=self.request.user, in_pantry=False)
+        
+        user_i = UserIngredient.objects.all().filter(user=self.request.user, in_pantry=True)
+        
+        recipes = UserRecipe.objects.all().filter(user=self.request.user)
+        result = []
+        id_list = []
 
+        for r in recipes.iterator():
+            recipe_ingredient = RecipeIngredient.objects.all().filter(recipe_id=r.recipe.id)
+            for i in recipe_ingredient.iterator():
+                if len(result) != 0:
+                    for ingredient_each in result:
+                        if i.ingredient.id == ingredient_each["ingredient"].id and i.unit == ingredient_each['unit']:
+                            ingredient_each["quantity"] += i.quantity
+                        elif i.ingredient.id not in id_list:
+                            temp = {'ingredient':i.ingredient, "quantity":i.quantity, 'unit':i.unit}
+                            id_list.append(i.ingredient.id)
+                            result.append(temp)
+                            break               
+                else:
+                    temp = {'ingredient':recipe_ingredient[0].ingredient, "quantity":recipe_ingredient[0].quantity, 'unit':recipe_ingredient[0].unit}
+                    id_list.append(recipe_ingredient[0].ingredient.id)
+                    result.append(temp)
+
+        for all in result[:]:
+            for user_ingredient in user_i.iterator():
+                if all['ingredient'].id == user_ingredient.ingredient.id and all['unit'] == user_ingredient.unit:
+                    temp = all['quantity'] - user_ingredient.quantity
+                    if temp <= 0:
+                        result.remove(all)
+                    else:
+                        result[result.index(all)]['quantity'] = temp
+
+        context['result'] = result 
         return context
 
 
@@ -187,6 +251,67 @@ def shopping_list_item_to_pantry(request, pk):
     ingredient.save()
 
     return HttpResponseRedirect(reverse_lazy('shopping-list'))
+
+
+class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
+    model = UserIngredient
+    fields = ['user_recipe', 'ingredient', 'expiry_date', 'quantity', 'unit']
+    template_name = 'user/test_form.html'
+    success_url = reverse_lazy('shopping-list')
+    context_object_name = 'ingredient_list'
+    a = []
+
+    def get_context_data(self, **kwargs):
+        global li
+        
+        context = super().get_context_data(**kwargs)
+        
+        context['ingredient'] = RecipeIngredient.objects.all().filter(ingredient_id=self.kwargs['ingredientName'])[0].ingredient
+        
+        context['quantity'] = self.kwargs['quantity']
+        context['unit'] = self.kwargs['unit']
+        
+        self.a.append(RecipeIngredient.objects.all().filter(ingredient_id=self.kwargs['ingredientName'])[0])
+        self.a.append(self.kwargs['quantity'])
+        self.a.append(self.kwargs['unit'])
+        return context
+
+    def form_valid(self, form):
+        
+        y = self.request.POST.get('expiry_date')
+        x = self.request.POST.get('quantity')
+        z = self.request.POST.get('unit')
+        w = self.request.POST.get('ingredient')
+        u = RecipeIngredient.objects.all().filter(ingredient_id=w)[0].ingredient
+        
+        li.append(w)
+        
+        form.instance.user = self.request.user
+        
+        form.instance.ingredient = u
+        form.instance.quantity = x
+        form.instance.unit = z
+        form.instance.expiry_date = y
+        form.instance.in_pantry = True
+        
+      
+       
+        return super(UserIngredientShoppingCreate, self).form_valid(form)
+
+
+    
+
+    #def form_invalid(self, form):
+        # This method is called when invalid form data has been POSTed.
+        y = self.request.POST.get('expiry_date')
+        x = self.request.POST.get('quantity')
+        z = self.request.POST.get('unit')
+        w = self.request.POST.get('ingredient')
+        u = RecipeIngredient.objects.all().filter(ingredient_id=w)[0].ingredient
+        t = UserIngredient(user=self.request.user, ingredient=u, expiry_date=y, quantity=x, unit=z, in_pantry=True)
+        t.save()
+        return render('user/test_form.html', {'test': str(self.a[3]) + "-"+ str(self.a[0].ingredient.id)})
+        return HttpResponseRedirect('shopping-list')
 
 
 def user_complete_recipe(request, pk):
@@ -199,3 +324,4 @@ def user_complete_recipe(request, pk):
         ingredient.delete()
 
     return HttpResponseRedirect(reverse_lazy('mypantry'))
+

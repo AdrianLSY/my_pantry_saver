@@ -32,6 +32,7 @@
     </section> {% endcomment %}
     <section id="welcomePage" class="containerControl">
         <div class="container " id="screenBg">
+        
             <div class="leftarrow breadCrumb px-5 pt-4">
                 <a href="{% url 'mypantry' %}" class="text-dark"><img src={% static "images/leftArrow.png" %} alt="leftarrow"
                         class="img-fluid pr-2"> Meal Plan</a>
@@ -42,9 +43,9 @@
                     <img src={% static "images/logoSingle.png" %} alt="logoSingle" class="img-fluid homeLogo">
                     <h3 class="homeBannerTitle text-center pt-4 black">Add New Recipe</h3>
                     <!-- Middle breakfast, lunch, and dinner navigator -->
-                    <div class="dynamicDiv text-center px-5 pt-5">
+                    <div class="dynamicDiv text-center px-5 pt-5" style="height:370px" >
 
-                        <div class="tab-content foodCardOverlayParent" id="pills-tabContent">
+                        <div class="tab-content foodCardOverlayParent" id="pills-tabContent" style="overflow-y:scroll; overflow-x:hidden; min-height:100% !important;  ">
                             <!-- after click right arrow of food show this -->
                             {% for id, option in form.recipe.field.choices %}
                             {% if id %}
@@ -107,11 +108,20 @@
                                             {% endfor %} 
                                             </div>
                                         </div>
-
+                                        
                                         <div class="missingItem">
                                             <p class="py-3" style="opacity: 0.8;">Missing</p>
                                             <div class="missed">
-                                                <p>Maple syrup</p>
+                                                {% for temp in result%}
+                                                
+                                                {%if temp.recipe.name == option %}
+                                                {% for mi in temp.missing%}
+                                                
+                                                <p>{{mi.ingredient.name}}: {{mi.quantity}} {{mi.unit}}</p>
+                                                {%endfor%}
+                                                {%endif%}
+                                                {%endfor%}
+
                                             </div>  
                                             {% comment %} <form method='POST' action=''>
                                                 {% csrf_token %}
@@ -164,7 +174,7 @@
                                                             </p>
                                                         </div>
                                                         <div class="col-sm-3 d-flex align-items-center pt-4">
-                                                            <a href="#" id="arrow{{id}}">
+                                                            <a href="#" class="rightArrow" id="arrow{{id}}">
                                                                 <img src={% static "images/rightArrow.png" %} alt="rightArrow"
                                                                     class="img-fluid rightArrow">
                                                             </a>
@@ -229,7 +239,12 @@
         {% if id %}
         $(document).ready(function(){
             $('#arrow{{id}}').click(function() {
-                $('#overlay{{id}}').css('height', '215%');
+                var h = document.querySelector("#pills-tabContent").scrollTop;
+                $('#overlay{{id}}').css('height', '130%');
+                var j = document.getElementById('overlay{{id}}');
+                j.style.top = h + 'px';
+
+                
             });
         })
         {% endif %}
@@ -237,7 +252,10 @@
         $(document).ready(function(){
             $('.closeBtn').click(function() {
                 $('.toastOverlay').css('height', '0');
+               
             });
+
+            
         })
     </script>
 {% endblock content %}

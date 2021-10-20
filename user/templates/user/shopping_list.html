@@ -27,40 +27,46 @@
                     <h3 class="homeBannerTitle text-center pt-4 black">Shopping List</h3>
 
                     <!-- ------------ Shopping list------------ -->
-                    <div class="shopingList px-5">
-                        <div class="shopingItems text-left px-4 py-5">
-                            {% if ingredients.count > 0 %}
-                                {% for ingredient in ingredients %}
+                    <div class="shopingList px-5" style="height:320px;">
+                        <div class="shopingItems text-left px-4 py-5" style="overflow-y:scroll !important; height:100%;">
+                        {% if result|length != 0%}
+                                {% for item in result %}
+                                
                                 <div class="dropdown-divider"></div>
-                                <div class="singleRadioItem d-flex justify-content-between align-items-center">
-                                    <div class="form-check">
+                                <div class="singleRadioItem d-flex justify-content-between align-items-center"> 
+                                    <div class="form-check {{item.ingredient.id}}">
                                         <label class="form-check-label" for="radio1">
-                                            {{ingredient.ingredient.name}} : {{ingredient.quantity}} {{ingredient.ingredient.unit}} 
+                                            {{item.ingredient.name}} : {{item.quantity}} {{item.unit}}
                                         </label>
                                     </div>
 
-                                    <div class="actionDot">
-                                        <div class="form-inline searchBar pt-4">
-                                            <a href="{% url 'user-pantry-ingredient' ingredient.id %}">
+                                    <div class="actionDot {{r.recipe.id}}-{{r.ingredient.id}}">
+                                        <div class="form-inline searchBar pt-4" >
+                                            <a href="{% url 'user-pantry-shopping-ingredient' item.ingredient.id item.quantity item.unit %}">
                                                 <button type="submit" class="btn">Add</button>
                                             </a>
                                         </div>
                                         <!-- ------------- Dropdown Menu ---------- -->
                                         <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink">
-                                            <a class="dropdown-item" href="{% url 'user-pantry-ingredient' ingredient.id %}">Add</a>
+                                            <a class="dropdown-item" href="{% url 'user-pantry-ingredient' item.ingredient.id %}">Add</a>
                                         </div>
+                                    
 
                                         <!-- ----------- Action Menu Btn---------- -->
                                         {% comment %} <img src={% static "images/threeDot.png" %} alt="threeDot" class="img-fluid dropdown-toggle"
                                             role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                                             aria-expanded="false"> {% endcomment %}
                                     </div>
+                                    
                                 </div>
+                               
                                 {% endfor %}
                                 <div class="dropdown-divider"></div>
-                            {% else %}
+
+                                {% else %}
                                 <h3 class="text-center">Shopping List Empty</h3>
-                            {% endif %}
+                                {%endif%}
+                            
                         </div>
                     </div>
 
@@ -70,6 +76,19 @@
             </div>
         </div>
     </section>
-
+    <script>
+       $('.addToPantry').submit(function(e) {
+        e.preventDefault();
+        var i = $(this).attr('id');
+        var s = '.'+i;
+        $(s).remove();
+        $(s).hide();
+        $(s).addClass("hidden");
+        return false;
+        
+    });
+    
+    
+    </script>
 
 {% endblock content %}
