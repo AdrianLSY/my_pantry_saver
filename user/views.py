@@ -183,7 +183,7 @@ class UserRecipeDetail(LoginRequiredMixin, DetailView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['recipe_ingredients'] = RecipeIngredient.objects.all().filter()
+        context['recipe_ingredients'] = RecipeIngredient.objects.all()
         return context
 
 class UserRecipeUpdate(LoginRequiredMixin, UpdateView):
@@ -312,3 +312,16 @@ class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
         t.save()
         return render('user/test_form.html', {'test': str(self.a[3]) + "-"+ str(self.a[0].ingredient.id)})
         return HttpResponseRedirect('shopping-list')
+
+
+def user_complete_recipe(request, pk):
+    user_recipe = UserRecipe.objects.get(id=pk)
+    user_ingredients = UserIngredient.objects.all().filter(user_recipe_id=pk)
+
+    user_recipe.delete()
+
+    for ingredient in user_ingredients:
+        ingredient.delete()
+
+    return HttpResponseRedirect(reverse_lazy('mypantry'))
+
