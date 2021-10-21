@@ -19,10 +19,6 @@ from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, request
 
 
-
-
-li = []
-
 class UserLoginView(LoginView):
     template_name = 'user/login.html'
     fields = '__all__ '
@@ -206,42 +202,9 @@ class ShoppingList(LoginRequiredMixin, ListView):
     template_name = 'user/shopping_list.html'
 
     def get_context_data(self, **kwargs):
-        global li
         context = super().get_context_data(**kwargs)
-        
-        user_i = UserIngredient.objects.all().filter(user=self.request.user, in_pantry=True)
-        
-        recipes = UserRecipe.objects.all().filter(user=self.request.user)
-        result = []
-        id_list = []
+        context['UserIngredients'] = UserIngredient.objects.all().filter(user=self.request.user, in_pantry=False)
 
-        for r in recipes.iterator():
-            recipe_ingredient = RecipeIngredient.objects.all().filter(recipe_id=r.recipe.id)
-            for i in recipe_ingredient.iterator():
-                if len(result) != 0:
-                    for ingredient_each in result:
-                        if i.ingredient.id == ingredient_each["ingredient"].id and i.unit == ingredient_each['unit']:
-                            ingredient_each["quantity"] += i.quantity
-                        elif i.ingredient.id not in id_list:
-                            temp = {'ingredient':i.ingredient, "quantity":i.quantity, 'unit':i.unit}
-                            id_list.append(i.ingredient.id)
-                            result.append(temp)
-                            break               
-                else:
-                    temp = {'ingredient':recipe_ingredient[0].ingredient, "quantity":recipe_ingredient[0].quantity, 'unit':recipe_ingredient[0].unit}
-                    id_list.append(recipe_ingredient[0].ingredient.id)
-                    result.append(temp)
-
-        for all in result[:]:
-            for user_ingredient in user_i.iterator():
-                if all['ingredient'].id == user_ingredient.ingredient.id and all['unit'] == user_ingredient.unit:
-                    temp = all['quantity'] - user_ingredient.quantity
-                    if temp <= 0:
-                        result.remove(all)
-                    else:
-                        result[result.index(all)]['quantity'] = temp
-
-        context['result'] = result 
         return context
 
 
@@ -253,65 +216,22 @@ def shopping_list_item_to_pantry(request, pk):
     return HttpResponseRedirect(reverse_lazy('shopping-list'))
 
 
-class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
+class UserIngredientShoppingCreate(LoginRequiredMixin, UpdateView):
     model = UserIngredient
-    fields = ['user_recipe', 'ingredient', 'expiry_date', 'quantity', 'unit']
+    fields = ['expiry_date']
     template_name = 'user/shopping_list_pantry_form.html'
     success_url = reverse_lazy('shopping-list')
     context_object_name = 'ingredient_list'
-    a = []
-
-    def get_context_data(self, **kwargs):
-        global li
-        
-        context = super().get_context_data(**kwargs)
-        
-        context['ingredient'] = RecipeIngredient.objects.all().filter(ingredient_id=self.kwargs['ingredientName'])[0].ingredient
-        
-        context['quantity'] = self.kwargs['quantity']
-        context['unit'] = self.kwargs['unit']
-        
-        self.a.append(RecipeIngredient.objects.all().filter(ingredient_id=self.kwargs['ingredientName'])[0])
-        self.a.append(self.kwargs['quantity'])
-        self.a.append(self.kwargs['unit'])
-        return context
 
     def form_valid(self, form):
-        
-        #y = self.request.POST.get('expiry_date')
-        x = self.request.POST.get('quantity')
-        z = self.request.POST.get('unit')
-        w = self.request.POST.get('ingredient')
-        u = RecipeIngredient.objects.all().filter(ingredient_id=w)[0].ingredient
-        
-        li.append(w)
-        
-        form.instance.user = self.request.user
-        
-        form.instance.ingredient = u
-        form.instance.quantity = x
-        form.instance.unit = z
-        #form.instance.expiry_date = y
-        form.instance.in_pantry = True
-        
-      
-       
-        return super(UserIngredientShoppingCreate, self).form_valid(form)
+        userIngredient = form.save()
 
+        if userIngredient:
+            userIngredient.in_pantry = True
+            userIngredient.save()
 
-    
+        return HttpResponseRedirect(self.success_url)
 
-    #def form_invalid(self, form):
-        # This method is called when invalid form data has been POSTed.
-        y = self.request.POST.get('expiry_date')
-        x = self.request.POST.get('quantity')
-        z = self.request.POST.get('unit')
-        w = self.request.POST.get('ingredient')
-        u = RecipeIngredient.objects.all().filter(ingredient_id=w)[0].ingredient
-        t = UserIngredient(user=self.request.user, ingredient=u, expiry_date=y, quantity=x, unit=z, in_pantry=True)
-        t.save()
-        return render('user/shopping_list_pantry_form.html', {'test': str(self.a[3]) + "-"+ str(self.a[0].ingredient.id)})
-        return HttpResponseRedirect('shopping-list')
 
 
 def user_complete_recipe(request, pk):
