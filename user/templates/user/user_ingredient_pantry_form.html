@@ -48,30 +48,30 @@
                         {% csrf_token %}
                         <div class="addAnItem signInForm px-5">
                             <div class="addItemForm text-center pt-2">
-                                
+
                                 <div class="form-group mt-5">
                                 <label class='hidden'><input type="hidden" name="recipe" class="form-control" id="userNamee" placeholder="Enter Quantity: " value={{recipe}}></label>
                                     <label class='hidden'><input type="hidden" name="ingredient" class="form-control" id="userNamee" placeholder="Enter Quantity: " value={{ingredient.id}}></label>
                                     <label class='hidden'><input type="hidden" name="quantity" class="form-control" id="userNamee" placeholder="Enter Quantity: " value={{quantity}}></label>
                                     <label class='hidden'><input type="hidden" name="unit" class="form-control" placeholder="Unit: " value={{unit}}></label>
-                                    
-                                   
+
+
                                 </div>
-                               
+
 
                                 <div class="form-group mt-4 pb-4">
                                     <label><input type="text" name="expiry_date" class="form-control" id="expiry_date"
                                         placeholder="Enter expiry date"></label>
                                     <p id="userNameHelp" class="form-text pt-2 text-center ">DD/MM/YYYY</p>
                                 </div>
-                                
-                                
+
+
 
                             </div>
-                            <div class="text-center"> 
+                            <div class="text-center">
                                 <button type="submit" value="submit" class="btn button mt-3 addToPantry" id="addToPantry-{{recipe}}-{{ingredient.id}}">Add to Pantry</button>
                             </div>
-                                
+
                         </div>
                     </form>
                     <!-- --------------- Add an Item Form End---------------- -->
@@ -93,7 +93,7 @@
         $(s).hide();
         $(s).addClass("hidden");
         return false;
-        
+
     });
     </script>
 {% endblock content %}

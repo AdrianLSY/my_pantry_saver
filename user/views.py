@@ -310,7 +310,7 @@ class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
         u = RecipeIngredient.objects.all().filter(ingredient_id=w)[0].ingredient
         t = UserIngredient(user=self.request.user, ingredient=u, expiry_date=y, quantity=x, unit=z, in_pantry=True)
         t.save()
-        return render('user/test_form.html', {'test': str(self.a[3]) + "-"+ str(self.a[0].ingredient.id)})
+        return render('user/user_ingredient_pantry_form.html', {'test': str(self.a[3]) + "-"+ str(self.a[0].ingredient.id)})
         return HttpResponseRedirect('shopping-list')
 
 
