@@ -256,7 +256,7 @@ def shopping_list_item_to_pantry(request, pk):
 class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
     model = UserIngredient
     fields = ['user_recipe', 'ingredient', 'expiry_date', 'quantity', 'unit']
-    template_name = 'user/test_form.html'
+    template_name = 'user/shopping_list_pantry_form.html'
     success_url = reverse_lazy('shopping-list')
     context_object_name = 'ingredient_list'
     a = []
@@ -310,7 +310,7 @@ class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
         u = RecipeIngredient.objects.all().filter(ingredient_id=w)[0].ingredient
         t = UserIngredient(user=self.request.user, ingredient=u, expiry_date=y, quantity=x, unit=z, in_pantry=True)
         t.save()
-        return render('user/test_form.html', {'test': str(self.a[3]) + "-"+ str(self.a[0].ingredient.id)})
+        return render('user/shopping_list_pantry_form.html', {'test': str(self.a[3]) + "-"+ str(self.a[0].ingredient.id)})
         return HttpResponseRedirect('shopping-list')
 
 
