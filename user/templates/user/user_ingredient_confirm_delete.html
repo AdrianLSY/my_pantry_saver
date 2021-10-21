@@ -11,16 +11,26 @@
 
     <section id="welcomePage" class="containerControl">
         <div class="container " id="screenBg">
+            <div class="leftarrow breadCrumb px-5 pt-4">
+                <a href="{% url 'pantry' %}" class="text-dark"><img src={% static "images/leftArrow.png" %} alt="leftarrow"
+                        class="img-fluid pr-2"> Pantry</a>
+            </div>
             <div class="homepageBody homepageBodyReducePadding text-center">
                 <div class="homeText">
                     <img src={% static "images/logoSingle.png" %} alt="logoSingle" class="img-fluid homeLogo">
                     <h3 class="homeBannerTitle text-center pt-4 black">Pantry</h3>
-
-                    <a href="{% url 'pantry' %}">Go Back</a>
                     <form method='POST' action=''>
                         {% csrf_token %}
                         <h3>Are you sure you want to delete this Ingredient "{{ ingredient.ingredient }}" expiring at "{{ ingredient.expiry_date }}"?</h3>
-                        <input type="submit" value='Delete'>
+                        
+                        <div class="searchBar">
+                            <a>
+                                <button type="submit" class="btn" style="background-color: coral;">
+                                    Delete</button>
+                            </a>
+                        </div>
+                        
+                        
                     </form>
                     <!-- ------------------------- Bootom Navigation -------------- -->
                     {% include 'bottom_nav.html' %}

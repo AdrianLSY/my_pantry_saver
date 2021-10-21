@@ -278,7 +278,7 @@ class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         
-        y = self.request.POST.get('expiry_date')
+        #y = self.request.POST.get('expiry_date')
         x = self.request.POST.get('quantity')
         z = self.request.POST.get('unit')
         w = self.request.POST.get('ingredient')
@@ -291,7 +291,7 @@ class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
         form.instance.ingredient = u
         form.instance.quantity = x
         form.instance.unit = z
-        form.instance.expiry_date = y
+        #form.instance.expiry_date = y
         form.instance.in_pantry = True
         
       
