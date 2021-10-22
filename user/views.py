@@ -136,7 +136,7 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
         for ingre in all_result:
             for ing in ingre['all_ingredient']:
                 for kk in user_ingredients.iterator():
-                    if kk.ingredient.id == ing['ingredient'].id and kk.unit == ing['unit']:
+                    if kk.ingredient.id == ing['ingredient'].id:
                         q = ing['quantity']-kk.quantity
                         if q > 0:
                             ingre['missing'].append({"ingredient":ing['ingredient'], "quantity":abs(ing['quantity']-kk.quantity), "unit":ing['unit']})
@@ -200,6 +200,46 @@ class UserRecipeDelete(LoginRequiredMixin, DeleteView):
 class ShoppingList(LoginRequiredMixin, ListView):
     model = UserIngredient
     template_name = 'user/shopping_list.html'
+
+    def get_context_data(self, **kwargs):
+        global li
+        context = super().get_context_data(**kwargs)
+
+        user_i = UserIngredient.objects.all().filter(user=self.request.user, in_pantry=True)
+
+        recipes = UserRecipe.objects.all().filter(user=self.request.user)
+        result = []
+        id_list = []
+
+        for r in recipes.iterator():
+            recipe_ingredient = RecipeIngredient.objects.all().filter(recipe_id=r.recipe.id)
+            for i in recipe_ingredient.iterator():
+                if len(result) != 0:
+                    for ingredient_each in result:
+                        if i.ingredient.id == ingredient_each["ingredient"].id:
+                            ingredient_each["quantity"] += i.quantity
+                        elif i.ingredient.id not in id_list:
+                            temp = {'ingredient': i.ingredient, "quantity": i.quantity, 'unit': i.unit}
+                            id_list.append(i.ingredient.id)
+                            result.append(temp)
+                            break
+                else:
+                    temp = {'ingredient': recipe_ingredient[0].ingredient, "quantity": recipe_ingredient[0].quantity,
+                            'unit': recipe_ingredient[0].unit}
+                    id_list.append(recipe_ingredient[0].ingredient.id)
+                    result.append(temp)
+
+        for all in result[:]:
+            for user_ingredient in user_i.iterator():
+                if all['ingredient'].id == user_ingredient.ingredient.id:
+                    temp = all['quantity'] - user_ingredient.quantity
+                    if temp <= 0:
+                        result.remove(all)
+                    else:
+                        result[result.index(all)]['quantity'] = temp
+
+        context['result'] = result
+        return context
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
