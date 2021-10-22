@@ -204,9 +204,9 @@ class ShoppingList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         global li
         context = super().get_context_data(**kwargs)
-
+        
         user_i = UserIngredient.objects.all().filter(user=self.request.user, in_pantry=True)
-
+        
         recipes = UserRecipe.objects.all().filter(user=self.request.user)
         result = []
         id_list = []
@@ -219,13 +219,12 @@ class ShoppingList(LoginRequiredMixin, ListView):
                         if i.ingredient.id == ingredient_each["ingredient"].id:
                             ingredient_each["quantity"] += i.quantity
                         elif i.ingredient.id not in id_list:
-                            temp = {'ingredient': i.ingredient, "quantity": i.quantity, 'unit': i.unit}
+                            temp = {'ingredient':i.ingredient, "quantity":i.quantity, 'unit':i.unit}
                             id_list.append(i.ingredient.id)
                             result.append(temp)
-                            break
+                            break               
                 else:
-                    temp = {'ingredient': recipe_ingredient[0].ingredient, "quantity": recipe_ingredient[0].quantity,
-                            'unit': recipe_ingredient[0].unit}
+                    temp = {'ingredient':recipe_ingredient[0].ingredient, "quantity":recipe_ingredient[0].quantity, 'unit':recipe_ingredient[0].unit}
                     id_list.append(recipe_ingredient[0].ingredient.id)
                     result.append(temp)
 
@@ -238,14 +237,14 @@ class ShoppingList(LoginRequiredMixin, ListView):
                     else:
                         result[result.index(all)]['quantity'] = temp
 
-        context['result'] = result
+        context['result'] = result 
         return context
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['UserIngredients'] = UserIngredient.objects.all().filter(user=self.request.user, in_pantry=False)
+    #def get_context_data(self, **kwargs):
+     #   context = super().get_context_data(**kwargs)
+     #   context['UserIngredients'] = UserIngredient.objects.all().filter(user=self.request.user, in_pantry=False)
 
-        return context
+     #   return context
 
 
 def shopping_list_item_to_pantry(request, pk):
