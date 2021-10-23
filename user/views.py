@@ -238,13 +238,13 @@ class ShoppingList(LoginRequiredMixin, ListView):
                     temp = {'ingredient':recipe_ingredient[0].ingredient, "quantity":recipe_ingredient[0].quantity, 'unit':recipe_ingredient[0].unit}
                     id_list.append(recipe_ingredient[0].ingredient.id)
                     result.append(temp)
-
         for all in result[:]:
             for user_ingredient in user_i.iterator():
                 if all['ingredient'].id == user_ingredient.ingredient.id:
                     temp = all['quantity'] - user_ingredient.quantity
                     if temp <= 0:
                         result.remove(all)
+                        break
                     else:
                         result[result.index(all)]['quantity'] = temp
 
@@ -329,14 +329,20 @@ def user_complete_recipe(request, pk):
                     i['quantity'] += item.quantity
     
     temp1 = []
+    temp2 = []
+    print(all)
+    print(u_i)
 
-    for ingredient in user_ingredients.iterator():
-        if ingredient.ingredient.id in temp1:
-            continue
-        for id in all:
-            q = u_i[ingredient.ingredient.id] - id['quantity']
+    for id in all:
+         for ingredient in user_ingredients.iterator():
+            if (ingredient.ingredient.id in temp1) and (ingredient.id not in temp2):
+                print("+++++")
+                print(ingredient.id)
+                print("+++++")
+                ingredient.delete()
+                continue
             if ingredient.ingredient.id == id['id']:
-                temp1.append(ingredient.ingredient.id)
+                q = u_i[ingredient.ingredient.id] - id['quantity']
                 if q > 0:
                     temp = UserIngredient(
                 user=request.user,
@@ -346,11 +352,22 @@ def user_complete_recipe(request, pk):
                 quantity=q,
                 unit=ingredient.unit,
                 in_pantry=True,
-            )
-                if ingredient.ingredient.id not in temp1:
-                    temp.save()
-                    break
-        ingredient.delete()
+            )   
+                    if ingredient.ingredient.id not in temp1:
+                        print(q)
+                        temp1.append(ingredient.ingredient.id)
+                        temp.save()
+                        ingredient.delete()
+                        temp2.append(temp.id)
+                        print("-----")
+                        print(temp.id)
+                        print("-----")
+                else:
+                    ingredient.delete()
+                
+
+   
+                
     user_recipe.delete()
     return HttpResponseRedirect(reverse_lazy('mypantry'))
 
