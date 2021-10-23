@@ -120,6 +120,18 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
         a = set(Recipe.objects.all())
         recipe_ingredients = RecipeIngredient.objects.all().filter()
         user_ingredients = UserIngredient.objects.all().filter(user=self.request.user, in_pantry=True)
+
+
+        u_i = {}
+        u_ids = []
+        for l in user_ingredients:
+            if l.ingredient.id not in u_ids:
+                u_ids.append(l.ingredient.id)
+                u_i[l.ingredient.id] = [l.quantity, l.unit]
+            else:
+                u_i[l.ingredient.id][0] += l.quantity
+
+
         all_result = []
         recipe_id = []
         added = False
@@ -130,19 +142,20 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
                 all_result.append(temp)
 
             all_result[recipe_id.index(item.recipe.id)]['all_ingredient'].append({"ingredient":item.ingredient, "quantity":item.quantity, "unit":item.unit})
-                
-
+            
+           
         for ingre in all_result:
             for ing in ingre['all_ingredient']:
-                for kk in user_ingredients.iterator():
-                    if kk.ingredient.id == ing['ingredient'].id:
-                        q = ing['quantity']-kk.quantity
+                for kk in u_i:
+                    if kk == ing['ingredient'].id:
+                        q = ing['quantity']- u_i[kk][0]
                         if q > 0:
-                            ingre['missing'].append({"ingredient":ing['ingredient'], "quantity":abs(ing['quantity']-kk.quantity), "unit":ing['unit']})
+                            ingre['missing'].append({"ingredient":ing['ingredient'], "quantity":abs(ing['quantity']-u_i[kk][0]), "unit":ing['unit']})
                         added = True
                             
                 if not added:
                     ingre['missing'].append({"ingredient":ing['ingredient'], "quantity":abs(ing['quantity']), "unit":ing['unit']})
+    
 
                 added = False
 
