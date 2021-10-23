@@ -29,6 +29,7 @@
                     <!-- ------------ Shopping list------------ -->
                     <div class="shopingList px-5" style="height:320px;">
                         <div class="shopingItems text-left px-4 py-5" style="overflow-y:scroll !important; height:100%;">
+                        
                         {% if result %}
                                 {% for UserIngredient in result %}
 
@@ -42,7 +43,7 @@
 
                                     <div class="actionDot {{r.recipe.id}}-{{r.ingredient.id}}">
                                         <div class="form-inline searchBar pt-4" >
-                                            <a href="{% url 'user-pantry-shopping-ingredient' UserIngredient.ingredient.id %}">
+                                            <a href="{% url 'user-pantry-shopping-ingredient' UserIngredient.ingredient.id UserIngredient.quantity UserIngredient.unit%}">
                                                 <button type="submit" class="btn">Add</button>
                                             </a>
                                         </div>

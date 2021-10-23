@@ -255,21 +255,35 @@ def shopping_list_item_to_pantry(request, pk):
     return HttpResponseRedirect(reverse_lazy('shopping-list'))
 
 
-class UserIngredientShoppingCreate(LoginRequiredMixin, UpdateView):
+class UserIngredientShoppingCreate(LoginRequiredMixin, CreateView):
     model = UserIngredient
     fields = ['expiry_date']
     template_name = 'user/shopping_list_pantry_form.html'
     success_url = reverse_lazy('shopping-list')
     context_object_name = 'ingredient_list'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['ingredient'] = RecipeIngredient.objects.all().filter(ingredient_id=self.kwargs['ingredientName'])[0].ingredient
+        context['quantity'] = self.kwargs['quantity']
+        context['unit'] = self.kwargs['unit']
+        return context
+
     def form_valid(self, form):
-        userIngredient = form.save()
+        form.instance.user = self.request.user
+        
+        ingredient_id = self.request.POST.get('ingredient')
+        quantity = self.request.POST.get('quantity')
+        unit = self.request.POST.get('unit')
+        ingredient = RecipeIngredient.objects.all().filter(ingredient_id=ingredient_id)[0].ingredient
+        form.instance.ingredient = ingredient
+        form.instance.quantity = quantity
+        form.instance.unit = unit
+        form.instance.in_pantry = True
+        
 
-        if userIngredient:
-            userIngredient.in_pantry = True
-            userIngredient.save()
+        return super(UserIngredientShoppingCreate, self).form_valid(form)
 
-        return HttpResponseRedirect(self.success_url)
 
 
 

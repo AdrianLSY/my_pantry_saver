@@ -18,5 +18,5 @@ urlpatterns = [
     path('mypantry/ingredient/new/', UserIngredientCreate.as_view(), name='user-add-ingredient'), 
     path('mypantry/ingredient/<int:pk>/edit/', UserIngredientUpdate.as_view(), name='user-edit-ingredient'),
     path('mypantry/ingredient/<int:pk>/delete/', UserIngredientDelete.as_view(), name='user-delete-ingredient'),
-    path('mypantry/ingredient/<int:pk>/pantry/', UserIngredientShoppingCreate.as_view(), name='user-pantry-shopping-ingredient')
+    path('mypantry/ingredient/<int:ingredientName>/<int:quantity>/<str:unit>/pantry/', UserIngredientShoppingCreate.as_view(), name='user-pantry-shopping-ingredient')
 ]
