@@ -29,24 +29,27 @@
                     <!-- ------------ Shopping list------------ -->
                     <div class="shopingList px-5" style="height:320px;">
                         <div class="shopingItems text-left px-4 py-5" style="overflow-y:scroll !important; height:100%;">
-                        {% if result %}
-                                {% for UserIngredient in result %}
-
+                        {% if result|length != 0%}
+                                {% for item in result %}
+                                
                                 <div class="dropdown-divider"></div>
                                 <div class="singleRadioItem d-flex justify-content-between align-items-center"> 
                                     <div class="form-check {{item.ingredient.id}}">
                                         <label class="form-check-label" for="radio1">
-                                            {{UserIngredient.ingredient.name}} : {{UserIngredient.quantity}}
+                                            {{item.ingredient.name}} : {{item.quantity}} {{item.unit}}
                                         </label>
                                     </div>
 
                                     <div class="actionDot {{r.recipe.id}}-{{r.ingredient.id}}">
                                         <div class="form-inline searchBar pt-4" >
-                                            <a href="{% url 'user-pantry-shopping-ingredient' UserIngredient.ingredient.id %}">
+                                            <a href="{% url 'user-pantry-shopping-ingredient' item.ingredient.id item.quantity item.unit %}">
                                                 <button type="submit" class="btn">Add</button>
                                             </a>
                                         </div>
-
+                                        <!-- ------------- Dropdown Menu ---------- -->
+                                        <div class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item" href="{% url 'user-pantry-ingredient' item.ingredient.id %}">Add</a>
+                                        </div>
                                     
 
                                         <!-- ----------- Action Menu Btn---------- -->
@@ -60,7 +63,7 @@
                                 {% endfor %}
                                 <div class="dropdown-divider"></div>
 
-                            {% else %}
+                                {% else %}
                                 <h3 class="text-center">Shopping List Empty</h3>
                                 {%endif%}
                             
