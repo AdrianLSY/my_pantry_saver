@@ -1,11 +1,10 @@
+<!-- This page adds ingredients to the recipe. -->
 {% extends 'base.html' %}
-
 {% block content %}
     <h3>New {{parent_recipe}} Ingredient</h3>
     <form method="POST" action="">
         {% csrf_token %}
         {{recipe}}
-
         {{form.as_p}}
         <input type='submit' value='Submit'>
     </form>

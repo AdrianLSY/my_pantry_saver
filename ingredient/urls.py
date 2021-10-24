@@ -1,6 +1,7 @@
 from django.urls import path
 from .views import IngredientDetail, IngredientList, IngredientCreate, IngredientUpdate, IngredientDelete
 
+# List of url patterns related to ingredient.
 urlpatterns = [
     path('ingredients/', IngredientList.as_view(), name='ingredients'),
     path('ingredient/<int:pk>/', IngredientDetail.as_view(), name='ingredient'),

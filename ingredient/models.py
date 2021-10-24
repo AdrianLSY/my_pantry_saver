@@ -1,15 +1,15 @@
 from django.db import models
 
+# Ingredient category
 LOCATION = (
     ('PANTRY', 'pantry'),
     ('FRIDGE', 'fridge'),
     ('FREEZER', 'freezer')
 )
 
-# Create your models here.
+# Ingredient model
 class Ingredient(models.Model):
     name = models.CharField(max_length=100)
-    # recipe = models.ForeignKey('recipe')
     place_in = models.CharField(max_length = 255, choices = LOCATION, default = 'PANTRY')
 
     def __str__(self):

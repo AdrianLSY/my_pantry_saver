@@ -1,14 +1,7 @@
+<!-- This page is confirming the deletion of an ingredient in the pantry. -->
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
-    {% comment %} <a href="{% url 'pantry' %}">Go Back</a>
-    <form method='POST' action=''>
-        {% csrf_token %}
-        <p>Are you sure you want to delete this Ingredient "{{ ingredient.ingredients }}" expiring at "{{ ingredient.expiry_date }}"?</p>
-        <input type="submit" value='Delete'>
-    </form> {% endcomment %}
-
     <section id="welcomePage" class="containerControl">
         <div class="container " id="screenBg">
             <div class="leftarrow breadCrumb px-5 pt-4">
@@ -22,15 +15,12 @@
                     <form method='POST' action=''>
                         {% csrf_token %}
                         <h3>Are you sure you want to delete this Ingredient "{{ ingredient.ingredient }}" expiring at "{{ ingredient.expiry_date }}"?</h3>
-                        
                         <div class="searchBar">
                             <a>
                                 <button type="submit" class="btn" style="background-color: coral;">
                                     Delete</button>
                             </a>
                         </div>
-                        
-                        
                     </form>
                     <!-- ------------------------- Bootom Navigation -------------- -->
                     {% include 'bottom_nav.html' %}
@@ -38,5 +28,4 @@
             </div>
         </div>
     </section>
-
 {% endblock content %}

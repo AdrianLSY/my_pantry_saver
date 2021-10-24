@@ -1,14 +1,7 @@
+<!-- This page confirms the deletion of a recipe from the user's meal plan. -->
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
-    {% comment %} <a href="{% url 'mypantry' %}">Go Back</a>
-    <form method='POST' action=''>
-        {% csrf_token %}
-        <p>Are you sure you want to delete this Recipe "{{ recipe.recipe.name }}"?</p>
-        <input type="submit" value='Delete'>
-    </form> {% endcomment %}
-
     <section id="welcomePage" class="containerControl">
         <div class="container " id="screenBg">
             <div class="leftarrow breadCrumb px-5 pt-4">

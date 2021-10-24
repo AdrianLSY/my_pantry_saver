@@ -1,85 +1,50 @@
+<!-- This page is used to add new recipe to the meal plan. -->
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
-    {% comment %} <h3>New Recipe</h3>
-    <a href="{% url 'mypantry' %}">Go Back</a>
-    <form method="POST" action="">
-        {% csrf_token %}
-        {{form.as_p}}
-        <input type='submit' value='Submit'>
-    </form> {% endcomment %}
-
-    {% comment %} <section id="welcomePage" class="containerControl">
-        <div class="container " id="screenBg">
-            <div class="homepageBody homepageBodyReducePadding text-center">
-                <div class="homeText">
-                    <img src={% static "images/logoSingle.png" %} alt="logoSingle" class="img-fluid homeLogo">
-                    <h3 class="homeBannerTitle text-center pt-4 black">Hello {{ request.user }}, Let’s cook!</h3>
-
-                    <a href="{% url 'mypantry' %}">Go Back</a>
-                    <form method='POST' action=''>
-                        {% csrf_token %}
-                        <h3>Pick a New Recipe</h3>
-                        {{form.as_p}}
-                        <input type="submit" value='Confirm'>
-                    </form>
-                    <!-- ------------------------- Bootom Navigation -------------- -->
-                    {% include 'bottom_nav.html' %}
-                </div>
-            </div>
-        </div>
-    </section> {% endcomment %}
     <section id="welcomePage" class="containerControl">
         <div class="container " id="screenBg">
-        
             <div class="leftarrow breadCrumb px-5 pt-4">
                 <a href="{% url 'mypantry' %}" class="text-dark"><img src={% static "images/leftArrow.png" %} alt="leftarrow"
                         class="img-fluid pr-2"> Meal Plan</a>
             </div>
-
             <div class="homepageBody homepageBodyReducePadding text-center">
                 <div class="homeText">
                     <img src={% static "images/logoSingle.png" %} alt="logoSingle" class="img-fluid homeLogo">
                     <h3 class="homeBannerTitle text-center pt-4 black">Add New Recipe</h3>
                     <!-- Middle breakfast, lunch, and dinner navigator -->
                     <div class="dynamicDiv text-center px-5 pt-5" style="height:370px" >
-
                         <div class="tab-content foodCardOverlayParent" id="pills-tabContent" style="overflow-y:scroll; overflow-x:hidden; min-height:100% !important;  ">
                             <!-- after click right arrow of food show this -->
                             {% for id, option in form.recipe.field.choices %}
                             {% if id %}
                             <div class="toastOverlay" id="overlay{{id}}">
-
-                                {% comment %} <!-- ------------ Mising Item Overlay start-------- -->
-                                <div class="misingItemOverlay">
-                                    <div class="closeInnterOvelay text-right">
-                                        <img src={% static "images/close.png" %} alt="close"
-                                            class="img-fluid closeMissingItem pr-2 pt-2">
-                                    </div>
-                                    <h1>Missing items have been added to the list!</h1>
-                                </div>
-                                <!-- ------------ Mising Item Overlay End-------- -->
-
-                                <!-- ------------ Mising Item Overlay start-------- -->
-                                <div class="addToMealPlanOverlay">
-                                    <div class="closeInnterOvelay2 text-right">
-                                        <img src={% static "images/close.png" %} alt="close"
-                                            class="img-fluid closeMissingItem2 pr-2 pt-2">
-                                    </div>
-                                    <h1>Recipe has been added to the meal plan!</h1>
-                                </div>
-                                <!-- ------------ Mising Item Overlay End-------- --> {% endcomment %}
-
                                 <div class="closeBtn text-right p-3">
                                     <img src={% static "images/close.png" %} alt="close" class="img-fluid">
                                 </div>
-
                                 <div class="px-4">
                                     <div class="card mb-3 foodCard" style="box-shadow: none;">
                                         <div class="row no-gutters">
                                             <div class="col-md-4 p-3">
-                                                <img src={% static "images/food-1.png" %} class="card-img" alt="food">
+                                                {% if option == "French Toast" %}
+                                                <img src={% static "images/toast.png" %} class="card-img" alt="food">
+                                                {% elif option == "Spinach Pancakes" %}
+                                                <img src={% static "images/spinach_pancake.png" %} class="card-img" alt="food">
+                                                {% elif option == "Breakfast Quesadillas" %}
+                                                <img src={% static "images/quesadillas.png" %} class="card-img" alt="food">
+                                                {% elif option == "Grilled Salmon" %}
+                                                <img src={% static "images/salmon.png" %} class="card-img" alt="food">
+                                                {% elif option == "Vegie Supreme Sandwich" %}
+                                                <img src={% static "images/sandwich.png" %} class="card-img" alt="food">
+                                                {% elif option == "Cheese and Bacon Frittata" %}
+                                                <img src={% static "images/bacon_fritatta.png" %} class="card-img" alt="food">
+                                                {% elif option == "Pumpkin Soup" %}
+                                                <img src={% static "images/pumpkin_soup.png" %} class="card-img" alt="food">
+                                                {% elif option == "Fried Rice" %}
+                                                <img src={% static "images/fried_rice.png" %} class="card-img" alt="food">
+                                                {% elif option == "Tomato and Celery Pasta" %}
+                                                <img src={% static "images/pasta.png" %} class="card-img" alt="food">
+                                                {% endif %}
                                             </div>
                                             <div class="col-md-8 ">
                                                 <div class="card-body">
@@ -95,7 +60,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <!-- overlay product detail information -->
                                     <div class="productInfo text-left">
                                         <p class="py-3" style="opacity: 0.8;">Ingredients</p>
@@ -108,7 +72,6 @@
                                             {% endfor %} 
                                             </div>
                                         </div>
-                                        
                                         <div class="missingItem">
                                             <p class="py-3" style="opacity: 0.8;">Missing</p>
                                             <div class="missed">
@@ -123,26 +86,12 @@
                                                 {%endfor%}
 
                                             </div>  
-                                            {% comment %} <form method='POST' action=''>
-                                                {% csrf_token %}
-                                                {{ form.as_p }}
-                                                <input type="submit" value='Confirm'>
-                                            </form> {% endcomment %}
                                         </div>
-
                                         <div class="addRemoveBtnGrp pb-3 pt-3 text-center">
-                                            {% comment %} <button class="btn addToMissingList button px-3 py-1"><img
-                                                    src={% static "images/plus.png" %} alt="plus" class="img-fluid"> Add missing to
-                                                list</button>
-                                            <button type="submit" class="btn addToMealPlan button px-4 mt-3 py-1"><img
-                                                    src={% static "images/plus.png" %} alt="plus" class="img-fluid"> Add to meal
-                                                plan</button> {% endcomment %}
                                             <form method='POST' action=''>
                                                 {% csrf_token %}
                                                 <input type="hidden" name="recipe" value="{{ id }}">
-                                                {% comment %}<input type="hidden" name="meal" value="BREAKFAST"> {% endcomment %}
                                                 {{ form.day }}{{ form.meal }}
-                                                
                                                 <button type="submit" class="btn addToMealPlan button px-4 mt-3 py-1"><img
                                                     src={% static "images/plus.png" %} alt="plus" class="img-fluid"> Add to meal
                                                 plan</button>
@@ -158,7 +107,25 @@
                                     <div class="card mb-3 foodCard pt-4">
                                         <div class="row no-gutters">
                                             <div class="col-md-4 p-3">
-                                                <img src={% static "images/food-1.png" %} class="card-img" alt="food">
+                                                {% if option == "French Toast" %}
+                                                <img src={% static "images/toast.png" %} class="card-img" alt="food">
+                                                {% elif option == "Spinach Pancakes" %}
+                                                <img src={% static "images/spinach_pancake.png" %} class="card-img" alt="food">
+                                                {% elif option == "Breakfast Quesadillas" %}
+                                                <img src={% static "images/quesadillas.png" %} class="card-img" alt="food">
+                                                {% elif option == "Grilled Salmon" %}
+                                                <img src={% static "images/salmon.png" %} class="card-img" alt="food">
+                                                {% elif option == "Vegie Supreme Sandwich" %}
+                                                <img src={% static "images/sandwich.png" %} class="card-img" alt="food">
+                                                {% elif option == "Cheese and Bacon Frittata" %}
+                                                <img src={% static "images/bacon_fritatta.png" %} class="card-img" alt="food">
+                                                {% elif option == "Pumpkin Soup" %}
+                                                <img src={% static "images/pumpkin_soup.png" %} class="card-img" alt="food">
+                                                {% elif option == "Fried Rice" %}
+                                                <img src={% static "images/fried_rice.png" %} class="card-img" alt="food">
+                                                {% elif option == "Tomato and Celery Pasta" %}
+                                                <img src={% static "images/pasta.png" %} class="card-img" alt="food">
+                                                {% endif %}
                                             </div>
                                             <div class="col-md-8 ">
                                                 <div class="card-body">
@@ -196,45 +163,6 @@
     </section>
         <!-- ----------------- Custome JavaScript ------------------ -->
     <script>
-        {% comment %} // --------- Get All Selectiors -------
-        let toastOverlay = document.querySelector('.toastOverlay');
-        let rightArrow = document.querySelectorAll('.rightArrow');
-        let closeBtn = document.querySelector('.closeBtn');
-        let addToMissingList = document.querySelector('.addToMissingList');
-        let addToMealPlan = document.querySelector('.addToMealPlan');
-        let closeMissingItem = document.querySelector('.closeMissingItem');
-        let misingItemOverlay = document.querySelector('.misingItemOverlay');
-        let addToMealPlanOverlay = document.querySelector('.addToMealPlanOverlay');
-        let closeMissingItem2 = document.querySelector('.closeMissingItem2');
-
-        // ------------ Add multiple event to food item -------
-        [...rightArrow].forEach(arrow => {
-            arrow.addEventListener('click', () => {
-                
-                toastOverlay.style.height = '215%';
-            })
-        })
-        // ---------------- Handle ToastOverly -----------
-        closeBtn.addEventListener('click', () => {
-            toastOverlay.style.height = '0';
-        })
-        closeMissingItem.addEventListener('click', () => {
-            misingItemOverlay.style.height = '0';
-        })
-
-        // -------------Handle MissignList Btn ----------
-        addToMissingList.addEventListener('click', () => {
-            addToMealPlanOverlay.style.height = '0';
-            misingItemOverlay.style.height = 'auto';
-        })
-        // -------------Handle add to plan Btn ----------
-        closeMissingItem2.addEventListener('click', () => {
-            addToMealPlanOverlay.style.height = '0';
-        })
-        addToMealPlan.addEventListener('click', () => {
-            misingItemOverlay.style.height = '0';
-            addToMealPlanOverlay.style.height = 'auto';
-        }) {% endcomment %}
         {% for id, option in form.recipe.field.choices %}
         {% if id %}
         $(document).ready(function(){
@@ -243,8 +171,6 @@
                 $('#overlay{{id}}').css('height', '130%');
                 var j = document.getElementById('overlay{{id}}');
                 j.style.top = h + 'px';
-
-                
             });
         })
         {% endif %}
@@ -252,10 +178,7 @@
         $(document).ready(function(){
             $('.closeBtn').click(function() {
                 $('.toastOverlay').css('height', '0');
-               
             });
-
-            
         })
     </script>
 {% endblock content %}

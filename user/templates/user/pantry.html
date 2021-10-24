@@ -1,33 +1,7 @@
+<!-- This page shows lists of ingredients in the user's pantry. -->
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
-    {% comment %} {% if request.user.is_authenticated %}
-        <p>Hello {{ request.user }}</p>
-        <a href = "{% url 'logout' %}" >Logout </a>
-    {% else %}
-        <a href = "{% url 'login' %}" >Login</a>
-    {% endif %}
-
-    <h1>Pantry</h1>
-    <pre>Ingredient   <a href="{% url 'user-add-ingredient' %}">Add</a></pre>
-    
-    {% if ingredients.count > 0 %}
-    <table>
-        {% for item in ingredients %}
-        <tr>
-            <td>{{ item.ingredient }}</td>
-            <td>{{ item.quantity }}</td>
-            <td>{{ item.expiry_date }}</td>
-            <td><a href="{% url 'user-edit-ingredient' item.id %}">Edit</a></td>
-            <td><a href="{% url 'user-delete-ingredient' item.id %}">Delete</a></td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-        <h3>No Ingredient Available</h3>
-    {% endif %} {% endcomment %}
-
     <section id="welcomePage" class="containerControl">
         <div class="container" id="screenBg">
             <div class="homepageBody homepageBodyReducePadding text-center">
@@ -220,8 +194,6 @@
                         </div>
                         </div>
                     <!-- ------------------- Pantry ------------------- -->
-
-
                     <!-- ------------ Bootom Navigation Btn ---------------- -->
                     {% include 'bottom_nav.html' %}
                 </div>

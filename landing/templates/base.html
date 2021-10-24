@@ -1,16 +1,8 @@
+<!-- This page is the base template for every web pages. -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        {% comment %} <title>My Pantry Saver</title>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" type="text/css" href="{% static 'css/curves.css' %}">
-
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
-        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-grid.css' %}"> {% endcomment %}
-
-
         <title>My Pantry Saver</title>
         <!-- Required meta tags -->
         <meta charset="utf-8">
@@ -43,18 +35,7 @@
         </script>
 
     </head>
-
     <body>
-        {% comment %} <div class="container-md"> {% endcomment %}
         {% block content %}{% endblock content %}
-        {% comment %} </div> {% endcomment %}
-
-        <div class="bottomBar">
-            <img src={% static "images/bottomBar.png" %} alt="bottomBar" class="img-fluid">
-        </div>
-        <!-- Bootstrap JS -->
-        {% comment %} <script src="{% static 'js/jquery.js' %}"></script>
-        <script src="{% static 'js/bootstrap.js' %}"></script>
-        <script src="{% static 'js/bootstrap.bundle.js' %}"></script> {% endcomment %}
     </body>
 </html>

@@ -1,70 +1,41 @@
+<!-- This page renders out the shopping list. Items are added to the shopping list when the user add a new recipe but have insufficient ingredients. -->
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
-    {% comment %} {% if request.user.is_authenticated %}
-        <p>Hello {{ request.user }}</p>
-        <a href = "{% url 'logout' %}" >Logout </a>
-    {% else %}
-        <a href = "{% url 'login' %}" >Login</a>
-    {% endif %}
-
-    <!--Home page of pantry-->
-    <h1>Shopping List</h1>
-    {% for ingredient in ingredients %}
-        <p>{{ingredient.ingredient.name}}</p>
-        <p>quantity {{ingredient.quantity}}</p>
-        <td><a href="{% url 'user-pantry-ingredient' ingredient.id %}" >Add to Pantry</a></td>
-
-    <br><br>
-    {% endfor %} {% endcomment %}
-
     <section id="welcomePage" class="containerControl">
         <div class="container " id="screenBg">
             <div class="homepageBody homepageBodyReducePadding text-center">
                 <div class="homeText">
                     <img src={% static "images/logoSingle.png" %} alt="logoSingle" class="img-fluid homeLogo">
                     <h3 class="homeBannerTitle text-center pt-4 black">Shopping List</h3>
-
                     <!-- ------------ Shopping list------------ -->
                     <div class="shopingList px-5" style="height:320px;">
                         <div class="shopingItems text-left px-4 py-5" style="overflow-y:scroll !important; height:100%;">
-                        
                         {% if result %}
-                                {% for UserIngredient in result %}
-
-                                <div class="dropdown-divider"></div>
-                                <div class="singleRadioItem d-flex justify-content-between align-items-center"> 
-                                    <div class="form-check {{item.ingredient.id}}">
-                                        <label class="form-check-label" for="radio1">
-                                            {{UserIngredient.ingredient.name}} : {{UserIngredient.quantity}}
-                                        </label>
-                                    </div>
-
-                                    <div class="actionDot {{r.recipe.id}}-{{r.ingredient.id}}">
-                                        <div class="form-inline searchBar pt-4" >
-                                            <a href="{% url 'user-pantry-shopping-ingredient' UserIngredient.ingredient.id UserIngredient.quantity UserIngredient.unit%}">
-                                                <button type="submit" class="btn">Add</button>
-                                            </a>
-                                        </div>
-
-                                    
-
-                                        <!-- ----------- Action Menu Btn---------- -->
-                                        {% comment %} <img src={% static "images/threeDot.png" %} alt="threeDot" class="img-fluid dropdown-toggle"
-                                            role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false"> {% endcomment %}
-                                    </div>
-                                    
+                            {% for UserIngredient in result %}
+                            <div class="dropdown-divider"></div>
+                            <div class="singleRadioItem d-flex justify-content-between align-items-center"> 
+                                <div class="form-check {{item.ingredient.id}}">
+                                    <label class="form-check-label" for="radio1">
+                                        {{UserIngredient.ingredient.name}} : {{UserIngredient.quantity}} {{UserIngredient.unit}}
+                                    </label>
                                 </div>
-                               
-                                {% endfor %}
-                                <div class="dropdown-divider"></div>
 
-                            {% else %}
-                                <h3 class="text-center">Shopping List Empty</h3>
-                                {%endif%}
-                            
+                                <div class="actionDot {{r.recipe.id}}-{{r.ingredient.id}}">
+                                    <div class="form-inline searchBar pt-4" >
+                                        <a href="{% url 'user-pantry-shopping-ingredient' UserIngredient.ingredient.id UserIngredient.quantity UserIngredient.unit%}">
+                                            <button type="submit" class="btn">Add</button>
+                                        </a>
+                                    </div>
+
+                                    <!-- ----------- Action Menu Btn---------- -->
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="dropdown-divider"></div>
+                        {% else %}
+                            <h3 class="text-center">Shopping List Empty</h3>
+                        {%endif%}
                         </div>
                     </div>
 
@@ -83,10 +54,6 @@
         $(s).hide();
         $(s).addClass("hidden");
         return false;
-        
     });
-    
-    
     </script>
-
 {% endblock content %}

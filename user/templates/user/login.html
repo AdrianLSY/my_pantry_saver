@@ -1,19 +1,7 @@
+<!-- This page is the login page. -->
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
-    {% comment %} <h1>Login</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-
-         <input type="submit" value="Login">
-
-
-    </form>
-
-    <a href = "{% url 'register' %}"> Have't Register? Join now!</a> {% endcomment %}
-
     <section id="welcomePage" class="containerControl">
         <div class="container">
             <div class="homepageBody text-center">
@@ -25,13 +13,10 @@
                         <form method="POST">
                             {% csrf_token %}
                             <div class="form-group">
-                                <input type="text" name="username" class="form-control" id="userNamee" placeholder="Enter username"> 
-                                {% comment %} <label>Enter Username: {{ form.username }}</label> {% endcomment %}
-                                
+                                <input type="text" name="username" class="form-control" id="userNamee" placeholder="Enter username">                                
                             </div>
                             <div class="form-group pt-4">
                                 <input type="password" name="password" class="form-control" id="" placeholder="Enter password"> 
-                                {% comment %} <label>Enter Password: {{ form.password }}</label> {% endcomment %}
                             </div>
                             <div class="form-group px-5">
                                 {{ form.non_field_errors.as_text }}
@@ -48,5 +33,4 @@
             </div>
         </div>
     </section>
-    
 {% endblock content %}

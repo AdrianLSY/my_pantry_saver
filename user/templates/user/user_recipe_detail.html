@@ -1,6 +1,6 @@
+<!-- This page shows the detail of a recipe, including ingredients and instructions. -->
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
     <section id="welcomePage" class="containerControl">
         <div class="container " id="screenBg">
@@ -8,7 +8,6 @@
                 <a href={% url 'mypantry' %} class="text-dark"><img src={% static "images/leftArrow.png" %} alt="leftarrow"
                         class="img-fluid pr-2"> Meal Plan</a>
             </div>
-
             <div class="homepageBody homepageBodyReducePadding text-center">
                 <div class="homeText">
                     <img src={% static "images/logoSingle.png" %} alt="logoSingle" class="img-fluid homeLogo">
@@ -20,14 +19,30 @@
                             <div class="card mb-3 foodCard" style="box-shadow: none;">
                                 <div class="row no-gutters">
                                     <div class="col-md-4 p-3">
-                                        <img src={% static "images/food-1.png" %} class="card-img" alt="food">
+                                        {% if recipe.recipe.name == "French Toast" %}
+                                        <img src={% static "images/toast.png" %} class="card-img" alt="food">
+                                        {% elif recipe.recipe.name == "Spinach Pancakes" %}
+                                        <img src={% static "images/spinach_pancake.png" %} class="card-img" alt="food">
+                                        {% elif recipe.recipe.name == "Breakfast Quesadillas" %}
+                                        <img src={% static "images/quesadillas.png" %} class="card-img" alt="food">
+                                        {% elif recipe.recipe.name == "Grilled Salmon" %}
+                                        <img src={% static "images/salmon.png" %} class="card-img" alt="food">
+                                        {% elif recipe.recipe.name == "Vegie Supreme Sandwich" %}
+                                        <img src={% static "images/sandwich.png" %} class="card-img" alt="food">
+                                        {% elif recipe.recipe.name == "Cheese and Bacon Frittata" %}
+                                        <img src={% static "images/bacon_fritatta.png" %} class="card-img" alt="food">
+                                        {% elif recipe.recipe.name == "Pumpkin Soup" %}
+                                        <img src={% static "images/pumpkin_soup.png" %} class="card-img" alt="food">
+                                        {% elif recipe.recipe.name == "Fried Rice" %}
+                                        <img src={% static "images/fried_rice.png" %} class="card-img" alt="food">
+                                        {% elif recipe.recipe.name == "Tomato and Celery Pasta" %}
+                                        <img src={% static "images/pasta.png" %} class="card-img" alt="food">
+                                        {% endif %}
                                     </div>
                                     <div class="col-md-8 ">
                                         <div class="card-body text-left">
-
                                             <div class="titleAndBtn actionDot">
                                                 <h5 class="card-title">{{ recipe.recipe.name }} </h5>
-                                                <h4>Rating: {{ recipe.recipe.rating }}</h6>
                                             </div>
                                             <p class="card-text mt-4"><img src={% static "images/clock.png" %} alt="clock"
                                                     class="img-fluid"> {{ recipe.recipe.time }} min</p>
@@ -53,66 +68,31 @@
                             <div class="tab-content detailTabContent" id="pills-tabContent">
                                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                                     aria-labelledby="pills-home-tab">
-                                    {% comment %} <div class="row">
-                                        <div class="col-sm-6 text-left">
-                                            <p>3 slices of white </p>
-                                            <p>sandwich bread </p>
-                                            <p class="pt-2">1 large egg</p>
-                                        </div>
-                                        <div class="col-sm-6 text-left">
-                                            <p>15 – 20g / 1 – </p>
-                                            <p>1.5 tbsp butter</p>
-                                            <p class="pt-3"> 62.5 ml milk</p>
-                                        </div>
-                                    </div>
-                                    <div class="missingItem pt-2">
-                                        <div class="missed text-left">
-                                            <p>0.25 tsp cinnamon powder</p>
-                                            <p>0.5 tsp vanilla extract</p>
-                                            <p>Maple syrup</p>
-                                        </div>
-                                    </div> {% endcomment %}
-
                                     {% for item in recipe_ingredients %}
                                     {% if item.recipe.name == recipe.recipe.name %}
                                     <p>{{ item.ingredient.name }}: {{ item.quantity }} {% if item.unit %}{{ item.unit }}{% endif %}</p>
                                     {% endif %}
                                     {% endfor %}
-
                                     <div class="missingItem">
-                                            <p class="py-3" style="opacity: 0.8;">Missing</p>
-                                            <div class="missed">
-                                                {% for temp in result%}
-
-                                                {%if temp.recipe.name == recipe.recipe.name %}
-                                                {% for mi in temp.missing%}
-
-                                                <p style="color:#F40000">{{mi.ingredient.name}}: {{mi.quantity}} {{mi.unit}}</p>
-                                                {%endfor%}
-                                                {%endif%}
-                                                {%endfor%}
-
-                                            </div>
-
+                                        <p class="py-3" style="opacity: 0.8;">Missing</p>
+                                        <div class="missed">
+                                            {% for temp in result%}
+                                            {%if temp.recipe.name == recipe.recipe.name %}
+                                            {% for mi in temp.missing%}
+                                            <p style="color:#F40000">{{mi.ingredient.name}}: {{mi.quantity}} {{mi.unit}}</p>
+                                            {%endfor%}
+                                            {%endif%}
+                                            {%endfor%}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="tab-pane instractions fade d-flex justify-content-center align-items-center"
                                     id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-
                                     <div class="text-left">
-                                        <p>{{ recipe.recipe.instructions }}</p>
-                                        {% comment %} <ol>
-                                            <li>Whisk together Egg Mixture in a bowl.</li>
-                                            <li>Melt 15g / 1 tbsp butter in a non stick skillet over medium heat.</li>
-                                            <li>Dunk a piece of bread quickly into the egg mixture, coating both sides.
-                                                Place in pan. Repeat with more slices to fill the pan, but don’t crowd
-                                                it (do 2 or 3 at a time).</li>
-                                        </ol> {% endcomment %}
+                                        <p style="white-space: pre-wrap;">{{ recipe.recipe.instructions }}</p>
                                     </div>
-
                                 </div>
                             </div>
-                            
                         </div>
                         <div class="mt-5">
                             <a href="">
@@ -124,7 +104,6 @@
                             </a>
                         </div>
                     </div>
-
                     <!-- ------------------------- Bootom Navigation -------------- -->
                     {% include 'bottom_nav.html' %}
                 </div>

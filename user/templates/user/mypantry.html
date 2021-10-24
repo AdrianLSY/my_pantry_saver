@@ -1,38 +1,16 @@
+<!-- This page is the main page of My Pantry Saver. User can view their weekly recipes here. -->
 {% extends 'base.html' %}
 {% load static %}
-
 {% block content %}
-    {% comment %} {% if request.user.is_authenticated %}
-        <p>Hello {{ request.user }}</p>
-        <a href = "{% url 'logout' %}" >Logout </a>
-    {% else %}
-        <a href = "{% url 'login' %}" >Login</a>
-    {% endif %} {% endcomment %}
-
-    <!--Home page of pantry-->
-    {% comment %} <pre>Recipe   <a href="{% url 'user-add-recipe' %}">Add</a></pre> {% endcomment %}
-    
-    {% comment %} <table>
-        {% for item in recipes %}
-        <tr>
-            <td>{{item.recipe}} {{item.meal}}</td>
-            <td><a href="">View</a></td>
-            <td><a href="{% url 'user-edit-recipe' item.id %}">Edit</a></td>
-            <td><a href="{% url 'user-delete-recipe' item.id %}">Delete</a></td>
-        </tr>
-        {% endfor %}
-    </table> {% endcomment %}
-
     <section id="welcomePage" class="containerControl">
         <div class="container " id="screenBg">
             <div class="homepageBody homepageBodyReducePadding text-center">
                 <div class="homeText">
                     <img src={% static "images/logoSingle.png" %} alt="logoSingle" class="img-fluid homeLogo">
                     <h3 class="homeBannerTitle text-center pt-4 black">Hello {{ request.user }}, Let’s cook!</h3>
-
                     <!-- --------------- Calender -------- -->
                     <div class="calender px-5 pt-3">
-                   <div class="row"><!-- http://127.0.0.1:8000/recipes/-->
+                   <div class="row">
                     </div>
                         <div class="row">
                             <div class="col dateDay" id="mons" style="background-color:#DDF9D9;">
@@ -58,7 +36,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- ------------------ DynamicSlider ------------------- -->
                     {% for d in days %}
                     
@@ -81,9 +58,7 @@
                                 <a class="nav-link" id="pills-home-tab-{{d}}-DINNER" data-toggle="pill" href="#pills-home-{{d}}-DINNER"
                                     role="tab" aria-controls="pills-contact" aria-selected="false" style="display:inline;">Dinner</a>
                             </li>
-                       
                         </ul>
-                        
                         {% if d != 'MONDAY' %}
                         <div class="tab-content tabContentFood" id="{{d}}" style="display:none;">
                         {% else %}
@@ -98,7 +73,6 @@
                             <div class="tab-pane fadefrancyFoodCardControll" id="pills-home-{{d}}-{{m}}" role="tabpanel"
                                 aria-labelledby="pills-home-tab-{{d}}-{{m}}">
                             {% endif %}
-                                
                                 {% for item in recipes %}
                                 {% if item.day == d%}
                                 {%if item.meal == m %}
@@ -106,13 +80,31 @@
                                 
                                     <div class="row no-gutters">
                                         <div class="col-md-4 p-3">
-                                            <img src={% static "images/food-1.png" %} class="card-img" alt="food">
+                                            {% if item.recipe.name == "French Toast" %}
+                                            <img src={% static "images/toast.png" %} class="card-img" alt="food">
+                                            {% elif item.recipe.name == "Spinach Pancakes" %}
+                                            <img src={% static "images/spinach_pancake.png" %} class="card-img" alt="food">
+                                            {% elif item.recipe.name == "Breakfast Quesadillas" %}
+                                            <img src={% static "images/quesadillas.png" %} class="card-img" alt="food">
+                                            {% elif item.recipe.name == "Grilled Salmon" %}
+                                            <img src={% static "images/salmon.png" %} class="card-img" alt="food">
+                                            {% elif item.recipe.name == "Vegie Supreme Sandwich" %}
+                                            <img src={% static "images/sandwich.png" %} class="card-img" alt="food">
+                                            {% elif item.recipe.name == "Cheese and Bacon Frittata" %}
+                                            <img src={% static "images/bacon_fritatta.png" %} class="card-img" alt="food">
+                                            {% elif item.recipe.name == "Pumpkin Soup" %}
+                                            <img src={% static "images/pumpkin_soup.png" %} class="card-img" alt="food">
+                                            {% elif item.recipe.name == "Fried Rice" %}
+                                            <img src={% static "images/fried_rice.png" %} class="card-img" alt="food">
+                                            {% elif item.recipe.name == "Tomato and Celery Pasta" %}
+                                            <img src={% static "images/pasta.png" %} class="card-img" alt="food">
+                                            {% endif %}
                                         </div>
                                         <div class="col-md-8 ">
                                             <div class="card-body text-left">
                                                 
                                                 <div class="titleAndBtn actionDot d-flex justify-content-between">
-                                                    <h5 class="card-title">{{item.recipe}} {{item.meal}}</h5>
+                                                    <h5 class="card-title">{{item.recipe}}</h5>
 
                                                     <!-- ------------- Dropdown Menu ---------- -->
                                                     <div class="dropdown-menu text-center"
@@ -140,7 +132,6 @@
                                                     ">Start</button>
                                                     </a>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -167,7 +158,6 @@
                                 Add</button>
                         </a>
                     </div>
-                    
                     <!-- ------------------------- Bootom Navigation -------------- -->
                     {% include 'bottom_nav.html' %}
                 </div>
@@ -176,7 +166,6 @@
     </section>
 
     <script>
-
     $(document).ready(function(){
         var type = ['all', 'fridge', 'freezer', 'pantry'];
         var types = ['allIngredients', 'fridgeIngredients', 'freezerIngredients', 'pantryIngredients'];
@@ -204,36 +193,31 @@
         });
 
         $('.day').click(function() {
-            //var p = "."+this.id;
-            //$(p).hide();
-        for (let i = 0; i < ds.length; i++) {
-            var temp = document.getElementById(contentdays[i]);
-            var link = document.getElementById(dsDiv[i]);
-            var brea = document.getElementById(breakfirst[i]);
-            var div = document.getElementById(divDays[i]);
+            for (let i = 0; i < ds.length; i++) {
+                var temp = document.getElementById(contentdays[i]);
+                var link = document.getElementById(dsDiv[i]);
+                var brea = document.getElementById(breakfirst[i]);
+                var div = document.getElementById(divDays[i]);
             
-            if (this.id === ds[i]){
-                temp.style.setProperty('display', 'block', 'important');
-                div.style.setProperty('display', 'block', 'important');
-                link.style.setProperty('background-color', '#DDF9D9', 'important');
+                if (this.id === ds[i]){
+                    temp.style.setProperty('display', 'block', 'important');
+                    div.style.setProperty('display', 'block', 'important');
+                    link.style.setProperty('background-color', '#DDF9D9', 'important');
+                    for (let j = 0; j < meals.lenght; j++){
+                        var s = mealtab[i] + meals[j];
+                        $(s).show();
+                    }
+                } else {
                     for (let j = 0; j < meals.lenght; j++){
                     var s = mealtab[i] + meals[j];
-                    $(s).show();
+                        $(s).hide();
+                    }
+                    temp.style.setProperty('display', 'none', 'important');
+                    div.style.setProperty('display', 'none', 'important');
+                    link.style.setProperty('background-color', '', 'important');
                 }
-            } else {
-                for (let j = 0; j < meals.lenght; j++){
-                var s = mealtab[i] + meals[j];
-                    $(s).hide();
             }
-                temp.style.setProperty('display', 'none', 'important');
-                div.style.setProperty('display', 'none', 'important');
-                link.style.setProperty('background-color', '', 'important');
-                
-            }
-        }
         });
     });
-
-
 </script>
 {% endblock content %}
