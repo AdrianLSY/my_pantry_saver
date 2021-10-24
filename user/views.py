@@ -170,15 +170,60 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
         # return reverse_lazy('mypantry')
         return super(UserRecipeCreate, self).form_valid(form)
 
+
 class UserRecipeDetail(LoginRequiredMixin, DetailView):
     model = UserRecipe
     context_object_name = 'recipe'
     template_name = 'user/user_recipe_detail.html'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['recipe_ingredients'] = RecipeIngredient.objects.all()
+        a = set(Recipe.objects.all())
+        recipe_ingredients = RecipeIngredient.objects.all().filter()
+        user_ingredients = UserIngredient.objects.all().filter(user=self.request.user, in_pantry=True)
+
+        u_i = {}
+        u_ids = []
+
+        for l in user_ingredients:
+            if l.ingredient.id not in u_ids:
+                u_ids.append(l.ingredient.id)
+                u_i[l.ingredient.id] = [l.quantity, l.unit]
+            else:
+                u_i[l.ingredient.id][0] += l.quantity
+
+        all_result = []
+        recipe_id = []
+        added = False
+
+        for item in recipe_ingredients.iterator():
+            if item.recipe.id not in recipe_id:
+                temp = {'recipe':item.recipe, 'all_ingredient':[], 'missing':[]}
+                recipe_id.append(item.recipe.id)
+                all_result.append(temp)
+            all_result[recipe_id.index(item.recipe.id)]['all_ingredient'].append({"ingredient":item.ingredient, "quantity":item.quantity, "unit":item.unit})
+
+        for ingre in all_result:
+            for ing in ingre['all_ingredient']:
+                for kk in u_i:
+                    if kk == ing['ingredient'].id:
+                        q = ing['quantity']- u_i[kk][0]
+                        if q > 0:
+                            ingre['missing'].append({"ingredient":ing['ingredient'], "quantity":abs(ing['quantity']-u_i[kk][0]), "unit":ing['unit']})
+                        added = True                         
+                if not added:
+
+                    ingre['missing'].append({"ingredient":ing['ingredient'], "quantity":abs(ing['quantity']), "unit":ing['unit']})
+
+                added = False
+
+        context['result'] = all_result
+        context['meals'] = ["BREAKFAST", "LUNCH", "DINNER"]
+        context['recipes'] = a
+        context['recipe_ingredients'] = RecipeIngredient.objects.all().filter()
         return context
+
 
 class UserRecipeUpdate(LoginRequiredMixin, UpdateView):
     model = UserRecipe
@@ -186,7 +231,6 @@ class UserRecipeUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'user/user_recipe_form.html'
     success_url = reverse_lazy('mypantry')
     
-
 
 class UserRecipeDelete(LoginRequiredMixin, DeleteView):
     model = UserRecipe

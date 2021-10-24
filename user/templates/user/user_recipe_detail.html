@@ -72,13 +72,29 @@
                                             <p>Maple syrup</p>
                                         </div>
                                     </div> {% endcomment %}
-                                    
+
                                     {% for item in recipe_ingredients %}
                                     {% if item.recipe.name == recipe.recipe.name %}
                                     <p>{{ item.ingredient.name }}: {{ item.quantity }} {% if item.unit %}{{ item.unit }}{% endif %}</p>
                                     {% endif %}
-                                    {% endfor %} 
-                                    
+                                    {% endfor %}
+
+                                    <div class="missingItem">
+                                            <p class="py-3" style="opacity: 0.8;">Missing</p>
+                                            <div class="missed">
+                                                {% for temp in result%}
+
+                                                {%if temp.recipe.name == recipe.recipe.name %}
+                                                {% for mi in temp.missing%}
+
+                                                <p>{{mi.ingredient.name}}: {{mi.quantity}} {{mi.unit}}</p>
+                                                {%endfor%}
+                                                {%endif%}
+                                                {%endfor%}
+
+                                            </div>
+
+                                    </div>
                                 </div>
                                 <div class="tab-pane instractions fade d-flex justify-content-center align-items-center"
                                     id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
