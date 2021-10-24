@@ -166,32 +166,7 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
         
     def form_valid(self, form):
         form.instance.user = self.request.user
-
-        user_ingredients = UserIngredient.objects.all().filter(user=self.request.user, in_pantry=True)
-        u_i = []
-        for user_ingredient in user_ingredients:
-            temp = {"ingredient":user_ingredient.ingredient, 'quantity':user_ingredient.quantity, 'unit':user_ingredient.unit}
-            u_i.append(temp)
         user_recipe = form.save()
-        print(user_recipe.recipe)
-        recipe_ingredients = RecipeIngredient.objects.all().filter(recipe=user_recipe.recipe)
-        for recipe_ingredient in recipe_ingredients:
-            for item in u_i:
-                if recipe_ingredient.ingredient.id == item['ingredient'].id:
-                    q = item['quantity']-recipe_ingredient.quantity
-                    if q > 0:
-                        user_ingre = UserIngredient(
-                user=self.request.user,
-                user_recipe=user_recipe,
-                ingredient=recipe_ingredient.ingredient,
-                quantity=q,
-                unit=recipe_ingredient.unit
-            )
-
-            
-                        user_ingre.save()
-                        print(user_ingre)
-
         # return reverse_lazy('mypantry')
         return super(UserRecipeCreate, self).form_valid(form)
 
