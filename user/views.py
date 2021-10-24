@@ -140,7 +140,6 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
                 temp = {'recipe':item.recipe, 'all_ingredient':[], 'missing':[]}
                 recipe_id.append(item.recipe.id)
                 all_result.append(temp)
-
             all_result[recipe_id.index(item.recipe.id)]['all_ingredient'].append({"ingredient":item.ingredient, "quantity":item.quantity, "unit":item.unit})
             
            
@@ -180,8 +179,8 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
             for item in u_i:
                 if recipe_ingredient.ingredient.id == item['ingredient'].id:
                     q = item['quantity']-recipe_ingredient.quantity
-                    if q < 0:
-                        user_ingredient = UserIngredient(
+                    if q > 0:
+                        user_ingre = UserIngredient(
                 user=self.request.user,
                 user_recipe=user_recipe,
                 ingredient=recipe_ingredient.ingredient,
@@ -190,8 +189,8 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
             )
 
             
-                    user_ingredient.save()
-                    print(user_ingredient)
+                        user_ingre.save()
+                        print(user_ingre)
 
         # return reverse_lazy('mypantry')
         return super(UserRecipeCreate, self).form_valid(form)
@@ -320,14 +319,19 @@ def user_complete_recipe(request, pk):
     all =[]
     ids = []
     user_ingredients = UserIngredient.objects.all().filter(user=request.user)
+    print(user_ingredients)
     u_i = {}
     u_ids = []
     for item in user_ingredients:
+        print(item)
+        print(UserIngredient.objects.all().filter(ingredient_id=item.ingredient.id).count())
         if item.ingredient.id not in u_ids:
             u_ids.append(item.ingredient.id)
             u_i[item.ingredient.id] = item.quantity
         else:
             for key in u_i:
+                print("======")
+                print(key)
                 if key == item.ingredient.id:
                     u_i[key] += item.quantity
 
