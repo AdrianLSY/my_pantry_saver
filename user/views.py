@@ -79,7 +79,7 @@ class UserIngredientCreate(LoginRequiredMixin, CreateView):
 
 class UserIngredientUpdate(LoginRequiredMixin, UpdateView):
     model = UserIngredient
-    fields = ['ingredient', 'expiry_date', 'quantity']
+    fields = ['ingredient', 'expiry_date', 'quantity', 'unit']
     template_name = 'user/user_ingredient_form.html'
     success_url = reverse_lazy('pantry')
 
