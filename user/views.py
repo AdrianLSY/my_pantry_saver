@@ -174,7 +174,7 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
             temp = {"ingredient":user_ingredient.ingredient, 'quantity':user_ingredient.quantity, 'unit':user_ingredient.unit}
             u_i.append(temp)
         user_recipe = form.save()
-        print(user_recipe.recipe)
+        #print(user_recipe.recipe)
         recipe_ingredients = RecipeIngredient.objects.all().filter(recipe=user_recipe.recipe)
         for recipe_ingredient in recipe_ingredients:
             for item in u_i:
@@ -191,7 +191,7 @@ class UserRecipeCreate(LoginRequiredMixin, CreateView):
 
             
                     user_ingredient.save()
-                    print(user_ingredient)
+                    #print(user_ingredient)
 
         # return reverse_lazy('mypantry')
         return super(UserRecipeCreate, self).form_valid(form)
@@ -319,18 +319,22 @@ def user_complete_recipe(request, pk):
     recipe_ingredients = RecipeIngredient.objects.all().filter(recipe_id=user_recipe.recipe.id)
     all =[]
     ids = []
-    user_ingredients = UserIngredient.objects.all().filter(user=request.user)
+    user_ingredients = UserIngredient.objects.all().filter(user=request.user, in_pantry=True)
+    print(user_ingredients)
     u_i = {}
     u_ids = []
     for item in user_ingredients:
         if item.ingredient.id not in u_ids:
             u_ids.append(item.ingredient.id)
             u_i[item.ingredient.id] = item.quantity
+            print('new')
         else:
-            for key in u_i:
-                if key == item.ingredient.id:
-                    u_i[key] += item.quantity
-
+            u_i[item.ingredient.id] += item.quantity
+            print('adding')
+            # for key in u_i:
+            #     if key == item.ingredient.id:
+            #         u_i[key] += item.quantity
+                    
     for item in recipe_ingredients:
         temp = {'id':item.ingredient.id, 'quantity':item.quantity}
         if item.ingredient.id not in ids:
@@ -344,14 +348,16 @@ def user_complete_recipe(request, pk):
     temp1 = []
     temp2 = []
     print(all)
+    print(ids)
     print(u_i)
+    print(u_ids)
 
     for id in all:
          for ingredient in user_ingredients.iterator():
             if (ingredient.ingredient.id in temp1) and (ingredient.id not in temp2):
-                print("+++++")
-                print(ingredient.id)
-                print("+++++")
+                # print("+++++")
+                # print(ingredient.id)
+                # print("+++++")
                 ingredient.delete()
                 continue
             if ingredient.ingredient.id == id['id']:
@@ -367,14 +373,14 @@ def user_complete_recipe(request, pk):
                 in_pantry=True,
             )   
                     if ingredient.ingredient.id not in temp1:
-                        print(q)
+                        #print(q)
                         temp1.append(ingredient.ingredient.id)
                         temp.save()
                         ingredient.delete()
                         temp2.append(temp.id)
-                        print("-----")
-                        print(temp.id)
-                        print("-----")
+                        # print("-----")
+                        # print(temp.id)
+                        # print("-----")
                 else:
                     ingredient.delete()
                 
