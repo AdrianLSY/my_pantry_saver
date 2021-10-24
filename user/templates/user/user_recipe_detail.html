@@ -87,7 +87,7 @@
                                                 {%if temp.recipe.name == recipe.recipe.name %}
                                                 {% for mi in temp.missing%}
 
-                                                <p>{{mi.ingredient.name}}: {{mi.quantity}} {{mi.unit}}</p>
+                                                <p style="color:#F40000">{{mi.ingredient.name}}: {{mi.quantity}} {{mi.unit}}</p>
                                                 {%endfor%}
                                                 {%endif%}
                                                 {%endfor%}
