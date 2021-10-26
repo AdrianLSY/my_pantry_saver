@@ -94,6 +94,10 @@
                                 </div>
                             </div>
                         </div>
+                        {%for key,value in show.items %}
+                        {%if key == recipe.recipe.name%}
+                        {%if value%}
+                        {%else%}
                         <div class="mt-5">
                             <a href="">
                                 <a href="{% url 'user-complete-recipe' recipe.id %}" class="btn btn-sm text-light" style="font-size: 1.5rem;
@@ -103,6 +107,9 @@
                                 ">Complete</a>
                             </a>
                         </div>
+                        {%endif%}
+                        {%endif%}
+                        {%endfor%}
                     </div>
                     <!-- ------------------------- Bootom Navigation -------------- -->
                     {% include 'bottom_nav.html' %}
